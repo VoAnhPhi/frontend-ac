@@ -1,0 +1,479 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>All Courses | Appscyclone</title>
+    <meta
+      name="description"
+      content="Appscyclone frontend training. Explore courses, meet instructors and register to learn."
+    />
+    <link
+      rel="preload"
+      href="assets/fonts/plus-jakarta-sans-400.ttf"
+      as="font"
+      type="font/ttf"
+      crossorigin
+    />
+    <link rel="stylesheet" href="assets/css/tokens.css" />
+    <link rel="stylesheet" href="assets/css/shared.css" />
+    <link rel="stylesheet" href="assets/css/components/header.css" />
+    <link rel="stylesheet" href="assets/css/pages/courses.css" />
+    <script src="assets/js/main.js" defer></script>
+  </head>
+  <body class="page-courses">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header" data-figma-name="top-nav/new">
+      <div class="container header-inner">
+        <a href="index.html" class="brand" aria-label="Appscyclone home">
+          <img src="assets/images/brand/logo.svg" alt="Appscyclone" width="179" height="32" />
+        </a>
+        <nav aria-label="Main navigation">
+          <a href="index.html">Home</a>
+          <a href="courses.html" aria-current="page">Courses</a>
+          <a class="button button--small" href="registered-students.html">Registered</a>
+        </nav>
+      </div>
+    </header>
+    <main id="main" class="courses-main container" data-figma-node="1:1447">
+      <h1 class="page-title">All Courses</h1>
+      <div class="course-tabs" role="group" aria-label="Filter courses">
+        <button type="button" data-filter="all" aria-pressed="true">All</button>
+        <button type="button" data-filter="frontend" aria-pressed="false">Frontend</button>
+        <button type="button" data-filter="design" aria-pressed="false">Design</button>
+        <button type="button" data-filter="backend" aria-pressed="false">Backend</button>
+        <button type="button" data-filter="mobile" aria-pressed="false">Mobile</button>
+        <button type="button" data-filter="qc" aria-pressed="false">QC</button>
+        <button type="button" data-filter="game" aria-pressed="false">Game</button>
+        <button type="button" data-filter="blockchain" aria-pressed="false">Blockchain</button>
+      </div>
+      <div class="courses-grid" id="course-list">
+        <article class="course-card" data-category="frontend" data-figma-node="1:1451">
+          <a class="course-card__image" href="courses-details.html" aria-label="View ReactJS">
+            <div class="course-art">
+              <img
+                src="assets/images/courses/react.png"
+                alt=""
+                width="427"
+                height="427"
+                loading="lazy"
+              />
+            </div>
+            <span class="badge">Offline</span>
+          </a>
+          <div class="course-card__info">
+            <p class="course-category">FRONTEND</p>
+            <h3><a href="courses-details.html">ReactJS</a></h3>
+            <div class="course-card__meta">
+              <span class="course-user">
+                <img
+                  src="assets/images/people/student-avatar.png"
+                  alt=""
+                  class="avatar"
+                  width="40"
+                  height="40"
+                  loading="lazy"
+                />
+                <span>Jane Cooper</span>
+              </span>
+              <strong>4.500.000đ</strong>
+            </div>
+          </div>
+        </article>
+        <article class="course-card" data-category="backend" data-figma-node="1:1480">
+          <a
+            class="course-card__image"
+            href="registered-students.html?course=NodeJS"
+            aria-label="Register for NodeJS"
+          >
+            <div class="course-art">
+              <img
+                src="assets/images/courses/nodejs.png"
+                alt=""
+                width="427"
+                height="427"
+                loading="lazy"
+              />
+            </div>
+            <span class="badge">Offline</span>
+          </a>
+          <div class="course-card__info">
+            <p class="course-category">BACKEND</p>
+            <h3><a href="registered-students.html?course=NodeJS">NodeJS</a></h3>
+            <div class="course-card__meta">
+              <span class="course-user">
+                <img
+                  src="assets/images/people/student-avatar.png"
+                  alt=""
+                  class="avatar"
+                  width="40"
+                  height="40"
+                  loading="lazy"
+                />
+                <span>Jane Cooper</span>
+              </span>
+              <strong>4.500.000đ</strong>
+            </div>
+          </div>
+        </article>
+        <article class="course-card" data-category="backend" data-figma-node="1:1501">
+          <a
+            class="course-card__image"
+            href="registered-students.html?course=PHP"
+            aria-label="Register for PHP"
+          >
+            <div class="course-art">
+              <img
+                src="assets/images/courses/php.png"
+                alt=""
+                width="427"
+                height="427"
+                loading="lazy"
+              />
+            </div>
+            <span class="badge">Offline</span>
+          </a>
+          <div class="course-card__info">
+            <p class="course-category">BACKEND</p>
+            <h3><a href="registered-students.html?course=PHP">PHP</a></h3>
+            <div class="course-card__meta">
+              <span class="course-user">
+                <img
+                  src="assets/images/people/student-avatar.png"
+                  alt=""
+                  class="avatar"
+                  width="40"
+                  height="40"
+                  loading="lazy"
+                />
+                <span>Jane Cooper</span>
+              </span>
+              <strong>4.500.000đ</strong>
+            </div>
+          </div>
+        </article>
+        <article class="course-card" data-category="mobile" data-figma-node="1:1568">
+          <a
+            class="course-card__image"
+            href="registered-students.html?course=Flutter"
+            aria-label="Register for Flutter"
+          >
+            <div class="course-art">
+              <img
+                src="assets/images/courses/flutter.png"
+                alt=""
+                width="427"
+                height="427"
+                loading="lazy"
+              />
+            </div>
+            <span class="badge">Offline</span>
+          </a>
+          <div class="course-card__info">
+            <p class="course-category">MOBILE</p>
+            <h3>
+              <a href="registered-students.html?course=Flutter">Flutter</a>
+            </h3>
+            <div class="course-card__meta">
+              <span class="course-user">
+                <img
+                  src="assets/images/people/student-avatar.png"
+                  alt=""
+                  class="avatar"
+                  width="40"
+                  height="40"
+                  loading="lazy"
+                />
+                <span>Jane Cooper</span>
+              </span>
+              <strong>4.500.000đ</strong>
+            </div>
+          </div>
+        </article>
+        <article class="course-card" data-category="qc" data-figma-node="1:1602">
+          <a
+            class="course-card__image"
+            href="registered-students.html?course=QC"
+            aria-label="Register for QC"
+          >
+            <div class="course-art">
+              <img
+                src="assets/images/courses/qc.png"
+                alt=""
+                width="427"
+                height="427"
+                loading="lazy"
+              />
+            </div>
+            <span class="badge">Offline</span>
+          </a>
+          <div class="course-card__info">
+            <p class="course-category">QC</p>
+            <h3><a href="registered-students.html?course=QC">QC</a></h3>
+            <div class="course-card__meta">
+              <span class="course-user">
+                <img
+                  src="assets/images/people/student-avatar.png"
+                  alt=""
+                  class="avatar"
+                  width="40"
+                  height="40"
+                  loading="lazy"
+                />
+                <span>Jane Cooper</span>
+              </span>
+              <strong>4.500.000đ</strong>
+            </div>
+          </div>
+        </article>
+        <article class="course-card" data-category="game" data-figma-node="1:1641">
+          <a
+            class="course-card__image"
+            href="registered-students.html?course=Unity"
+            aria-label="Register for Unity"
+          >
+            <div class="course-art">
+              <img
+                src="assets/images/courses/unity.png"
+                alt=""
+                width="427"
+                height="427"
+                loading="lazy"
+              />
+            </div>
+            <span class="badge">Offline</span>
+          </a>
+          <div class="course-card__info">
+            <p class="course-category">GAME</p>
+            <h3><a href="registered-students.html?course=Unity">Unity</a></h3>
+            <div class="course-card__meta">
+              <span class="course-user">
+                <img
+                  src="assets/images/people/student-avatar.png"
+                  alt=""
+                  class="avatar"
+                  width="40"
+                  height="40"
+                  loading="lazy"
+                />
+                <span>Jane Cooper</span>
+              </span>
+              <strong>4.500.000đ</strong>
+            </div>
+          </div>
+        </article>
+        <article class="course-card" data-category="blockchain" data-figma-node="1:1668">
+          <a
+            class="course-card__image"
+            href="registered-students.html?course=Blockchain"
+            aria-label="Register for Blockchain"
+          >
+            <div class="course-art">
+              <img
+                src="assets/images/courses/blockchain.svg"
+                alt=""
+                width="427"
+                height="427"
+                loading="lazy"
+              />
+            </div>
+            <span class="badge">Offline</span>
+          </a>
+          <div class="course-card__info">
+            <p class="course-category">Blockchain</p>
+            <h3>
+              <a href="registered-students.html?course=Blockchain">Blockchain</a>
+            </h3>
+            <div class="course-card__meta">
+              <span class="course-user">
+                <img
+                  src="assets/images/people/student-avatar.png"
+                  alt=""
+                  class="avatar"
+                  width="40"
+                  height="40"
+                  loading="lazy"
+                />
+                <span>Jane Cooper</span>
+              </span>
+              <strong>4.500.000đ</strong>
+            </div>
+          </div>
+        </article>
+        <article class="course-card" data-category="qc" data-figma-node="1:1688">
+          <a
+            class="course-card__image"
+            href="registered-students.html?course=QC"
+            aria-label="Register for QC"
+          >
+            <div class="course-art">
+              <img
+                src="assets/images/courses/qc.png"
+                alt=""
+                width="427"
+                height="427"
+                loading="lazy"
+              />
+            </div>
+            <span class="badge">Offline</span>
+          </a>
+          <div class="course-card__info">
+            <p class="course-category">QC</p>
+            <h3><a href="registered-students.html?course=QC">QC</a></h3>
+            <div class="course-card__meta">
+              <span class="course-user">
+                <img
+                  src="assets/images/people/student-avatar.png"
+                  alt=""
+                  class="avatar"
+                  width="40"
+                  height="40"
+                  loading="lazy"
+                />
+                <span>Jane Cooper</span>
+              </span>
+              <strong>4.500.000đ</strong>
+            </div>
+          </div>
+        </article>
+        <article class="course-card" data-category="iot" data-figma-node="1:1727">
+          <a
+            class="course-card__image"
+            href="registered-students.html?course=IOT"
+            aria-label="Register for IOT"
+          >
+            <div class="course-art course-art--iot">
+              <img
+                src="assets/images/courses/iot-illustration.svg"
+                alt=""
+                class="iot-illustration"
+                loading="lazy"
+              />
+              <img
+                src="assets/images/courses/iot-logo.svg"
+                alt="IOT"
+                class="iot-logo"
+                loading="lazy"
+              />
+            </div>
+            <span class="badge">Offline</span>
+          </a>
+          <div class="course-card__info">
+            <p class="course-category">IOT</p>
+            <h3><a href="registered-students.html?course=IOT">IOT</a></h3>
+            <div class="course-card__meta">
+              <span class="course-user">
+                <img
+                  src="assets/images/people/student-avatar.png"
+                  alt=""
+                  class="avatar"
+                  width="40"
+                  height="40"
+                  loading="lazy"
+                />
+                <span>Jane Cooper</span>
+              </span>
+              <strong>4.500.000đ</strong>
+            </div>
+          </div>
+        </article>
+      </div>
+      <p class="empty-state" hidden role="status">
+        No courses are currently available in this category.
+      </p>
+      <nav class="pagination" aria-label="Course pages">
+        <span data-total-items>Total 9 items</span>
+        <button type="button" data-page="previous" aria-label="Previous page">
+          <img
+            src="assets/images/icons/pagination-previous.svg"
+            alt=""
+            class="icon"
+            width="24"
+            height="24"
+            aria-hidden="true"
+          />
+        </button>
+        <button type="button" data-page="1" aria-current="page">1</button>
+        <button type="button" data-page="2">2</button>
+        <button type="button" data-page="next" aria-label="Next page">
+          <img
+            src="assets/images/icons/pagination-next.svg"
+            alt=""
+            class="icon"
+            width="24"
+            height="24"
+            aria-hidden="true"
+          />
+        </button>
+      </nav>
+    </main>
+    <footer class="site-footer" data-figma-name="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-cta">
+            <a class="brand" href="index.html">
+              <img
+                src="assets/images/brand/logo.svg"
+                alt="Appscyclone"
+                width="179"
+                height="32"
+                loading="lazy"
+              />
+            </a>
+            <p>
+              Wanna learn with us?
+              <br />
+              Get in touch
+            </p>
+            <a class="button" href="registered-students.html">Registered</a>
+          </div>
+          <div class="footer-links">
+            <h2>Navigation</h2>
+            <a href="index.html">Home</a>
+            <a href="courses.html">Course</a>
+          </div>
+          <div class="footer-office">
+            <h2>Head Office</h2>
+            <address>
+              168/6 Bui Thi Xuan Street,
+              <br />
+              Ward 3, Tan Binh District,
+              <br />
+              Ho Chi Minh City, Vietnam
+            </address>
+            <div class="social-links">
+              <a href="https://twitter.com/" aria-label="Twitter">
+                <img
+                  src="assets/images/icons/twitter.svg"
+                  alt=""
+                  width="32"
+                  height="32"
+                  loading="lazy"
+                />
+              </a>
+              <a href="https://www.whatsapp.com/" aria-label="WhatsApp">
+                <img
+                  src="assets/images/icons/whatsapp.svg"
+                  alt=""
+                  width="32"
+                  height="32"
+                  loading="lazy"
+                />
+              </a>
+              <a href="https://www.facebook.com/" aria-label="Facebook">
+                <img
+                  src="assets/images/icons/facebook.svg"
+                  alt=""
+                  width="32"
+                  height="32"
+                  loading="lazy"
+                />
+              </a>
+            </div>
+          </div>
+        </div>
+        <p class="copyright">Copyright © 2023. All rights reserved.</p>
+      </div>
+    </footer>
+  </body>
+</html>
