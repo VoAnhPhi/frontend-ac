@@ -1,0 +1,18 @@
+{
+  "name": "fe-phi-vo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "HTML and CSS implementation of the FE Internship Figma website",
+  "scripts": {
+    "start": "node scripts/serve.mjs",
+    "dev": "node scripts/serve.mjs",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "prettier": "3.6.2"
+  }
+}
