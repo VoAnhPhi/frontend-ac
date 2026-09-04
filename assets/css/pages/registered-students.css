@@ -1,0 +1,113 @@
+/* Styles used only by registered-students.html. */
+
+/* Registered students / form */
+.register-main {
+  padding-top: 40px;
+  padding-bottom: 120px;
+}
+
+.registration {
+  max-width: 893px;
+  margin-inline: auto;
+}
+
+.registration-form {
+  margin-top: 40px;
+}
+
+.form-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 40px;
+  row-gap: 24px;
+}
+
+.form-field {
+  min-width: 0;
+}
+
+.form-field--full {
+  grid-column: 1 / -1;
+}
+
+.form-field label {
+  display: block;
+  margin-bottom: 16px;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 700;
+}
+
+.form-field input,
+.form-field select,
+.form-field textarea {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  height: 64px;
+  padding: 19px 16px;
+  border: 1px solid var(--gray-4);
+  border-radius: var(--radius-input);
+  background: white;
+  font-size: 14px;
+  line-height: 24px;
+}
+
+.form-field input::placeholder {
+  color: var(--gray-12);
+  opacity: 1;
+}
+
+.form-field select {
+  padding-right: 52px;
+  appearance: none;
+  background: url('../../images/icons/chevron-down.svg') no-repeat right 16px center / 24px 24px;
+}
+
+.form-field textarea {
+  min-height: 110px;
+  padding: 8px 16px;
+  resize: vertical;
+}
+
+.form-field :user-invalid {
+  border-color: #b42318;
+}
+
+.confirm-button {
+  width: 100%;
+  margin-top: 64px;
+}
+
+.form-result {
+  margin-top: 24px;
+  padding: 16px 20px;
+  border-left: 3px solid var(--primary-5);
+  background: var(--gray-1);
+}
+
+@media (max-width: 767px) {
+  .register-main {
+    padding-top: 32px;
+    padding-bottom: 64px;
+  }
+
+  .form-fields {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .registration-form {
+    margin-top: 32px;
+  }
+
+  .form-field input,
+  .form-field select {
+    height: 56px;
+    padding-block: 15px;
+  }
+
+  .confirm-button {
+    margin-top: 40px;
+  }
+}

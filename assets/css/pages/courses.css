@@ -1,0 +1,113 @@
+/* Styles used only by courses.html. */
+
+/* Courses / All Courses, Tabs Fill, list card courses, pagination/basic */
+.courses-main {
+  padding-top: 40px;
+  padding-bottom: 120px;
+}
+
+.course-tabs {
+  display: flex;
+  max-width: 1127px;
+  padding: 2px;
+  margin: 40px 0 24px;
+  background: var(--gray-1);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.course-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.course-tabs button {
+  flex: 1;
+  border: 0;
+  padding: 10px 16px;
+  background: transparent;
+  font-weight: 700;
+  line-height: 24px;
+  white-space: nowrap;
+}
+
+.course-tabs button[aria-pressed='true'] {
+  background: var(--gray-22);
+  color: white;
+}
+
+.course-tabs button:hover:not([aria-pressed='true']) {
+  background: var(--gray-2);
+}
+
+.pagination {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+  margin-top: 40px;
+  font-size: 14px;
+  line-height: 24px;
+}
+
+.pagination > span {
+  margin-right: 8px;
+}
+
+.pagination button {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 8px;
+  border: 0;
+  background: var(--gray-1);
+}
+
+.pagination button[aria-current='page'] {
+  background: var(--primary-5);
+  color: white;
+}
+
+.empty-state {
+  padding: 80px 24px;
+  text-align: center;
+  background: var(--gray-1);
+}
+
+@media (max-width: 767px) {
+  .courses-main {
+    padding-top: 32px;
+    padding-bottom: 64px;
+  }
+
+  .course-tabs {
+    margin-top: 32px;
+  }
+
+  .course-tabs button {
+    min-width: 105px;
+    font-size: 14px;
+  }
+
+  #course-list .course-card {
+    width: 100%;
+    margin-inline: auto;
+  }
+
+  .pagination {
+    justify-content: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .pagination > span {
+    width: 100%;
+    margin: 0 0 8px;
+    text-align: center;
+  }
+
+  .pagination button {
+    width: 36px;
+    height: 36px;
+  }
+}

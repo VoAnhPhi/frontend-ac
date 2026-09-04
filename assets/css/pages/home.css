@@ -1,0 +1,790 @@
+/* Styles used only by index.html. */
+
+/* Home / ss1-Course Coming soon */
+.hero {
+  position: relative;
+  height: 945px;
+  margin-top: -72px;
+  overflow: hidden;
+}
+
+.hero-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: 777fr 543fr;
+  gap: 40px;
+  z-index: 1;
+}
+
+.hero-content {
+  grid-column: 2;
+  padding-top: 336px;
+}
+
+.hero h1 {
+  font-size: clamp(40px, 3.81vw, 64px);
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+}
+
+.hero-content p {
+  max-width: 426px;
+  margin-top: 12px;
+  font-size: 18px;
+  line-height: 28px;
+}
+
+.hero-content .button {
+  min-width: 193px;
+  margin-top: 80px;
+}
+
+.hero-image {
+  position: absolute;
+  width: min(55.77vw, 937px);
+  height: auto;
+  bottom: 0;
+  left: max(0px, calc(50% - 840px));
+}
+
+.hero-decoration {
+  position: absolute;
+  width: 560px;
+  height: 708px;
+  left: calc(50% + 720px);
+  top: -164px;
+  transform: rotate(-31.61deg) scaleY(-1);
+}
+
+/* Home / ss2-Course Coming soon */
+.coming-soon {
+  position: relative;
+  min-height: 955px;
+}
+
+.coming-soon::before {
+  content: '';
+  position: absolute;
+  top: 276px;
+  left: calc(50% - 447px);
+  right: 0;
+  height: 539px;
+  background: var(--gray-1);
+}
+
+.coming-soon > .container {
+  position: relative;
+}
+
+.coming-soon__track {
+  display: flex;
+  gap: 40px;
+  width: min(971px, calc(100% - 117px));
+  margin: 128px 0 0 117px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-snap-stop: always;
+  scrollbar-width: none;
+}
+
+.coming-soon__track::-webkit-scrollbar,
+.evaluation-track::-webkit-scrollbar {
+  display: none;
+}
+
+.coming-soon__feature {
+  flex: 0 0 min(971px, 100%);
+  display: grid;
+  grid-template-columns: 427fr 504fr;
+  gap: 40px;
+  min-width: 0;
+  align-items: start;
+  scroll-snap-align: start;
+}
+
+.coming-soon__info {
+  padding: 40px 24px;
+}
+
+.coming-soon__info h3 {
+  font-size: 32px;
+  line-height: 1.4;
+  font-weight: 500;
+  margin-top: 4px;
+}
+
+.coming-soon__info .course-user {
+  margin-top: 16px;
+}
+
+.coming-soon__info .course-facts {
+  margin-top: 40px;
+}
+
+.coming-soon__info .button-group {
+  margin-top: 80px;
+}
+
+.coming-soon__info .button {
+  flex: 1;
+  padding-inline: 24px;
+}
+
+/* Home / ss3-All Courses */
+.home-courses__panel {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 40px;
+  padding: 80px 117px;
+  background: var(--gray-1);
+}
+
+.home-courses__column {
+  display: flex;
+  flex-direction: column;
+  gap: 68px;
+  min-width: 0;
+}
+
+.home-courses__heading {
+  margin-bottom: -12px;
+}
+
+.home-courses__heading p {
+  margin-top: 24px;
+  font-size: 18px;
+  line-height: 28px;
+}
+
+.home-courses .badge {
+  top: 40px;
+  right: 40px;
+}
+
+.view-all {
+  align-self: flex-end;
+  margin-top: 96px;
+  min-width: 193px;
+}
+
+.view-all .icon {
+  flex: 0 0 14px;
+  width: 14px;
+  height: 11px;
+  object-fit: contain;
+}
+
+/* Home / ss4-Appscyclone Team */
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 40px;
+  margin-top: 68px;
+}
+
+.team .carousel-controls {
+  margin-top: 28px;
+}
+
+.team-card {
+  position: relative;
+  aspect-ratio: 310 / 414;
+}
+
+.team-card::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  aspect-ratio: 1;
+  background: var(--gray-2);
+}
+
+.team-card__portrait {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.team-card__portrait img {
+  position: absolute;
+  max-width: none;
+}
+
+.team-card--1 img {
+  width: 161.67%;
+  height: 181.73%;
+  top: -24.12%;
+  left: -43.18%;
+}
+
+.team-card--2 img {
+  width: 110.21%;
+  height: 123.89%;
+  top: -15.22%;
+  left: -5.26%;
+}
+
+.team-card--3 img {
+  width: 130.94%;
+  height: 147.19%;
+  top: -23.48%;
+  left: -8.75%;
+}
+
+.team-card--4 img {
+  width: 143.44%;
+  height: 127.68%;
+  top: -27.54%;
+  left: -33.44%;
+}
+
+.team-card__name {
+  position: absolute;
+  left: 0;
+  top: 69.81%;
+  width: 77.42%;
+  padding: 8px 8px 8px 32px;
+  background: white;
+}
+
+.team-card__name p {
+  color: var(--color-text);
+  margin-top: 4px;
+}
+
+/* Home / ss6-Student Evaluations */
+.evaluations-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 40px;
+}
+
+.evaluations-heading {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 106px 0 48px;
+}
+
+.evaluation-track {
+  grid-column: 2 / -1;
+  display: flex;
+  gap: 40px;
+  min-width: 0;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.evaluation-slide {
+  flex: 0 0 100%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 40px;
+  scroll-snap-align: start;
+}
+
+.testimonial {
+  padding: 39px;
+  min-height: 426px;
+  border: 1px solid var(--gray-4);
+}
+
+.quote-icon {
+  width: 37px;
+  height: 26px;
+  margin-bottom: 40px;
+}
+
+.testimonial blockquote {
+  color: var(--color-muted);
+  font-size: 18px;
+  line-height: 28px;
+}
+
+.testimonial figcaption {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 48px;
+}
+
+.testimonial figcaption > span {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.testimonial figcaption strong {
+  color: #09090b;
+  font-size: 18px;
+  line-height: 28px;
+}
+
+.testimonial figcaption > span > span {
+  color: var(--color-muted);
+}
+
+.testimonial .avatar {
+  width: 64px;
+  height: 64px;
+}
+
+.evaluation-photo {
+  width: 100%;
+  aspect-ratio: 1;
+  height: auto;
+  object-fit: cover;
+}
+
+.team-banner {
+  position: relative;
+  padding-top: 140px;
+  text-align: center;
+}
+
+.team-banner p {
+  margin-top: 16px;
+  font-size: 18px;
+  line-height: 28px;
+}
+
+.team-group-photo {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1680 / 680;
+  object-fit: cover;
+  object-position: top;
+  margin-top: 25px;
+}
+
+.join-team {
+  padding: 140px 0;
+  color: white;
+  background: var(--gray-22);
+  text-align: center;
+}
+
+.join-team p {
+  max-width: 660px;
+  margin: 24px auto 0;
+  color: var(--gray-6);
+  font-size: 18px;
+  line-height: 28px;
+}
+
+.join-team .button-group {
+  justify-content: center;
+  margin-top: 80px;
+}
+
+.join-team .button {
+  min-width: 220px;
+}
+
+@media (max-width: 1439px) {
+  .hero {
+    height: 780px;
+  }
+
+  .hero-content {
+    padding-top: 260px;
+  }
+
+  .home-courses__panel {
+    padding: 64px;
+  }
+
+  .coming-soon {
+    min-height: auto;
+  }
+
+  .coming-soon::before {
+    top: 236px;
+    height: 539px;
+  }
+
+  .coming-soon__track {
+    margin-left: 6%;
+    width: min(971px, calc(100% - 6%));
+  }
+
+  .team-grid {
+    gap: 28px;
+  }
+
+  .team-card__name {
+    padding-left: 20px;
+    width: 88%;
+  }
+
+  .team-card__name h3 {
+    font-size: 21px;
+  }
+
+  .join-team {
+    padding-block: 100px;
+  }
+
+  .team-banner {
+    padding-top: 100px;
+  }
+
+  .testimonial {
+    padding: 28px;
+  }
+
+  .testimonial figcaption {
+    margin-top: 28px;
+  }
+}
+
+@media (max-width: 1023px) {
+  .hero {
+    height: 700px;
+  }
+
+  .hero-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .hero-content {
+    padding-top: 220px;
+  }
+
+  .hero h1 {
+    font-size: 40px;
+  }
+
+  .hero-image {
+    width: 54%;
+  }
+
+  .hero-content .button {
+    margin-top: 40px;
+  }
+
+  .hero-decoration {
+    opacity: 0.6;
+  }
+
+  .coming-soon__track {
+    margin: 72px 0 0;
+    width: 100%;
+    gap: 24px;
+  }
+
+  .coming-soon__feature {
+    flex-basis: 100%;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 24px;
+  }
+
+  .coming-soon__info {
+    padding: 16px;
+  }
+
+  .coming-soon::before {
+    left: 20%;
+    top: 180px;
+    height: calc(100% - 240px);
+  }
+
+  .coming-soon .course-facts {
+    gap: 24px;
+  }
+
+  .coming-soon .button-group {
+    margin-top: 40px;
+    flex-wrap: wrap;
+  }
+
+  .home-courses__panel {
+    padding: 48px 32px;
+    gap: 24px;
+  }
+
+  .home-courses__column {
+    gap: 40px;
+  }
+
+  .home-courses__heading {
+    margin-bottom: 0;
+  }
+
+  .view-all {
+    margin-top: 40px;
+  }
+
+  .home-courses .badge {
+    top: 20px;
+    right: 20px;
+  }
+
+  .team-grid {
+    grid-template-columns: repeat(4, 280px);
+    gap: 24px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    padding-bottom: 8px;
+  }
+
+  .team-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .team-card {
+    scroll-snap-align: start;
+  }
+
+  .team-grid {
+    margin-top: 40px;
+  }
+
+  .join-team {
+    padding-block: 72px;
+  }
+
+  .evaluations-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .evaluations-heading {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    align-items: center;
+    padding: 0;
+  }
+
+  .evaluation-track {
+    grid-column: 1 / -1;
+  }
+
+  .evaluations-heading h2 br {
+    display: none;
+  }
+
+  .team-banner {
+    padding-top: 72px;
+  }
+}
+
+@media (max-width: 767px) {
+  .hero {
+    height: auto;
+    min-height: 0;
+    margin-top: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hero-grid {
+    display: block;
+    order: 0;
+  }
+
+  .hero-content {
+    padding-top: 40px;
+  }
+
+  .hero h1 {
+    font-size: clamp(36px, 7.8vw, 54px);
+    letter-spacing: -0.035em;
+  }
+
+  .hero-content p {
+    max-width: 390px;
+    font-size: 16px;
+    line-height: 26px;
+    margin-top: 16px;
+  }
+
+  .hero-content .button {
+    margin-top: 32px;
+  }
+
+  .hero-image {
+    position: relative;
+    order: 1;
+    width: 100%;
+    max-width: 550px;
+    left: 0;
+    margin-top: 24px;
+  }
+
+  .hero-decoration {
+    width: 280px;
+    height: 354px;
+    left: 85%;
+    top: -30px;
+  }
+
+  .coming-soon::before {
+    display: none;
+  }
+
+  .coming-soon__track {
+    gap: 16px;
+    margin: 40px 0 0;
+    width: 100%;
+  }
+
+  .coming-soon__feature {
+    flex-basis: 100%;
+    display: block;
+    background: var(--gray-1);
+  }
+
+  .coming-soon__art {
+    max-width: none;
+  }
+
+  .coming-soon__info {
+    padding: 32px 24px;
+  }
+
+  .coming-soon__info .button-group {
+    margin-top: 32px;
+  }
+
+  .coming-soon__info .button {
+    width: 100%;
+    flex-basis: 100%;
+  }
+
+  .home-courses {
+    padding-top: 0;
+  }
+
+  .home-courses__panel {
+    display: block;
+    padding: 40px 20px;
+  }
+
+  .home-courses__column {
+    gap: 32px;
+  }
+
+  .home-courses__column + .home-courses__column {
+    margin-top: 32px;
+  }
+
+  .home-courses__heading p {
+    font-size: 16px;
+    line-height: 26px;
+  }
+
+  .home-courses .course-card__info {
+    padding-inline: 12px;
+  }
+
+  .home-courses .course-card {
+    width: min(100%, 300px);
+    margin-inline: auto;
+  }
+
+  .home-courses .view-all {
+    align-self: flex-start;
+    margin-top: 0;
+  }
+
+  .team .section-heading {
+    flex-wrap: wrap;
+  }
+
+  .team .carousel-controls {
+    margin-top: 0;
+  }
+
+  .join-team {
+    padding-block: 64px;
+  }
+
+  .evaluations-heading {
+    gap: 20px;
+  }
+
+  .evaluations-grid {
+    display: block;
+  }
+
+  .evaluation-track {
+    display: flex;
+    gap: 16px;
+    margin-top: 32px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .evaluation-slide {
+    flex: 0 0 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    scroll-snap-align: start;
+  }
+
+  .evaluations-heading h2 {
+    max-width: 210px;
+  }
+
+  .evaluations-heading h2 br {
+    display: initial;
+  }
+
+  .testimonial {
+    min-height: auto;
+    padding: 28px;
+  }
+
+  .testimonial blockquote {
+    font-size: 16px;
+    line-height: 26px;
+  }
+
+  .quote-icon {
+    margin-bottom: 24px;
+  }
+
+  .evaluation-photo {
+    max-height: 450px;
+  }
+
+  .team-banner {
+    padding-top: 32px;
+  }
+
+  .team-banner p {
+    font-size: 16px;
+  }
+
+  .team-group-photo {
+    min-height: 220px;
+    object-fit: cover;
+  }
+
+  .join-team h2 {
+    font-size: 28px;
+  }
+
+  .join-team p {
+    font-size: 16px;
+    line-height: 26px;
+  }
+
+  .join-team .button-group {
+    margin-top: 40px;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .join-team .button {
+    width: min(100%, 300px);
+  }
+}

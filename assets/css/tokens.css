@@ -1,0 +1,50 @@
+/* Figma: Style / Color (1:223), Style / Typography (1:66).
+   Centra No2 is replaced by the locally hosted Plus Jakarta Sans. */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  src: url('../fonts/plus-jakarta-sans-400.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  src: url('../fonts/plus-jakarta-sans-500.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  src: url('../fonts/plus-jakarta-sans-700.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+
+:root {
+  --primary-5: #00a8a4;
+  --primary-6: #008790;
+  --primary-7: #006678;
+  --white: #fff;
+  --gray-1: #f4f4f6;
+  --gray-2: #e9e9ed;
+  --gray-3: #dddde3;
+  --gray-4: #d2d2da;
+  --gray-5: #c7c7d1;
+  --gray-6: #bcbcc8;
+  --gray-8: #a5a5b6;
+  --gray-12: #71738b;
+  --gray-22: #0d0f35;
+  --font-body: 'Plus Jakarta Sans', Arial, sans-serif;
+  --color-text: var(--gray-22);
+  --color-muted: var(--gray-12);
+  --content-width: 1360px;
+  --page-gutter: 40px;
+  --section-space: 140px;
+  --grid-gap: 40px;
+  --radius-input: 8px;
+  --radius-button: 40px;
+}
