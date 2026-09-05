@@ -1,93 +1,126 @@
-# FE Phi Vo
+# FE Phi Vo — Appscyclone
 
+A Figma-to-code exercise for the FE Internship program. The project uses vanilla HTML, CSS, and JavaScript, with no React, Tailwind, or UI library.
 
+## Run the project
 
-## Getting started
+Node.js 18 or later is required. From the `fe-phi-vo` directory, run:
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
-
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
-
-## Add your files
-
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
-
-```
-cd existing_repo
-git remote add origin https://git-intern.appscyclone.com/internship/q3-2026/frontend/fe-phi-vo.git
-git branch -M master
-git push -uf origin master
+```sh
+npm install
+npm start
 ```
 
-## Integrate with your tools
+Open [http://127.0.0.1:4173](http://127.0.0.1:4173). `npm install` only installs Prettier for code formatting; the website has no runtime dependencies. VS Code Live Server can also be used instead of `npm start`.
 
-- [ ] [Set up project integrations](https://git-intern.appscyclone.com/internship/q3-2026/frontend/fe-phi-vo/-/settings/integrations)
+`scripts/serve.mjs` is a local static server. It only serves project files and does not include an API, database, or real registration processing.
 
-## Collaborate with your team
+## Pages
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+| Page                | File                       | Figma                                                                                      |
+| ------------------- | -------------------------- | ------------------------------------------------------------------------------------------ |
+| Home                | `index.html`               | [1:1882](https://www.figma.com/design/NubL9UeLuIJqrqJeBf0Lgd/FE-Internship?node-id=1-1882) |
+| Courses             | `courses.html`             | [1:1447](https://www.figma.com/design/NubL9UeLuIJqrqJeBf0Lgd/FE-Internship?node-id=1-1447) |
+| Course Details      | `courses-details.html`     | [1:1045](https://www.figma.com/design/NubL9UeLuIJqrqJeBf0Lgd/FE-Internship?node-id=1-1045) |
+| Registered Students | `registered-students.html` | [1:913](https://www.figma.com/design/NubL9UeLuIJqrqJeBf0Lgd/FE-Internship?node-id=1-913)   |
 
-## Test and Deploy
+The source frames are available on [Page 1:500](https://www.figma.com/design/NubL9UeLuIJqrqJeBf0Lgd/FE-Internship?node-id=1-500). Colours and typography are available in [Style 0:1](https://www.figma.com/design/NubL9UeLuIJqrqJeBf0Lgd/FE-Internship?node-id=0-1).
 
-Use the built-in continuous integration in GitLab.
+## Main structure
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+```text
+fe-phi-vo/
+├── *.html                 # Four website pages
+├── assets/
+│   ├── css/               # Tokens, shared styles, and page styles
+│   ├── fonts/             # Plus Jakarta Sans
+│   ├── images/            # Figma images, logos, and icons
+│   └── js/main.js         # Filter, carousel, and demo form behavior
+└── scripts/serve.mjs      # Local static server
+```
 
-***
+CSS loads in this order: `tokens.css` → `shared.css` → `components/header.css` → the matching file in `css/pages/`.
 
-# Editing this README
+## Responsive behavior and interactions
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+The `.container` is always centered, has a maximum width of `1360px`, and uses the viewport width minus the side gutters. The Figma reference uses a 1680px desktop frame. Tablet and mobile layouts are responsive additions because the Figma file does not provide tablet or mobile frames.
 
-## Suggestions for a good README
+| Viewport width   | Side gutter | Content area      | Main adjustments                                                                                                                                        |
+| ---------------- | ----------: | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1440px and above |        40px | Up to 1360px      | Keeps the desktop layout; the content area is 1360px at 1680px.                                                                                         |
+| 1024–1439px      |        40px | `viewport - 80px` | Reduces section and card spacing for smaller desktop screens.                                                                                           |
+| 768–1023px       |        24px | `viewport - 48px` | Uses smaller headings and spacing, a two-column course grid, and horizontally scrollable team and lecturer lists.                                       |
+| 360–767px        |        20px | `viewport - 40px` | Uses single-column content and course grids, a single-column form, horizontally scrollable tabs, a two-column footer, and a compact header and buttons. |
+| Below 360px      |        20px | `viewport - 40px` | Further compacts the header; card metadata can wrap to prevent horizontal overflow.                                                                     |
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+- Courses can be filtered by category. Design shows an empty state because the Figma frame does not contain a Design course card.
+- FAQs and course content use `<details>` / `<summary>` and support keyboard interaction.
+- The form validates input in the browser and shows a demo result only; it does not send or store real data.
+- Visible focus states, a skip link, and `prefers-reduced-motion` are supported.
 
-## Name
-Choose a self-explaining name for your project.
+## Production considerations
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+- A backend is needed for form submission, success/error handling, and data policies.
+- Videos, pagination data, carousel data, and course details for courses other than ReactJS are not available yet.
+- Figma uses Centra No2, but no licensed font files are available. The project uses locally hosted Plus Jakarta Sans as a replacement.
+- Do not commit tokens, Figma account details, or private asset URLs.
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+## Weekly checklist
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+### Week 01
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+- [x] Build Home, Courses, Course Details, and Registered Students pages.
+- [x] Add reusable CSS, design tokens, local fonts, and Figma assets.
+- [x] Add responsive layouts for desktop, tablet, and mobile.
+- [x] Add course filtering, carousel, accordion, and form validation.
+- [x] Check layouts at 1680px, 768px, and 375px.
+- [x] Prepare the merge request description.
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+### Week 02
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+- [ ] Add this week's scope and acceptance criteria.
+- [ ] Test the completed work and create a merge request.
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+## Future project checklist
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+Use this checklist to track the next project stages. Items are intentionally kept unchecked until they are completed.
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+### GitLab collaboration
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+- [ ] Set up project integrations when needed.
+- [ ] Invite collaborators when the project needs shared access.
+- [ ] Create and review merge requests for each weekly branch.
+- [ ] Configure merge request approvals if the team requires them.
+- [ ] Enable auto-merge when a pipeline and approval rules are in place.
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+### Quality and security
 
-## License
-For open source projects, say how it is licensed.
+- [ ] Set up a GitLab CI/CD pipeline.
+- [ ] Add automated linting and test checks to the pipeline.
+- [ ] Enable Static Application Security Testing (SAST) when applicable.
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+### Deployment
+
+- [ ] Configure a staging environment.
+- [ ] Choose and configure the deployment target.
+- [ ] Deploy the website.
+- [ ] Verify the deployed website on desktop, tablet, and mobile.
+- [ ] Configure protected environments if the project requires them.
+
+### Documentation and maintenance
+
+- [ ] Add screenshots or a demo link when the project is deployed.
+- [ ] Record future features and remaining work.
+- [ ] Document contribution guidelines if collaborators join the project.
+
+## Git conventions
+
+Create branches by learning week: `week-01`, `week-02`, `week-03`, and so on. Always use a two-digit week number; for example, week 1 is `week-01`.
+
+Before committing, run:
+
+```sh
+node --check assets/js/main.js
+node --check scripts/serve.mjs
+npm run format:check
+```
