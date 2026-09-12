@@ -1,126 +1,98 @@
-# FE Phi Vo — Appscyclone
+# FE Phi Vo - Appscyclone
 
-A Figma-to-code exercise for the FE Internship program. The project uses vanilla HTML, CSS, and JavaScript, with no React, Tailwind, or UI library.
+This repository contains weekly frontend internship exercises. The `week-02` branch is a complete TODO app built with React, TypeScript, Redux Toolkit, React Hook Form, React Router, i18n, Tailwind CSS, and Shadcn/UI-style components.
 
 ## Run the project
 
-Node.js 18 or later is required. From the `fe-phi-vo` directory, run:
+Node.js 20 or later is required.
 
 ```sh
 npm install
-npm start
+npm run dev
 ```
 
-Open [http://127.0.0.1:4173](http://127.0.0.1:4173). `npm install` only installs Prettier for code formatting; the website has no runtime dependencies. VS Code Live Server can also be used instead of `npm start`.
+Open the URL printed by Vite, usually [http://localhost:5173](http://localhost:5173).
 
-`scripts/serve.mjs` is a local static server. It only serves project files and does not include an API, database, or real registration processing.
+## Routes
 
-## Pages
+| Route    | Purpose                                      |
+| -------- | -------------------------------------------- |
+| `/`      | App introduction and learning topics         |
+| `/todos` | Manage tasks on a drag-and-drop Kanban board |
+| `*`      | Not found page                               |
 
-| Page                | File                       | Figma                                                                                      |
-| ------------------- | -------------------------- | ------------------------------------------------------------------------------------------ |
-| Home                | `index.html`               | [1:1882](https://www.figma.com/design/NubL9UeLuIJqrqJeBf0Lgd/FE-Internship?node-id=1-1882) |
-| Courses             | `courses.html`             | [1:1447](https://www.figma.com/design/NubL9UeLuIJqrqJeBf0Lgd/FE-Internship?node-id=1-1447) |
-| Course Details      | `courses-details.html`     | [1:1045](https://www.figma.com/design/NubL9UeLuIJqrqJeBf0Lgd/FE-Internship?node-id=1-1045) |
-| Registered Students | `registered-students.html` | [1:913](https://www.figma.com/design/NubL9UeLuIJqrqJeBf0Lgd/FE-Internship?node-id=1-913)   |
+## Week 02 features
 
-The source frames are available on [Page 1:500](https://www.figma.com/design/NubL9UeLuIJqrqJeBf0Lgd/FE-Internship?node-id=1-500). Colours and typography are available in [Style 0:1](https://www.figma.com/design/NubL9UeLuIJqrqJeBf0Lgd/FE-Internship?node-id=0-1).
+- Create, edit, and delete tasks.
+- Drag tasks between Todo, In progress, and Completed columns.
+- Move tasks with accessible arrow controls on keyboard and mobile.
+- Search tasks by title or description.
+- Clear all completed tasks.
+- Validate forms with React Hook Form and Zod.
+- Store tasks, theme, and language in Local Storage.
+- Switch between Vietnamese and English.
+- Switch between light and dark themes using Context API.
+- Manage business state with Redux Toolkit and typed hooks.
+- Navigate with React Router.
+- Render responsive, accessible Shadcn/UI-style components.
 
 ## Main structure
 
 ```text
-fe-phi-vo/
-├── *.html                 # Four website pages
-├── assets/
-│   ├── css/               # Tokens, shared styles, and page styles
-│   ├── fonts/             # Plus Jakarta Sans
-│   ├── images/            # Figma images, logos, and icons
-│   └── js/main.js         # Filter, carousel, and demo form behavior
-└── scripts/serve.mjs      # Local static server
+src/
+├── app/                   # Typed Redux store and hooks
+├── components/            # Layout and reusable UI components
+├── contexts/              # Theme context
+├── features/todos/        # Todo types, slice, storage, tests, UI
+├── hooks/                 # Feature hooks
+├── i18n/                  # Vietnamese and English resources
+├── pages/                 # Route pages
+├── App.tsx                # Route definitions
+└── main.tsx               # Providers and app entry point
 ```
 
-CSS loads in this order: `tokens.css` → `shared.css` → `components/header.css` → the matching file in `css/pages/`.
+The Week 01 static HTML pages and assets remain in the repository for reference. The React application uses the root `index.html` as its Vite entry point.
 
-## Responsive behavior and interactions
+## Data flow
 
-The `.container` is always centered, has a maximum width of `1360px`, and uses the viewport width minus the side gutters. The Figma reference uses a 1680px desktop frame. Tablet and mobile layouts are responsive additions because the Figma file does not provide tablet or mobile frames.
+```text
+Local Storage -> Redux preloaded state -> React UI
+User action -> Redux reducer -> store subscription -> Local Storage
+```
 
-| Viewport width   | Side gutter | Content area      | Main adjustments                                                                                                                                        |
-| ---------------- | ----------: | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1440px and above |        40px | Up to 1360px      | Keeps the desktop layout; the content area is 1360px at 1680px.                                                                                         |
-| 1024–1439px      |        40px | `viewport - 80px` | Reduces section and card spacing for smaller desktop screens.                                                                                           |
-| 768–1023px       |        24px | `viewport - 48px` | Uses smaller headings and spacing, a two-column course grid, and horizontally scrollable team and lecturer lists.                                       |
-| 360–767px        |        20px | `viewport - 40px` | Uses single-column content and course grids, a single-column form, horizontally scrollable tabs, a two-column footer, and a compact header and buttons. |
-| Below 360px      |        20px | `viewport - 40px` | Further compacts the header; card metadata can wrap to prevent horizontal overflow.                                                                     |
+## Quality checks
 
-- Courses can be filtered by category. Design shows an empty state because the Figma frame does not contain a Design course card.
-- FAQs and course content use `<details>` / `<summary>` and support keyboard interaction.
-- The form validates input in the browser and shows a demo result only; it does not send or store real data.
-- Visible focus states, a skip link, and `prefers-reduced-motion` are supported.
+Run these commands before committing:
 
-## Production considerations
-
-- A backend is needed for form submission, success/error handling, and data policies.
-- Videos, pagination data, carousel data, and course details for courses other than ReactJS are not available yet.
-- Figma uses Centra No2, but no licensed font files are available. The project uses locally hosted Plus Jakarta Sans as a replacement.
-- Do not commit tokens, Figma account details, or private asset URLs.
+```sh
+npm run format:check
+npm run typecheck
+npm run lint
+npm test
+npm run build
+```
 
 ## Weekly checklist
 
 ### Week 01
 
-- [x] Build Home, Courses, Course Details, and Registered Students pages.
-- [x] Add reusable CSS, design tokens, local fonts, and Figma assets.
-- [x] Add responsive layouts for desktop, tablet, and mobile.
-- [x] Add course filtering, carousel, accordion, and form validation.
-- [x] Check layouts at 1680px, 768px, and 375px.
-- [x] Prepare the merge request description.
+- [x] Build the original Figma pages with HTML, CSS, and JavaScript.
+- [x] Add responsive layouts and browser interactions.
 
 ### Week 02
 
-- [ ] Add this week's scope and acceptance criteria.
-- [ ] Test the completed work and create a merge request.
-
-## Future project checklist
-
-Use this checklist to track the next project stages. Items are intentionally kept unchecked until they are completed.
-
-### GitLab collaboration
-
-- [ ] Set up project integrations when needed.
-- [ ] Invite collaborators when the project needs shared access.
-- [ ] Create and review merge requests for each weekly branch.
-- [ ] Configure merge request approvals if the team requires them.
-- [ ] Enable auto-merge when a pipeline and approval rules are in place.
-
-### Quality and security
-
-- [ ] Set up a GitLab CI/CD pipeline.
-- [ ] Add automated linting and test checks to the pipeline.
-- [ ] Enable Static Application Security Testing (SAST) when applicable.
-
-### Deployment
-
-- [ ] Configure a staging environment.
-- [ ] Choose and configure the deployment target.
-- [ ] Deploy the website.
-- [ ] Verify the deployed website on desktop, tablet, and mobile.
-- [ ] Configure protected environments if the project requires them.
-
-### Documentation and maintenance
-
-- [ ] Add screenshots or a demo link when the project is deployed.
-- [ ] Record future features and remaining work.
-- [ ] Document contribution guidelines if collaborators join the project.
+- [x] Set up Vite, React, TypeScript, Tailwind CSS, and Shadcn/UI conventions.
+- [x] Add React Router routes and a responsive layout.
+- [x] Add Redux Toolkit state management with typed hooks.
+- [x] Add complete TODO CRUD, search, and a three-column Kanban board.
+- [x] Add pointer, touch, and keyboard drag-and-drop with fallback controls.
+- [x] Persist todos and preferences in Local Storage.
+- [x] Add React Hook Form and Zod validation.
+- [x] Add Vietnamese and English translations.
+- [x] Add a Context API light and dark theme.
+- [x] Add reducer tests and production checks.
+- [ ] Create a merge request.
 
 ## Git conventions
 
-Create branches by learning week: `week-01`, `week-02`, `week-03`, and so on. Always use a two-digit week number; for example, week 1 is `week-01`.
-
-Before committing, run:
-
-```sh
-node --check assets/js/main.js
-node --check scripts/serve.mjs
-npm run format:check
-```
+Use two-digit weekly branch names: `week-01`, `week-02`, `week-03`, and so on.
