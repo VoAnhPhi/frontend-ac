@@ -25,7 +25,7 @@ Open the URL printed by Vite, usually [http://localhost:5173](http://localhost:5
 
 - Create, edit, and delete tasks.
 - Drag tasks between Todo, In progress, and Completed columns.
-- Move tasks with accessible arrow controls on keyboard and mobile.
+- Use the dedicated drag handle for pointer, touch, or keyboard drag-and-drop.
 - Search tasks by title or description.
 - Clear all completed tasks.
 - Validate forms with React Hook Form and Zod.
@@ -85,7 +85,7 @@ npm run build
 - [x] Add React Router routes and a responsive layout.
 - [x] Add Redux Toolkit state management with typed hooks.
 - [x] Add complete TODO CRUD, search, and a three-column Kanban board.
-- [x] Add pointer, touch, and keyboard drag-and-drop with fallback controls.
+- [x] Add pointer, touch, and keyboard drag-and-drop through the card drag handle.
 - [x] Persist todos and preferences in Local Storage.
 - [x] Add React Hook Form and Zod validation.
 - [x] Add Vietnamese and English translations.

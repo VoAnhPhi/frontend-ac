@@ -8,8 +8,6 @@
     "edit": "Edit",
     "delete": "Delete",
     "clearCompleted": "Clear completed",
-    "moveLeft": "Move to previous column",
-    "moveRight": "Move to next column",
     "start": "Open task list"
   },
   "home": {
@@ -21,7 +19,7 @@
   "todo": {
     "title": "Your tasks",
     "description": "Add, update, and complete one task at a time.",
-    "dragHint": "Drag cards or use the arrow buttons to change status.",
+    "dragHint": "Drag cards by the handle to change status.",
     "newTitle": "Add a new task",
     "editTitle": "Edit task",
     "editDescription": "Update the content and save your changes.",

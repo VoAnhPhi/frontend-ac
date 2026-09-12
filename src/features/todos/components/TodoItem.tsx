@@ -1,11 +1,5 @@
 import { useDraggable } from '@dnd-kit/core';
-import {
-  ArrowLeftIcon,
-  ArrowRightIcon,
-  DotsSixVerticalIcon,
-  PencilSimpleIcon,
-  TrashIcon,
-} from '@phosphor-icons/react';
+import { DotsSixVerticalIcon, PencilSimpleIcon, TrashIcon } from '@phosphor-icons/react';
 import { useState, type CSSProperties } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
@@ -29,23 +23,17 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import {
-  TODO_STATUSES,
-  type Todo,
-  type TodoFormValues,
-  type TodoStatus,
-} from '@/features/todos/todo.types';
+import type { Todo, TodoFormValues } from '@/features/todos/todo.types';
 
 import { TodoForm } from './TodoForm';
 
 interface TodoItemProps {
   todo: Todo;
-  onMove: (id: string, status: TodoStatus) => void;
   onUpdate: (id: string, values: TodoFormValues) => void;
   onDelete: (id: string) => void;
 }
 
-export function TodoItem({ todo, onMove, onUpdate, onDelete }: TodoItemProps) {
+export function TodoItem({ todo, onUpdate, onDelete }: TodoItemProps) {
   const { t, i18n } = useTranslation();
   const [editing, setEditing] = useState(false);
   const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
@@ -56,8 +44,6 @@ export function TodoItem({ todo, onMove, onUpdate, onDelete }: TodoItemProps) {
   const style: CSSProperties | undefined = transform
     ? { transform: `translate3d(${transform.x}px, ${transform.y}px, 0)` }
     : undefined;
-  const statusIndex = TODO_STATUSES.indexOf(todo.status);
-
   const handleUpdate = (values: TodoFormValues) => {
     onUpdate(todo.id, values);
     setEditing(false);
@@ -113,33 +99,7 @@ export function TodoItem({ todo, onMove, onUpdate, onDelete }: TodoItemProps) {
           </div>
         </div>
 
-        <div className="mt-3 flex items-center justify-between border-t border-border pt-3">
-          <div className="flex gap-1">
-            <Button
-              type="button"
-              size="icon"
-              variant="ghost"
-              className="size-8"
-              disabled={statusIndex === 0}
-              onClick={() => onMove(todo.id, TODO_STATUSES[statusIndex - 1])}
-              aria-label={t('actions.moveLeft')}
-              title={t('actions.moveLeft')}
-            >
-              <ArrowLeftIcon size={16} />
-            </Button>
-            <Button
-              type="button"
-              size="icon"
-              variant="ghost"
-              className="size-8"
-              disabled={statusIndex === TODO_STATUSES.length - 1}
-              onClick={() => onMove(todo.id, TODO_STATUSES[statusIndex + 1])}
-              aria-label={t('actions.moveRight')}
-              title={t('actions.moveRight')}
-            >
-              <ArrowRightIcon size={16} />
-            </Button>
-          </div>
+        <div className="mt-3 flex justify-end border-t border-border pt-3">
           <div className="flex gap-1">
             <Button
               type="button"
@@ -193,6 +153,7 @@ export function TodoItem({ todo, onMove, onUpdate, onDelete }: TodoItemProps) {
             submitLabel={t('actions.save')}
             onSubmit={handleUpdate}
             onCancel={() => setEditing(false)}
+            focusTitleEnd
           />
         </DialogContent>
       </Dialog>

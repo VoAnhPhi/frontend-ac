@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { z } from 'zod';
@@ -14,6 +15,7 @@ interface TodoFormProps {
   onSubmit: (values: TodoFormValues) => void;
   onCancel?: () => void;
   resetAfterSubmit?: boolean;
+  focusTitleEnd?: boolean;
 }
 
 export function TodoForm({
@@ -22,6 +24,7 @@ export function TodoForm({
   onSubmit,
   onCancel,
   resetAfterSubmit = false,
+  focusTitleEnd = false,
 }: TodoFormProps) {
   const { t } = useTranslation();
   const schema = z.object({
@@ -41,6 +44,22 @@ export function TodoForm({
     resolver: zodResolver(schema),
     defaultValues,
   });
+  const titleInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (!focusTitleEnd) return;
+
+    const frame = window.requestAnimationFrame(() => {
+      const input = titleInputRef.current;
+      if (!input) return;
+      input.focus();
+      input.setSelectionRange(input.value.length, input.value.length);
+    });
+
+    return () => window.cancelAnimationFrame(frame);
+  }, [focusTitleEnd]);
+
+  const titleField = register('title');
 
   const submit = (values: TodoFormValues) => {
     onSubmit(values);
@@ -58,7 +77,11 @@ export function TodoForm({
           placeholder={t('todo.titlePlaceholder')}
           aria-invalid={Boolean(errors.title)}
           aria-describedby={errors.title ? 'todo-title-error' : undefined}
-          {...register('title')}
+          {...titleField}
+          ref={(element) => {
+            titleField.ref(element);
+            titleInputRef.current = element;
+          }}
         />
         {errors.title && (
           <p id="todo-title-error" className="text-sm font-medium text-destructive">

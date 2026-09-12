@@ -59,7 +59,6 @@ export function KanbanBoard({ todos, onMove, onUpdate, onDelete }: KanbanBoardPr
             key={status}
             status={status}
             todos={todos.filter((todo) => todo.status === status)}
-            onMove={onMove}
             onUpdate={onUpdate}
             onDelete={onDelete}
           />

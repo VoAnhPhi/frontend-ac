@@ -10,12 +10,11 @@ import { TodoItem } from './TodoItem';
 interface KanbanColumnProps {
   status: TodoStatus;
   todos: Todo[];
-  onMove: (id: string, status: TodoStatus) => void;
   onUpdate: (id: string, values: TodoFormValues) => void;
   onDelete: (id: string) => void;
 }
 
-export function KanbanColumn({ status, todos, onMove, onUpdate, onDelete }: KanbanColumnProps) {
+export function KanbanColumn({ status, todos, onUpdate, onDelete }: KanbanColumnProps) {
   const { t } = useTranslation();
   const { setNodeRef, isOver } = useDroppable({ id: status });
 
@@ -34,13 +33,7 @@ export function KanbanColumn({ status, todos, onMove, onUpdate, onDelete }: Kanb
       </div>
       <div className="grid content-start gap-3">
         {todos.map((todo) => (
-          <TodoItem
-            key={todo.id}
-            todo={todo}
-            onMove={onMove}
-            onUpdate={onUpdate}
-            onDelete={onDelete}
-          />
+          <TodoItem key={todo.id} todo={todo} onUpdate={onUpdate} onDelete={onDelete} />
         ))}
         {todos.length === 0 && (
           <div className="flex min-h-28 items-center justify-center rounded-xl border border-dashed border-border px-4 text-center text-sm text-muted-foreground">

@@ -8,8 +8,6 @@
     "edit": "Chỉnh sửa",
     "delete": "Xóa",
     "clearCompleted": "Xóa việc đã xong",
-    "moveLeft": "Chuyển sang cột trước",
-    "moveRight": "Chuyển sang cột sau",
     "start": "Mở danh sách"
   },
   "home": {
@@ -21,7 +19,7 @@
   "todo": {
     "title": "Công việc của bạn",
     "description": "Thêm, cập nhật và hoàn thành từng đầu việc.",
-    "dragHint": "Kéo thẻ hoặc dùng nút mũi tên để chuyển trạng thái.",
+    "dragHint": "Kéo thẻ bằng tay nắm để chuyển trạng thái.",
     "newTitle": "Thêm công việc mới",
     "editTitle": "Chỉnh sửa công việc",
     "editDescription": "Cập nhật nội dung rồi lưu thay đổi.",
