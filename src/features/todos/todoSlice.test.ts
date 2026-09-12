@@ -17,14 +17,14 @@ describe('todos reducer', () => {
       addTodo({
         title: 'Learn Redux',
         description: 'Read the toolkit guide',
-        type: 'incomplete',
+        type: 'todo',
       }),
     );
 
     expect(state.items).toHaveLength(1);
     expect(state.items[0]).toMatchObject({
       title: 'Learn Redux',
-      type: 'incomplete',
+      type: 'todo',
       status: 'todo',
     });
 
@@ -46,7 +46,7 @@ describe('todos reducer', () => {
     expect(state.items[0]).toMatchObject({ status: 'completed', type: 'completed' });
 
     state = todosReducer(state, setTodoStatus({ id, status: 'todo' }));
-    expect(state.items[0]).toMatchObject({ status: 'todo', type: 'incomplete' });
+    expect(state.items[0]).toMatchObject({ status: 'todo', type: 'todo' });
 
     state = todosReducer(state, deleteTodo(id));
     expect(state.items).toHaveLength(0);
@@ -55,9 +55,9 @@ describe('todos reducer', () => {
   it('clears only completed todos', () => {
     let state = todosReducer(
       initialState,
-      addTodo({ title: 'First', description: '', type: 'incomplete' }),
+      addTodo({ title: 'First', description: '', type: 'todo' }),
     );
-    state = todosReducer(state, addTodo({ title: 'Second', description: '', type: 'incomplete' }));
+    state = todosReducer(state, addTodo({ title: 'Second', description: '', type: 'todo' }));
     state = todosReducer(state, setTodoStatus({ id: state.items[0].id, status: 'completed' }));
     state = todosReducer(state, clearCompleted());
 

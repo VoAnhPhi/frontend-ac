@@ -8,8 +8,6 @@
     "edit": "Edit",
     "delete": "Delete",
     "clearCompleted": "Clear completed",
-    "markComplete": "Mark as completed",
-    "markIncomplete": "Mark as incomplete",
     "start": "Open task list"
   },
   "home": {
@@ -27,9 +25,9 @@
     "editDescription": "Update the content and save your changes.",
     "titleLabel": "Title",
     "titlePlaceholder": "Example: Learn Redux Toolkit",
-    "typeLabel": "Completion status",
+    "typeLabel": "Status",
     "types": {
-      "incomplete": "Incomplete",
+      "todo": "Todo",
       "completed": "Completed"
     },
     "descriptionLabel": "Description",
@@ -61,9 +59,7 @@
   "toast": {
     "added": "Task added.",
     "updated": "Task updated.",
-    "deleted": "Task deleted.",
-    "markedComplete": "Task marked as completed.",
-    "markedIncomplete": "Task marked as incomplete."
+    "deleted": "Task deleted."
   },
   "notFound": { "title": "Page not found", "back": "Back to home" },
   "accessibility": {

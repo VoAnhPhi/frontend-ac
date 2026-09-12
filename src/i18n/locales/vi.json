@@ -8,8 +8,6 @@
     "edit": "Chỉnh sửa",
     "delete": "Xóa",
     "clearCompleted": "Xóa việc đã xong",
-    "markComplete": "Đánh dấu hoàn thành",
-    "markIncomplete": "Đánh dấu chưa hoàn thành",
     "start": "Mở danh sách"
   },
   "home": {
@@ -27,9 +25,9 @@
     "editDescription": "Cập nhật nội dung rồi lưu thay đổi.",
     "titleLabel": "Tiêu đề",
     "titlePlaceholder": "Ví dụ: Học Redux Toolkit",
-    "typeLabel": "Trạng thái hoàn thành",
+    "typeLabel": "Trạng thái",
     "types": {
-      "incomplete": "Chưa hoàn thành",
+      "todo": "Cần làm",
       "completed": "Hoàn thành"
     },
     "descriptionLabel": "Mô tả",
@@ -61,9 +59,7 @@
   "toast": {
     "added": "Đã thêm công việc.",
     "updated": "Đã cập nhật công việc.",
-    "deleted": "Đã xóa công việc.",
-    "markedComplete": "Đã đánh dấu hoàn thành.",
-    "markedIncomplete": "Đã đánh dấu chưa hoàn thành."
+    "deleted": "Đã xóa công việc."
   },
   "notFound": { "title": "Không tìm thấy trang", "back": "Về trang chủ" },
   "accessibility": {

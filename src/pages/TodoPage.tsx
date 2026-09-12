@@ -100,9 +100,6 @@ export function TodoPage() {
       <KanbanBoard
         todos={todos.visibleTodos}
         onMove={(id, status) => todos.setTodoStatus({ id, status })}
-        onToggleComplete={(id, completed) =>
-          todos.setTodoStatus({ id, status: completed ? 'completed' : 'todo' })
-        }
         onUpdate={(id, values) => todos.updateTodo({ id, values })}
         onDelete={todos.deleteTodo}
       />

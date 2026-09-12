@@ -1,11 +1,5 @@
 import { useDraggable } from '@dnd-kit/core';
-import {
-  CheckCircleIcon,
-  CircleIcon,
-  DotsSixVerticalIcon,
-  PencilSimpleIcon,
-  TrashIcon,
-} from '@phosphor-icons/react';
+import { DotsSixVerticalIcon, PencilSimpleIcon, TrashIcon } from '@phosphor-icons/react';
 import { useState, type CSSProperties } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
@@ -36,12 +30,11 @@ import { TodoForm } from './TodoForm';
 
 interface TodoItemProps {
   todo: Todo;
-  onToggleComplete: (id: string, completed: boolean) => void;
   onUpdate: (id: string, values: TodoFormValues) => void;
   onDelete: (id: string) => void;
 }
 
-export function TodoItem({ todo, onToggleComplete, onUpdate, onDelete }: TodoItemProps) {
+export function TodoItem({ todo, onUpdate, onDelete }: TodoItemProps) {
   const { t, i18n } = useTranslation();
   const [editing, setEditing] = useState(false);
   const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
@@ -61,11 +54,6 @@ export function TodoItem({ todo, onToggleComplete, onUpdate, onDelete }: TodoIte
   const handleDelete = () => {
     onDelete(todo.id);
     toast.success(t('toast.deleted'));
-  };
-
-  const handleToggleComplete = () => {
-    onToggleComplete(todo.id, todo.type !== 'completed');
-    toast.success(t(todo.type === 'completed' ? 'toast.markedIncomplete' : 'toast.markedComplete'));
   };
 
   const date = new Intl.DateTimeFormat(i18n.language === 'en' ? 'en-US' : 'vi-VN', {
@@ -154,25 +142,6 @@ export function TodoItem({ todo, onToggleComplete, onUpdate, onDelete }: TodoIte
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
-            <Button
-              type="button"
-              size="icon"
-              variant="ghost"
-              className="size-8"
-              title={t(
-                todo.type === 'completed' ? 'actions.markIncomplete' : 'actions.markComplete',
-              )}
-              aria-label={t(
-                todo.type === 'completed' ? 'actions.markIncomplete' : 'actions.markComplete',
-              )}
-              onClick={handleToggleComplete}
-            >
-              {todo.type === 'completed' ? (
-                <CheckCircleIcon size={18} weight="fill" />
-              ) : (
-                <CircleIcon size={18} />
-              )}
-            </Button>
           </div>
         </div>
       </article>
