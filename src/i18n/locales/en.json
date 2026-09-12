@@ -1,0 +1,63 @@
+{
+  "appName": "Taskflow",
+  "nav": { "home": "Home", "todos": "Tasks" },
+  "actions": {
+    "add": "Add task",
+    "save": "Save changes",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "delete": "Delete",
+    "clearCompleted": "Clear completed",
+    "moveLeft": "Move to previous column",
+    "moveRight": "Move to next column",
+    "start": "Open task list"
+  },
+  "home": {
+    "title": "Keep your work clear.",
+    "description": "A small TODO app for practicing React, TypeScript, Redux Toolkit, and Local Storage.",
+    "featureTitle": "Week 02 topics",
+    "features": ["Complete CRUD", "Local persistence", "Two languages", "Light and dark themes"]
+  },
+  "todo": {
+    "title": "Your tasks",
+    "description": "Add, update, and complete one task at a time.",
+    "dragHint": "Drag cards or use the arrow buttons to change status.",
+    "newTitle": "Add a new task",
+    "editTitle": "Edit task",
+    "editDescription": "Update the content and save your changes.",
+    "titleLabel": "Title",
+    "titlePlaceholder": "Example: Learn Redux Toolkit",
+    "descriptionLabel": "Description",
+    "descriptionPlaceholder": "Add optional notes",
+    "searchPlaceholder": "Search tasks...",
+    "all": "All",
+    "pending": "Pending",
+    "completed": "Completed",
+    "columns": {
+      "todo": "Todo",
+      "in-progress": "In progress",
+      "completed": "Completed"
+    },
+    "dropHere": "Drop a task here",
+    "emptyTitle": "No matching tasks",
+    "emptyDescription": "Add a new task or change the current filters.",
+    "deleteTitle": "Delete this task?",
+    "deleteDescription": "This action cannot be undone.",
+    "clearTitle": "Clear completed tasks?",
+    "clearDescription": "Every card in the Completed column will be deleted.",
+    "stats": "{{completed}}/{{total}} tasks completed",
+    "created": "Created {{date}}"
+  },
+  "validation": {
+    "titleRequired": "Please enter a title.",
+    "titleMax": "The title must be 100 characters or fewer.",
+    "descriptionMax": "The description must be 300 characters or fewer."
+  },
+  "toast": { "added": "Task added.", "updated": "Task updated.", "deleted": "Task deleted." },
+  "notFound": { "title": "Page not found", "back": "Back to home" },
+  "accessibility": {
+    "theme": "Change theme",
+    "language": "Change language",
+    "drag": "Drag task {{title}}"
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "appName": "Taskflow",
+  "nav": { "home": "Trang chủ", "todos": "Công việc" },
+  "actions": {
+    "add": "Thêm công việc",
+    "save": "Lưu thay đổi",
+    "cancel": "Hủy",
+    "edit": "Chỉnh sửa",
+    "delete": "Xóa",
+    "clearCompleted": "Xóa việc đã xong",
+    "moveLeft": "Chuyển sang cột trước",
+    "moveRight": "Chuyển sang cột sau",
+    "start": "Mở danh sách"
+  },
+  "home": {
+    "title": "Quản lý công việc rõ ràng hơn.",
+    "description": "Một TODO app nhỏ để thực hành React, TypeScript, Redux Toolkit và Local Storage.",
+    "featureTitle": "Nội dung tuần 02",
+    "features": ["CRUD đầy đủ", "Lưu dữ liệu cục bộ", "Hai ngôn ngữ", "Giao diện sáng và tối"]
+  },
+  "todo": {
+    "title": "Công việc của bạn",
+    "description": "Thêm, cập nhật và hoàn thành từng đầu việc.",
+    "dragHint": "Kéo thẻ hoặc dùng nút mũi tên để chuyển trạng thái.",
+    "newTitle": "Thêm công việc mới",
+    "editTitle": "Chỉnh sửa công việc",
+    "editDescription": "Cập nhật nội dung rồi lưu thay đổi.",
+    "titleLabel": "Tiêu đề",
+    "titlePlaceholder": "Ví dụ: Học Redux Toolkit",
+    "descriptionLabel": "Mô tả",
+    "descriptionPlaceholder": "Ghi chú thêm cho công việc",
+    "searchPlaceholder": "Tìm kiếm công việc...",
+    "all": "Tất cả",
+    "pending": "Đang làm",
+    "completed": "Hoàn thành",
+    "columns": {
+      "todo": "Cần làm",
+      "in-progress": "Đang thực hiện",
+      "completed": "Hoàn thành"
+    },
+    "dropHere": "Thả công việc vào đây",
+    "emptyTitle": "Chưa có công việc phù hợp",
+    "emptyDescription": "Thêm công việc mới hoặc thay đổi bộ lọc hiện tại.",
+    "deleteTitle": "Xóa công việc?",
+    "deleteDescription": "Hành động này không thể hoàn tác.",
+    "clearTitle": "Xóa các công việc đã hoàn thành?",
+    "clearDescription": "Tất cả thẻ trong cột Hoàn thành sẽ bị xóa.",
+    "stats": "{{completed}}/{{total}} công việc đã hoàn thành",
+    "created": "Tạo lúc {{date}}"
+  },
+  "validation": {
+    "titleRequired": "Vui lòng nhập tiêu đề.",
+    "titleMax": "Tiêu đề không được quá 100 ký tự.",
+    "descriptionMax": "Mô tả không được quá 300 ký tự."
+  },
+  "toast": {
+    "added": "Đã thêm công việc.",
+    "updated": "Đã cập nhật công việc.",
+    "deleted": "Đã xóa công việc."
+  },
+  "notFound": { "title": "Không tìm thấy trang", "back": "Về trang chủ" },
+  "accessibility": {
+    "theme": "Đổi giao diện",
+    "language": "Đổi ngôn ngữ",
+    "drag": "Kéo công việc {{title}}"
+  }
+}
