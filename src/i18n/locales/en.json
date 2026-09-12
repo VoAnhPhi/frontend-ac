@@ -28,6 +28,7 @@
     "typeLabel": "Status",
     "types": {
       "todo": "Todo",
+      "in-progress": "In progress",
       "completed": "Completed"
     },
     "descriptionLabel": "Description",

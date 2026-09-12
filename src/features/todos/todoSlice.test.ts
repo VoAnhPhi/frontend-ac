@@ -45,6 +45,9 @@ describe('todos reducer', () => {
     state = todosReducer(state, setTodoStatus({ id, status: 'completed' }));
     expect(state.items[0]).toMatchObject({ status: 'completed', type: 'completed' });
 
+    state = todosReducer(state, setTodoStatus({ id, status: 'in-progress' }));
+    expect(state.items[0]).toMatchObject({ status: 'in-progress', type: 'in-progress' });
+
     state = todosReducer(state, setTodoStatus({ id, status: 'todo' }));
     expect(state.items[0]).toMatchObject({ status: 'todo', type: 'todo' });
 

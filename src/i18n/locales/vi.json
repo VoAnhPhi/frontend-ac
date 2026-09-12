@@ -28,6 +28,7 @@
     "typeLabel": "Trạng thái",
     "types": {
       "todo": "Cần làm",
+      "in-progress": "Đang thực hiện",
       "completed": "Hoàn thành"
     },
     "descriptionLabel": "Mô tả",

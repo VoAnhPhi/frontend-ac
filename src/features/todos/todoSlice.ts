@@ -59,7 +59,7 @@ const todosSlice = createSlice({
       if (!todo) return;
 
       todo.status = action.payload.status;
-      todo.type = action.payload.status === 'completed' ? 'completed' : 'todo';
+      todo.type = action.payload.status;
       todo.updatedAt = new Date().toISOString();
     },
     setSearch(state, action: PayloadAction<string>) {

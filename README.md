@@ -24,7 +24,7 @@ Open the URL printed by Vite, usually [http://localhost:5173](http://localhost:5
 ## Week 02 features
 
 - Create, edit, and delete tasks.
-- Set each task as Todo or Completed; new tasks start in the Todo column.
+- Set each task as Todo, In progress, or Completed; new tasks start in the Todo column.
 - Drag tasks between Todo, In progress, and Completed columns.
 - Use the dedicated drag handle for pointer, touch, or keyboard drag-and-drop.
 - Search tasks by title or description.
@@ -86,7 +86,7 @@ npm run build
 - [x] Add React Router routes and a responsive layout.
 - [x] Add Redux Toolkit state management with typed hooks.
 - [x] Add complete TODO CRUD, search, and a three-column Kanban board.
-- [x] Add Todo/Completed status selection for create and edit flows.
+- [x] Add Kanban status selection for create and edit flows.
 - [x] Add pointer, touch, and keyboard drag-and-drop through the card drag handle.
 - [x] Persist todos and preferences in Local Storage.
 - [x] Add React Hook Form and Zod validation.

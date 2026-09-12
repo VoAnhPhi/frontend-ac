@@ -50,7 +50,7 @@ export function TodoForm({
 
   return (
     <form className="space-y-4" onSubmit={handleSubmit(submit)} noValidate>
-      <div className="space-y-3">
+      <div className="flex flex-col gap-4">
         <label className="text-sm font-medium" htmlFor="todo-title">
           {t('todo.titleLabel')}
         </label>
@@ -68,7 +68,7 @@ export function TodoForm({
         )}
       </div>
 
-      <div className="space-y-3">
+      <div className="flex flex-col gap-4">
         <label className="text-sm font-medium" htmlFor="todo-type">
           {t('todo.typeLabel')}
         </label>
@@ -92,7 +92,7 @@ export function TodoForm({
         )}
       </div>
 
-      <div className="space-y-3">
+      <div className="flex flex-col gap-4">
         <label className="text-sm font-medium" htmlFor="todo-description">
           {t('todo.descriptionLabel')}
         </label>

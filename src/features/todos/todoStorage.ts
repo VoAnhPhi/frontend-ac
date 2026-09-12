@@ -24,7 +24,7 @@ function normalizeTodo(value: unknown): Todo | null {
 
   if (!status) return null;
 
-  const type: TodoType = status === 'completed' ? 'completed' : 'todo';
+  const type: TodoType = status;
 
   return {
     id: todo.id as string,
