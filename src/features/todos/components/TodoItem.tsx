@@ -15,7 +15,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -82,7 +81,7 @@ export function TodoItem({ todo, onUpdate, onDelete }: TodoItemProps) {
             <DotsSixVerticalIcon size={18} weight="bold" />
           </button>
           <div className="min-w-0 flex-1">
-            <div className="flex flex-wrap items-center gap-2">
+            <div className="flex items-center">
               <h3
                 className={
                   todo.status === 'completed'
@@ -92,7 +91,6 @@ export function TodoItem({ todo, onUpdate, onDelete }: TodoItemProps) {
               >
                 {todo.title}
               </h3>
-              <Badge variant="secondary">{t(`todo.types.${todo.type}`)}</Badge>
             </div>
             {todo.description && (
               <p className="mt-1 break-words text-sm leading-relaxed text-muted-foreground">
