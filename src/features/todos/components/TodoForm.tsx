@@ -17,7 +17,7 @@ interface TodoFormProps {
 }
 
 export function TodoForm({
-  defaultValues = { title: '', description: '', type: 'task' },
+  defaultValues = { title: '', description: '', type: 'incomplete' },
   submitLabel,
   onSubmit,
   onCancel,
@@ -45,7 +45,7 @@ export function TodoForm({
 
   const submit = (values: TodoFormValues) => {
     onSubmit(values);
-    if (resetAfterSubmit) reset({ title: '', description: '', type: 'task' });
+    if (resetAfterSubmit) reset({ title: '', description: '', type: 'incomplete' });
   };
 
   return (

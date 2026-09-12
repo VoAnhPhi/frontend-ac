@@ -23,11 +23,18 @@ import { KanbanColumn } from './KanbanColumn';
 interface KanbanBoardProps {
   todos: Todo[];
   onMove: (id: string, status: TodoStatus) => void;
+  onToggleComplete: (id: string, completed: boolean) => void;
   onUpdate: (id: string, values: TodoFormValues) => void;
   onDelete: (id: string) => void;
 }
 
-export function KanbanBoard({ todos, onMove, onUpdate, onDelete }: KanbanBoardProps) {
+export function KanbanBoard({
+  todos,
+  onMove,
+  onToggleComplete,
+  onUpdate,
+  onDelete,
+}: KanbanBoardProps) {
   const [activeId, setActiveId] = useState<string | null>(null);
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
@@ -59,6 +66,7 @@ export function KanbanBoard({ todos, onMove, onUpdate, onDelete }: KanbanBoardPr
             key={status}
             status={status}
             todos={todos.filter((todo) => todo.status === status)}
+            onToggleComplete={onToggleComplete}
             onUpdate={onUpdate}
             onDelete={onDelete}
           />

@@ -8,6 +8,8 @@
     "edit": "Edit",
     "delete": "Delete",
     "clearCompleted": "Clear completed",
+    "markComplete": "Mark as completed",
+    "markIncomplete": "Mark as incomplete",
     "start": "Open task list"
   },
   "home": {
@@ -25,12 +27,10 @@
     "editDescription": "Update the content and save your changes.",
     "titleLabel": "Title",
     "titlePlaceholder": "Example: Learn Redux Toolkit",
-    "typeLabel": "Task type",
+    "typeLabel": "Completion status",
     "types": {
-      "task": "Task",
-      "bug": "Bug",
-      "feature": "Feature",
-      "improvement": "Improvement"
+      "incomplete": "Incomplete",
+      "completed": "Completed"
     },
     "descriptionLabel": "Description",
     "descriptionPlaceholder": "Add optional notes",
@@ -58,7 +58,13 @@
     "titleMax": "The title must be 100 characters or fewer.",
     "descriptionMax": "The description must be 300 characters or fewer."
   },
-  "toast": { "added": "Task added.", "updated": "Task updated.", "deleted": "Task deleted." },
+  "toast": {
+    "added": "Task added.",
+    "updated": "Task updated.",
+    "deleted": "Task deleted.",
+    "markedComplete": "Task marked as completed.",
+    "markedIncomplete": "Task marked as incomplete."
+  },
   "notFound": { "title": "Page not found", "back": "Back to home" },
   "accessibility": {
     "theme": "Change theme",

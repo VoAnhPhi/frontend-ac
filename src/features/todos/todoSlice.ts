@@ -32,7 +32,7 @@ const todosSlice = createSlice({
         title: action.payload.title.trim(),
         description: action.payload.description.trim(),
         type: action.payload.type,
-        status: 'todo',
+        status: action.payload.type === 'completed' ? 'completed' : 'todo',
         createdAt: now,
         updatedAt: now,
       });
@@ -44,6 +44,11 @@ const todosSlice = createSlice({
       todo.title = action.payload.values.title.trim();
       todo.description = action.payload.values.description.trim();
       todo.type = action.payload.values.type;
+      if (todo.type === 'completed') {
+        todo.status = 'completed';
+      } else if (todo.status === 'completed') {
+        todo.status = 'todo';
+      }
       todo.updatedAt = new Date().toISOString();
     },
     deleteTodo(state, action: PayloadAction<string>) {
@@ -54,6 +59,7 @@ const todosSlice = createSlice({
       if (!todo) return;
 
       todo.status = action.payload.status;
+      todo.type = action.payload.status === 'completed' ? 'completed' : 'incomplete';
       todo.updatedAt = new Date().toISOString();
     },
     setSearch(state, action: PayloadAction<string>) {
