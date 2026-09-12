@@ -1,5 +1,4 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { z } from 'zod';
@@ -7,7 +6,7 @@ import { z } from 'zod';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import type { TodoFormValues } from '@/features/todos/todo.types';
+import { TODO_TYPES, type TodoFormValues } from '@/features/todos/todo.types';
 
 interface TodoFormProps {
   defaultValues?: TodoFormValues;
@@ -15,16 +14,14 @@ interface TodoFormProps {
   onSubmit: (values: TodoFormValues) => void;
   onCancel?: () => void;
   resetAfterSubmit?: boolean;
-  focusTitleEnd?: boolean;
 }
 
 export function TodoForm({
-  defaultValues = { title: '', description: '' },
+  defaultValues = { title: '', description: '', type: 'task' },
   submitLabel,
   onSubmit,
   onCancel,
   resetAfterSubmit = false,
-  focusTitleEnd = false,
 }: TodoFormProps) {
   const { t } = useTranslation();
   const schema = z.object({
@@ -34,6 +31,7 @@ export function TodoForm({
       .min(1, t('validation.titleRequired'))
       .max(100, t('validation.titleMax')),
     description: z.string().trim().max(300, t('validation.descriptionMax')),
+    type: z.enum(TODO_TYPES),
   });
   const {
     register,
@@ -44,26 +42,10 @@ export function TodoForm({
     resolver: zodResolver(schema),
     defaultValues,
   });
-  const titleInputRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    if (!focusTitleEnd) return;
-
-    const frame = window.requestAnimationFrame(() => {
-      const input = titleInputRef.current;
-      if (!input) return;
-      input.focus();
-      input.setSelectionRange(input.value.length, input.value.length);
-    });
-
-    return () => window.cancelAnimationFrame(frame);
-  }, [focusTitleEnd]);
-
-  const titleField = register('title');
 
   const submit = (values: TodoFormValues) => {
     onSubmit(values);
-    if (resetAfterSubmit) reset({ title: '', description: '' });
+    if (resetAfterSubmit) reset({ title: '', description: '', type: 'task' });
   };
 
   return (
@@ -77,15 +59,35 @@ export function TodoForm({
           placeholder={t('todo.titlePlaceholder')}
           aria-invalid={Boolean(errors.title)}
           aria-describedby={errors.title ? 'todo-title-error' : undefined}
-          {...titleField}
-          ref={(element) => {
-            titleField.ref(element);
-            titleInputRef.current = element;
-          }}
+          {...register('title')}
         />
         {errors.title && (
           <p id="todo-title-error" className="text-sm font-medium text-destructive">
             {errors.title.message}
+          </p>
+        )}
+      </div>
+
+      <div className="space-y-2">
+        <label className="text-sm font-medium" htmlFor="todo-type">
+          {t('todo.typeLabel')}
+        </label>
+        <select
+          id="todo-type"
+          className="flex h-10 w-full rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground shadow-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          aria-invalid={Boolean(errors.type)}
+          aria-describedby={errors.type ? 'todo-type-error' : undefined}
+          {...register('type')}
+        >
+          {TODO_TYPES.map((type) => (
+            <option key={type} value={type}>
+              {t(`todo.types.${type}`)}
+            </option>
+          ))}
+        </select>
+        {errors.type && (
+          <p id="todo-type-error" className="text-sm font-medium text-destructive">
+            {errors.type.message}
           </p>
         )}
       </div>

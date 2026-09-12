@@ -25,6 +25,13 @@
     "editDescription": "Update the content and save your changes.",
     "titleLabel": "Title",
     "titlePlaceholder": "Example: Learn Redux Toolkit",
+    "typeLabel": "Task type",
+    "types": {
+      "task": "Task",
+      "bug": "Bug",
+      "feature": "Feature",
+      "improvement": "Improvement"
+    },
     "descriptionLabel": "Description",
     "descriptionPlaceholder": "Add optional notes",
     "searchPlaceholder": "Search tasks...",

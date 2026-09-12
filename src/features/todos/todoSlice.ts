@@ -31,6 +31,7 @@ const todosSlice = createSlice({
         id: createId(),
         title: action.payload.title.trim(),
         description: action.payload.description.trim(),
+        type: action.payload.type,
         status: 'todo',
         createdAt: now,
         updatedAt: now,
@@ -42,6 +43,7 @@ const todosSlice = createSlice({
 
       todo.title = action.payload.values.title.trim();
       todo.description = action.payload.values.description.trim();
+      todo.type = action.payload.values.type;
       todo.updatedAt = new Date().toISOString();
     },
     deleteTodo(state, action: PayloadAction<string>) {

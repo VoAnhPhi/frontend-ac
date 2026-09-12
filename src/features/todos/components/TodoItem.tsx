@@ -15,6 +15,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -81,15 +82,18 @@ export function TodoItem({ todo, onUpdate, onDelete }: TodoItemProps) {
             <DotsSixVerticalIcon size={18} weight="bold" />
           </button>
           <div className="min-w-0 flex-1">
-            <h3
-              className={
-                todo.status === 'completed'
-                  ? 'break-words font-semibold text-muted-foreground line-through'
-                  : 'break-words font-semibold'
-              }
-            >
-              {todo.title}
-            </h3>
+            <div className="flex flex-wrap items-center gap-2">
+              <h3
+                className={
+                  todo.status === 'completed'
+                    ? 'break-words font-semibold text-muted-foreground line-through'
+                    : 'break-words font-semibold'
+                }
+              >
+                {todo.title}
+              </h3>
+              <Badge variant="secondary">{t(`todo.types.${todo.type}`)}</Badge>
+            </div>
             {todo.description && (
               <p className="mt-1 break-words text-sm leading-relaxed text-muted-foreground">
                 {todo.description}
@@ -143,17 +147,16 @@ export function TodoItem({ todo, onUpdate, onDelete }: TodoItemProps) {
       </article>
 
       <Dialog open={editing} onOpenChange={setEditing}>
-        <DialogContent>
+        <DialogContent onOpenAutoFocus={(event) => event.preventDefault()}>
           <DialogHeader>
             <DialogTitle>{t('todo.editTitle')}</DialogTitle>
             <DialogDescription>{t('todo.editDescription')}</DialogDescription>
           </DialogHeader>
           <TodoForm
-            defaultValues={{ title: todo.title, description: todo.description }}
+            defaultValues={{ title: todo.title, description: todo.description, type: todo.type }}
             submitLabel={t('actions.save')}
             onSubmit={handleUpdate}
             onCancel={() => setEditing(false)}
-            focusTitleEnd
           />
         </DialogContent>
       </Dialog>

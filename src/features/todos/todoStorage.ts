@@ -1,4 +1,4 @@
-import type { Todo, TodoStatus } from './todo.types';
+import { TODO_TYPES, type Todo, type TodoStatus, type TodoType } from './todo.types';
 
 const STORAGE_KEY = 'taskflow.todos.v1';
 
@@ -24,10 +24,16 @@ function normalizeTodo(value: unknown): Todo | null {
 
   if (!status) return null;
 
+  const type: TodoType =
+    typeof todo.type === 'string' && TODO_TYPES.includes(todo.type as TodoType)
+      ? (todo.type as TodoType)
+      : 'task';
+
   return {
     id: todo.id as string,
     title: todo.title as string,
     description: todo.description as string,
+    type,
     status,
     createdAt: todo.createdAt as string,
     updatedAt: todo.updatedAt as string,

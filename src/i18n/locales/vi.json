@@ -25,6 +25,13 @@
     "editDescription": "Cập nhật nội dung rồi lưu thay đổi.",
     "titleLabel": "Tiêu đề",
     "titlePlaceholder": "Ví dụ: Học Redux Toolkit",
+    "typeLabel": "Loại công việc",
+    "types": {
+      "task": "Công việc",
+      "bug": "Lỗi",
+      "feature": "Tính năng",
+      "improvement": "Cải tiến"
+    },
     "descriptionLabel": "Mô tả",
     "descriptionPlaceholder": "Ghi chú thêm cho công việc",
     "searchPlaceholder": "Tìm kiếm công việc...",
