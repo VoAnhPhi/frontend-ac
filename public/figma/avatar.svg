@@ -1,0 +1,18 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Avatar">
+<g clip-path="url(#clip0_0_360)">
+<rect width="40" height="40" rx="20" fill="#009E99"/>
+<path id="Vector" d="M27.8272 -0.625L-4.0743 -0.625C-15.2868 -0.625 -24.375 8.46277 -24.375 19.6728L-24.375 42.3222L-13.6622 50.831L17.7522 45.5172V23.0428L15.4429 23.5327L-7.13566 28.3563L-5.92693 41.6498L10.2669 38.3382L11.8743 34.043L-2.78622 38.3382L-1.33718 34.1557L14.3712 30.0474L13.1673 42.3727L-13.4219 43.5814L-12.6938 21.1071L23.3155 15.3077L27.1827 55.9074L-14.871 55.9074L-24.375 46.7612V51.5733C-24.375 62.7871 -15.2868 71.875 -4.0743 71.875L27.8272 71.875C39.0433 71.875 48.125 62.7871 48.125 51.5733L48.125 19.6728C48.125 8.46277 39.0433 -0.625 27.8272 -0.625Z" fill="url(#paint0_linear_0_360)"/>
+</g>
+</g>
+<defs>
+<linearGradient id="paint0_linear_0_360" x1="-24.375" y1="35.6248" x2="48.125" y2="35.6248" gradientUnits="userSpaceOnUse">
+<stop stop-color="#015A7C"/>
+<stop offset="0.84" stop-color="#00B0AD"/>
+<stop offset="1" stop-color="#00B0AD"/>
+</linearGradient>
+<clipPath id="clip0_0_360">
+<rect width="40" height="40" rx="20" fill="white"/>
+</clipPath>
+</defs>
+</svg>
