@@ -1,4 +1,23 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  src: url('../assets/fonts/plus-jakarta-sans-400.ttf') format('truetype');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  src: url('../assets/fonts/plus-jakarta-sans-500.ttf') format('truetype');
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  src: url('../assets/fonts/plus-jakarta-sans-700.ttf') format('truetype');
+  font-weight: 700;
+  font-display: swap;
+}
 
 @theme {
   --color-brand: #009e99;
@@ -6,9 +25,20 @@
   --color-ink: #0d0d0d;
   --color-muted: #787575;
   --color-surface: #f5f5f5;
-  --font-sans: "Satoshi", "Centra No2", Arial, sans-serif;
+  --font-sans: 'Plus Jakarta Sans', Arial, sans-serif;
 }
 
-* { box-sizing: border-box; }
-body { margin: 0; min-width: 320px; color: var(--color-ink); background: var(--color-surface); }
-button, input, textarea { font: inherit; }
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  min-width: 320px;
+  color: var(--color-ink);
+  background: var(--color-surface);
+}
+button,
+input,
+textarea {
+  font: inherit;
+}

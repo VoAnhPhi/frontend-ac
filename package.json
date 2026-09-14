@@ -2,18 +2,18 @@
   "name": "fe-phi-vo",
   "version": "1.0.0",
   "private": true,
-  "description": "HTML and CSS implementation of the FE Internship Figma website",
+  "description": "React TypeScript Tailwind implementation of the ACW3 Profile design",
   "scripts": {
     "start": "vite --host 0.0.0.0",
     "dev": "vite",
-    "format": "prettier --write .",
-    "format:check": "prettier --check .",
+    "format": "prettier --write src vite.config.ts",
+    "format:check": "prettier --check src vite.config.ts",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit"
   },
   "engines": {
-    "node": ">=18"
+    "node": "^20.19.0 || >=22.12.0"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.3",
