@@ -41,7 +41,7 @@ function AccountCard({ onEdit }: { onEdit: () => void }) {
   return (
     <section
       aria-label="Account"
-      className="w-full shrink-0 space-y-4 rounded-lg bg-white p-4 lg:w-[300px]"
+      className="w-full shrink-0 space-y-4 rounded-lg bg-white p-4 xl:w-[300px]"
     >
       <div className="flex items-center gap-3">
         <Icon name="avatar" size={40} />
@@ -87,7 +87,7 @@ function AssetRow({ item, isNft }: { item: AssetItem; isNft: boolean }) {
   return (
     <div
       role="row"
-      className={`grid min-w-[640px] items-center gap-4 border-b border-surface px-4 py-3 last:border-0 ${isNft ? 'grid-cols-[minmax(220px,1fr)_120px_120px]' : 'grid-cols-[minmax(220px,1fr)_90px_120px_120px]'}`}
+      className={`grid items-center gap-4 border-b border-surface px-4 py-3 last:border-0 ${isNft ? 'grid-cols-[minmax(220px,1fr)_120px_120px]' : 'grid-cols-[minmax(220px,1fr)_90px_120px_120px]'}`}
     >
       <div role="cell" className="flex min-w-0 items-center gap-4">
         <img
@@ -139,13 +139,13 @@ function AssetRow({ item, isNft }: { item: AssetItem; isNft: boolean }) {
 function AssetTable({ items, isNft }: { items: AssetItem[]; isNft: boolean }) {
   return (
     <div
-      className="overflow-x-auto rounded-lg bg-white"
+      className="hidden overflow-hidden rounded-lg bg-white md:block"
       role="table"
       aria-label={isNft ? 'NFTs' : 'Tokens'}
     >
       <div
         role="row"
-        className={`grid min-w-[640px] items-center gap-4 border-b border-surface px-4 py-4 text-sm text-muted ${isNft ? 'grid-cols-[minmax(220px,1fr)_120px_120px]' : 'grid-cols-[minmax(220px,1fr)_90px_120px_120px]'}`}
+        className={`grid items-center gap-4 border-b border-surface px-4 py-4 text-sm text-muted ${isNft ? 'grid-cols-[minmax(220px,1fr)_120px_120px]' : 'grid-cols-[minmax(220px,1fr)_90px_120px_120px]'}`}
       >
         <span role="columnheader" className="text-ink">
           {isNft ? 'NFT' : 'Token'}
@@ -169,15 +169,54 @@ function AssetTable({ items, isNft }: { items: AssetItem[]; isNft: boolean }) {
   );
 }
 
+function AssetCards({ items, isNft }: { items: AssetItem[]; isNft: boolean }) {
+  return (
+    <div className="space-y-3 md:hidden">
+      {items.map((item) => (
+        <article key={item.id} className="rounded-lg bg-white p-4">
+          <div className="flex items-center gap-3">
+            <img src={item.image} alt="" className="size-11 rounded-full object-cover" />
+            <div className="min-w-0">
+              <p className="truncate font-medium">
+                {item.name}{' '}
+                {item.symbol && <span className="text-sm text-muted">{item.symbol}</span>}
+              </p>
+              <p className="truncate text-xs">{item.address}</p>
+            </div>
+          </div>
+          <dl
+            className={`mt-4 grid gap-2 text-center text-sm ${isNft ? 'grid-cols-2' : 'grid-cols-3'}`}
+          >
+            {!isNft && (
+              <div>
+                <dt className="text-xs text-muted">Balance</dt>
+                <dd className="mt-1 font-medium">{item.balance}</dd>
+              </div>
+            )}
+            <div>
+              <dt className="text-xs text-muted">% of Supply</dt>
+              <dd className="mt-1 font-medium">{item.supplyPercent}%</dd>
+            </div>
+            <div>
+              <dt className="text-xs text-muted">Total Supply</dt>
+              <dd className="mt-1 font-medium">{item.totalSupply}</dd>
+            </div>
+          </dl>
+        </article>
+      ))}
+    </div>
+  );
+}
+
 export function ProfilePage() {
   const { category } = useParams();
   const isNft = category === 'nfts';
   const [editing, setEditing] = useState(false);
   return (
-    <div className="mx-auto flex max-w-[1233px] flex-col items-start gap-4 p-4 lg:flex-row lg:p-4">
+    <div className="mx-auto flex w-full max-w-[1233px] flex-col items-start gap-4 p-4 sm:p-6 xl:flex-row xl:p-4">
       <AccountCard onEdit={() => setEditing(true)} />
-      <div className="min-w-0 flex-1 space-y-2">
-        <div className="grid grid-cols-2 gap-2">
+      <div className="w-full min-w-0 flex-1 space-y-2">
+        <div className="grid grid-cols-1 gap-2 min-[420px]:grid-cols-2">
           <div className="rounded-lg bg-white px-6 py-4">
             <p className="text-sm text-muted">Total Tokens</p>
             <p className="mt-1 text-2xl font-medium">0</p>
@@ -187,19 +226,25 @@ export function ProfilePage() {
             <p className="mt-1 text-2xl font-medium">0</p>
           </div>
         </div>
-        {isNft && (
-          <nav aria-label="Profile assets" className="flex gap-2 rounded-t-lg bg-white px-4 pt-4">
-            <NavLink
-              to="/profile/tokens"
-              className="rounded-lg px-4 py-1 text-muted hover:bg-[#f5fbfb]"
-            >
-              Tokens
-            </NavLink>
-            <NavLink to="/profile/nfts" className="rounded-lg bg-[#f5fbfb] px-4 py-1 font-medium">
-              NFTs
-            </NavLink>
-          </nav>
-        )}
+        <nav aria-label="Profile assets" className="flex gap-2 rounded-t-lg bg-white p-3">
+          <NavLink
+            to="/profile/tokens"
+            className={({ isActive }) =>
+              `rounded-lg px-4 py-1 text-sm hover:bg-[#f5fbfb] ${isActive ? 'bg-[#f5fbfb] font-medium text-ink' : 'text-muted'}`
+            }
+          >
+            Tokens
+          </NavLink>
+          <NavLink
+            to="/profile/nfts"
+            className={({ isActive }) =>
+              `rounded-lg px-4 py-1 text-sm hover:bg-[#f5fbfb] ${isActive ? 'bg-[#f5fbfb] font-medium text-ink' : 'text-muted'}`
+            }
+          >
+            NFTs
+          </NavLink>
+        </nav>
+        <AssetCards items={isNft ? nfts : tokens} isNft={isNft} />
         <AssetTable items={isNft ? nfts : tokens} isNft={isNft} />
       </div>
       {editing && <EditProfileDialog onClose={() => setEditing(false)} />}

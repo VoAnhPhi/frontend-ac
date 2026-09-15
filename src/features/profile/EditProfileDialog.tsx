@@ -45,7 +45,7 @@ export function EditProfileDialog({ onClose }: { onClose: () => void }) {
         role="dialog"
         aria-modal="true"
         aria-labelledby="edit-profile-title"
-        className="w-full max-w-[500px] rounded-xl bg-white p-6 shadow-xl"
+        className="max-h-[calc(100dvh-2rem)] w-full max-w-[500px] overflow-y-auto rounded-xl bg-white p-4 shadow-xl sm:p-6"
       >
         <div className="mb-6 flex items-center justify-between">
           <h2 id="edit-profile-title" className="text-2xl font-bold">
