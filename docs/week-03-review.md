@@ -25,11 +25,11 @@ npm run build
 
 Available routes:
 
-- `/` — dashboard with direct exits into all token and NFT flows
+- `/` — Connect Wallet dashboard with Register and Sign-in states
 - `/token/create` and `/token/list`
 - `/nft/create` and `/nft/list`
 - `/profile/tokens` and `/profile/nfts`
 
 The profile design uses static wallet and asset values from Figma. Profile edits are saved in this browser's localStorage. Authentication, live balances, and full contract addresses require an API integration in a later sprint.
 
-Visual QA covered every route at 1440px and 500px widths, plus the open mobile navigation drawer and account dropdown. The route audit found no horizontal overflow. The implementation was compared against the Figma frames and assets retrieved during development. A fresh whole-file Figma extraction could not be run because the file's Starter MCP call limit had been reached.
+Visual QA covered every route at 1440px and 500px widths, plus the Register dialog, Mint dialog, mobile navigation drawer, and account dropdown. The route audit found no horizontal overflow. Each screen was reviewed directly in the authenticated Figma browser at its source frame: Connect Wallet, Token Creator, Token List, NFT Creator, NFT List, Profile/Tokens, Profile/NFTs, and the shared component page.

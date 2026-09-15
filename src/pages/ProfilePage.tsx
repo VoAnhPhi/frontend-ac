@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { NavLink, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import type { RootState } from '../app/store';
 import { Button } from '../components/ui/Button';
@@ -226,24 +226,6 @@ export function ProfilePage() {
             <p className="mt-1 text-2xl font-medium">0</p>
           </div>
         </div>
-        <nav aria-label="Profile assets" className="flex gap-2 rounded-t-lg bg-white p-3">
-          <NavLink
-            to="/profile/tokens"
-            className={({ isActive }) =>
-              `rounded-lg px-4 py-1 text-sm hover:bg-[#f5fbfb] ${isActive ? 'bg-[#f5fbfb] font-medium text-ink' : 'text-muted'}`
-            }
-          >
-            Tokens
-          </NavLink>
-          <NavLink
-            to="/profile/nfts"
-            className={({ isActive }) =>
-              `rounded-lg px-4 py-1 text-sm hover:bg-[#f5fbfb] ${isActive ? 'bg-[#f5fbfb] font-medium text-ink' : 'text-muted'}`
-            }
-          >
-            NFTs
-          </NavLink>
-        </nav>
         <AssetCards items={isNft ? nfts : tokens} isNft={isNft} />
         <AssetTable items={isNft ? nfts : tokens} isNft={isNft} />
       </div>
