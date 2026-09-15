@@ -1,85 +1,69 @@
-import { Link } from 'react-router-dom';
-import { Icon } from '../components/ui/Icon';
+import { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { Button } from '../components/ui/Button';
+import { Dialog } from '../components/ui/Dialog';
+import { Input } from '../components/ui/Input';
 
-const actions = [
-  {
-    to: '/token/create',
-    title: 'Create Token',
-    text: 'Launch a token without writing code.',
-    icon: 'menu-token' as const,
-  },
-  {
-    to: '/token/list',
-    title: 'Token List',
-    text: 'View and manage your created tokens.',
-    icon: 'menu-token' as const,
-  },
-  {
-    to: '/nft/create',
-    title: 'Create NFT',
-    text: 'Create a new NFT collection.',
-    icon: 'menu-nft' as const,
-  },
-  {
-    to: '/nft/list',
-    title: 'NFT List',
-    text: 'Browse and manage NFT collections.',
-    icon: 'menu-nft' as const,
-  },
-];
+type AuthMode = 'register' | 'signin';
 
 export function DashboardPage() {
+  const [params, setParams] = useSearchParams();
+  const initialMode = params.get('dialog') === 'signin' ? 'signin' : 'register';
+  const [mode, setMode] = useState<AuthMode>(initialMode);
+  const dialogOpen = params.has('dialog');
+
+  function openDialog(nextMode: AuthMode) {
+    setMode(nextMode);
+    setParams({ dialog: nextMode });
+  }
+
+  function closeDialog() {
+    setParams({});
+  }
+
   return (
-    <div className="mx-auto w-full max-w-[1200px] space-y-6 p-4 sm:p-6 lg:p-8">
-      <section className="overflow-hidden rounded-2xl bg-white px-5 py-8 sm:px-10 sm:py-12">
-        <p className="mb-3 text-sm font-medium text-brand-dark">ACW3 CREATOR</p>
-        <h2 className="max-w-2xl text-3xl font-bold leading-tight sm:text-4xl">
-          Tokens &amp; NFT with Ease
-        </h2>
-        <p className="mt-4 max-w-2xl text-sm leading-6 text-muted sm:text-base">
-          Launch tokens, collections and manage your assets through clear guided flows. Choose where
-          you want to start.
-        </p>
-        <div className="mt-7 flex flex-wrap gap-3">
-          <Link
-            to="/token/create"
-            className="rounded-full bg-brand px-6 py-3 font-medium text-white hover:bg-brand-dark"
+    <div className="flex h-full min-h-[calc(100dvh-112px)] flex-col bg-white px-4 py-5 sm:px-6 sm:py-6">
+      <section className="relative flex min-h-[520px] flex-1 items-center justify-center overflow-hidden rounded-lg bg-[#89d9e4] bg-[url('/figma/connect-landscape.svg')] bg-cover bg-center px-4 text-center">
+        <div className="relative z-10 max-w-[620px]">
+          <h2 className="text-3xl font-medium leading-tight sm:text-4xl">
+            Tokens &amp; NFT with Ease
+          </h2>
+          <p className="mx-auto mt-5 max-w-[560px] text-base leading-6 sm:text-lg">
+            Launch Token, Liquidity, Airdrops and much more.
+            <br />
+            Effortless and without coding.
+          </p>
+          <button
+            type="button"
+            onClick={() => openDialog('register')}
+            className="mt-7 rounded-full bg-white px-8 py-3 text-sm font-medium text-brand-dark shadow-sm hover:bg-[#f5fbfb]"
           >
-            Create Token
-          </Link>
-          <Link
-            to="/nft/create"
-            className="rounded-full border border-brand px-6 py-3 font-medium text-brand hover:bg-[#f5fbfb]"
-          >
-            Create NFT
-          </Link>
+            Connect Your Wallet
+          </button>
         </div>
       </section>
-      <section aria-labelledby="quick-actions">
-        <h2 id="quick-actions" className="mb-3 text-lg font-bold">
-          Quick actions
-        </h2>
-        <div className="grid gap-3 sm:grid-cols-2">
-          {actions.map((action) => (
-            <Link
-              key={action.to}
-              to={action.to}
-              className="group flex items-center gap-4 rounded-xl bg-white p-5 transition hover:-translate-y-0.5 hover:shadow-sm"
+
+      {dialogOpen && (
+        <Dialog title={mode === 'register' ? 'Register' : 'Sign in'} onClose={closeDialog}>
+          <form className="space-y-4" onSubmit={(event) => event.preventDefault()}>
+            <Input label="Wallet Address" placeholder="0x..." autoFocus />
+            <Input label="Password" type="password" placeholder="••••••••••" />
+            {mode === 'register' && (
+              <Input label="Confirm Password" type="password" placeholder="••••••••••" />
+            )}
+            <Button type="submit" size="lg" className="w-full">
+              {mode === 'register' ? 'Register' : 'Sign in'}
+            </Button>
+            <button
+              type="button"
+              className="mx-auto block text-xs underline"
+              onClick={() => openDialog(mode === 'register' ? 'signin' : 'register')}
             >
-              <span className="grid size-11 place-items-center rounded-full bg-[#f5fbfb]">
-                <Icon name={action.icon} size={24} />
-              </span>
-              <span className="min-w-0">
-                <strong className="block group-hover:text-brand-dark">{action.title}</strong>
-                <span className="mt-1 block text-sm text-muted">{action.text}</span>
-              </span>
-              <span aria-hidden="true" className="ml-auto text-xl text-muted">
-                ›
-              </span>
-            </Link>
-          ))}
-        </div>
-      </section>
+              {mode === 'register' ? 'You already have an Account?' : "You don't have an Account?"}
+            </button>
+          </form>
+        </Dialog>
+      )}
     </div>
   );
 }

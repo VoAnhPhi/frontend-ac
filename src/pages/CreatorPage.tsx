@@ -19,7 +19,7 @@ type FormValues = {
 
 export function CreatorPage({ type }: { type: 'token' | 'nft' }) {
   const isToken = type === 'token';
-  const [socials, setSocials] = useState(false);
+  const [socials, setSocials] = useState(true);
   const [submitted, setSubmitted] = useState(false);
   const [description, setDescription] = useState('');
   const {
@@ -29,25 +29,26 @@ export function CreatorPage({ type }: { type: 'token' | 'nft' }) {
   } = useForm<FormValues>();
   return (
     <div className="mx-auto w-full max-w-[900px] px-4 py-8 sm:px-6 sm:py-10">
-      <header className="mb-4 text-center">
-        <h2 className="text-2xl font-bold">
-          {isToken ? 'Token Creator' : 'Create NFT Collection'}
-        </h2>
-        {isToken && (
-          <p className="mt-2 text-sm text-muted sm:text-base">
-            Easily create your own Token in just 7+1 steps without coding.
-          </p>
-        )}
-      </header>
       <form
         onSubmit={handleSubmit(() => setSubmitted(true))}
-        className="rounded-xl bg-white p-4 sm:p-6 lg:p-10"
+        className="rounded-lg bg-white p-4 sm:p-6 lg:p-10"
       >
+        <header className="mb-8 text-center">
+          <h2 className="text-2xl font-bold">
+            {isToken ? 'Token Creator' : 'Create NFT Collection'}
+          </h2>
+          {isToken && (
+            <p className="mt-2 text-sm text-muted">
+              Easily Create your own Token in just 7+1 steps without Coding.
+            </p>
+          )}
+        </header>
         <div className="grid gap-4 sm:grid-cols-2">
           <Input
             label="Name"
             requiredMark
             hint="Max 32 characters in your name"
+            placeholder="Ex: Zoken"
             error={errors.name?.message}
             {...register('name', {
               required: 'Name is required',
@@ -58,6 +59,7 @@ export function CreatorPage({ type }: { type: 'token' | 'nft' }) {
             label="Symbol"
             requiredMark
             hint="Max 8 characters in your symbol"
+            placeholder="Ex: ZKN"
             error={errors.symbol?.message}
             {...register('symbol', {
               required: 'Symbol is required',
@@ -70,14 +72,14 @@ export function CreatorPage({ type }: { type: 'token' | 'nft' }) {
                 label="Decimal"
                 requiredMark
                 type="number"
-                hint="Most tokens use 6 decimals"
+                hint="Most token use 6 decimals"
                 {...register('decimals', { required: true })}
               />
               <Input
                 label="Supply"
                 requiredMark
                 type="number"
-                hint="Most tokens use 10B"
+                hint="Most token use 10B"
                 {...register('supply', { required: true })}
               />
               <div className="sm:col-span-2">
@@ -97,6 +99,7 @@ export function CreatorPage({ type }: { type: 'token' | 'nft' }) {
               <Textarea
                 label="Description"
                 requiredMark
+                placeholder="Ex: First community token on Zoken..."
                 counter={`${description.length}/500`}
                 maxLength={500}
                 value={description}
@@ -109,7 +112,7 @@ export function CreatorPage({ type }: { type: 'token' | 'nft' }) {
                 label="Total Supply"
                 requiredMark
                 type="number"
-                hint="Most collections use a fixed supply"
+                hint="Most token use 10B"
                 {...register('supply', { required: true })}
               />
             </div>
@@ -120,7 +123,7 @@ export function CreatorPage({ type }: { type: 'token' | 'nft' }) {
             <div className="flex items-center justify-between gap-4">
               <div>
                 <h3 className="font-medium">Add Social Links &amp; Tags</h3>
-                <p className="mt-1 text-xs text-muted">Optional project links</p>
+                <p className="mt-1 text-xs text-muted">Max 32 characters in your name</p>
               </div>
               <button
                 type="button"
@@ -145,7 +148,7 @@ export function CreatorPage({ type }: { type: 'token' | 'nft' }) {
           </section>
         )}
         <Button type="submit" size="lg" className="mt-6 w-full">
-          {isToken ? 'Create Token' : 'Create NFT Collection'}
+          Create
         </Button>
         {submitted && (
           <p role="status" className="mt-3 text-center text-sm text-brand-dark">
