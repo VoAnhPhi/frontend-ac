@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useState, type FormEvent } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Button } from '../components/ui/Button';
 import { Dialog } from '../components/ui/Dialog';
 import { Input } from '../components/ui/Input';
@@ -7,6 +7,7 @@ import { Input } from '../components/ui/Input';
 type AuthMode = 'register' | 'signin';
 
 export function DashboardPage() {
+  const navigate = useNavigate();
   const [params, setParams] = useSearchParams();
   const initialMode = params.get('dialog') === 'signin' ? 'signin' : 'register';
   const [mode, setMode] = useState<AuthMode>(initialMode);
@@ -19,6 +20,11 @@ export function DashboardPage() {
 
   function closeDialog() {
     setParams({});
+  }
+
+  function enterApplication(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    navigate('/token/create');
   }
 
   return (
@@ -45,7 +51,7 @@ export function DashboardPage() {
 
       {dialogOpen && (
         <Dialog title={mode === 'register' ? 'Register' : 'Sign in'} onClose={closeDialog}>
-          <form className="space-y-4" onSubmit={(event) => event.preventDefault()}>
+          <form className="space-y-4" onSubmit={enterApplication}>
             <Input label="Wallet Address" placeholder="0x..." autoFocus />
             <Input label="Password" type="password" placeholder="••••••••••" />
             {mode === 'register' && (
