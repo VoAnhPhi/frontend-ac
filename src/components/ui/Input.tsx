@@ -24,7 +24,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
         id={inputId}
         aria-invalid={!!error}
         aria-describedby={error ? `${inputId}-error` : undefined}
-        className={`h-[52px] w-full rounded-lg border border-[#ebecec] bg-white px-3 text-base outline-none placeholder:text-[#aba8a1] focus:border-brand focus:bg-[#f5fbfb] focus:ring-1 focus:ring-brand aria-invalid:border-red-500 ${className}`}
+        className={`h-[52px] w-full rounded-lg border border-transparent bg-[#f5fbfb] px-3 text-base outline-none placeholder:text-[#aba8a1] focus:border-brand focus:ring-1 focus:ring-brand aria-invalid:border-red-500 ${className}`}
       />
       {error ? (
         <p id={`${inputId}-error`} role="alert" className="text-xs text-red-600">

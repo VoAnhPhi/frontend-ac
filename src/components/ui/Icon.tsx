@@ -6,6 +6,7 @@ export type IconName =
   | 'avatar'
   | 'header-avatar'
   | 'chevron'
+  | 'home'
   | 'menu-token'
   | 'menu-nft'
   | 'profile'
