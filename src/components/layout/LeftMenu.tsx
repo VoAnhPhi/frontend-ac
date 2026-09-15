@@ -1,10 +1,14 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { Icon } from '../ui/Icon';
 
 const linkClass = ({ isActive }: { isActive: boolean }) =>
   `flex min-h-9 items-center rounded-lg px-3 text-sm transition-colors hover:bg-[#f5fbfb] ${isActive ? 'bg-[#f5fbfb] font-medium text-brand-dark' : 'text-ink'}`;
 
 export function LeftMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
+  const { pathname } = useLocation();
+  const tokenOpen = pathname.startsWith('/token');
+  const nftOpen = pathname.startsWith('/nft');
+  const profilePage = pathname.startsWith('/profile');
   return (
     <>
       <button
@@ -25,37 +29,52 @@ export function LeftMenu({ open, onClose }: { open: boolean; onClose: () => void
           >
             ACW3
           </NavLink>
-          <nav aria-label="Main navigation" className="space-y-5 px-4 py-4">
-            <NavLink to="/" end onClick={onClose} className={linkClass}>
-              Dashboard
-            </NavLink>
+          <nav aria-label="Main navigation" className="space-y-3 px-4 py-4">
+            {!profilePage && (
+              <NavLink to="/" end onClick={onClose} className={linkClass}>
+                <Icon name="home" size={20} className="mr-2" />
+                Dashboard
+              </NavLink>
+            )}
             <section>
-              <div className="mb-1 flex h-10 items-center gap-2 px-3 text-sm font-medium">
+              <NavLink
+                to={profilePage ? '/profile/tokens' : '/token/create'}
+                onClick={onClose}
+                className="flex h-10 items-center gap-2 rounded-lg px-3 text-sm font-medium hover:bg-[#f5fbfb]"
+              >
                 <Icon name="menu-token" size={24} />
                 <span>Token</span>
-              </div>
-              <div className="ml-8 space-y-1 border-l border-[#ebecec] pl-2">
-                <NavLink to="/token/create" onClick={onClose} className={linkClass}>
-                  Token Creator
-                </NavLink>
-                <NavLink to="/token/list" onClick={onClose} className={linkClass}>
-                  Token List
-                </NavLink>
-              </div>
+              </NavLink>
+              {tokenOpen && (
+                <div className="ml-8 space-y-1 border-l border-[#ebecec] pl-2">
+                  <NavLink to="/token/create" onClick={onClose} className={linkClass}>
+                    Token Creator
+                  </NavLink>
+                  <NavLink to="/token/list" onClick={onClose} className={linkClass}>
+                    Token List
+                  </NavLink>
+                </div>
+              )}
             </section>
             <section>
-              <div className="mb-1 flex h-10 items-center gap-2 px-3 text-sm font-medium">
+              <NavLink
+                to={profilePage ? '/profile/nfts' : '/nft/create'}
+                onClick={onClose}
+                className="flex h-10 items-center gap-2 rounded-lg px-3 text-sm font-medium hover:bg-[#f5fbfb]"
+              >
                 <Icon name="menu-nft" size={24} />
                 <span>NFT</span>
-              </div>
-              <div className="ml-8 space-y-1 border-l border-[#ebecec] pl-2">
-                <NavLink to="/nft/create" onClick={onClose} className={linkClass}>
-                  NFT Creator
-                </NavLink>
-                <NavLink to="/nft/list" onClick={onClose} className={linkClass}>
-                  NFT List
-                </NavLink>
-              </div>
+              </NavLink>
+              {nftOpen && (
+                <div className="ml-8 space-y-1 border-l border-[#ebecec] pl-2">
+                  <NavLink to="/nft/create" onClick={onClose} className={linkClass}>
+                    NFT Creator
+                  </NavLink>
+                  <NavLink to="/nft/list" onClick={onClose} className={linkClass}>
+                    NFT List
+                  </NavLink>
+                </div>
+              )}
             </section>
           </nav>
         </div>

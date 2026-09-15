@@ -2,8 +2,31 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Icon } from '../ui/Icon';
 
-export function Header({ title, onMenuToggle }: { title: string; onMenuToggle: () => void }) {
+export function Header({
+  title,
+  onMenuToggle,
+  landing = false,
+}: {
+  title: string;
+  onMenuToggle: () => void;
+  landing?: boolean;
+}) {
   const [menuOpen, setMenuOpen] = useState(false);
+  if (landing) {
+    return (
+      <header className="flex h-[60px] shrink-0 items-center justify-between border-b border-[#ebecec] bg-white px-6">
+        <Link to="/" className="font-bold text-brand-dark">
+          ACW3
+        </Link>
+        <Link
+          to="/?dialog=register"
+          className="min-w-[124px] rounded-full bg-brand px-5 py-2 text-center text-sm font-medium text-white hover:bg-brand-dark"
+        >
+          Connect
+        </Link>
+      </header>
+    );
+  }
   return (
     <header className="sticky top-0 z-20 flex h-[60px] items-center justify-between border-b border-[#ebecec] bg-white px-3 sm:pl-6 sm:pr-4">
       <div className="flex min-w-0 items-center gap-2">
