@@ -1,0 +1,18 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Avatar">
+<g clip-path="url(#clip0_0_413)">
+<rect width="32" height="32" rx="16" fill="#009E99"/>
+<path id="Vector" d="M22.2618 -0.5H-3.25944C-12.2295 -0.5 -19.5 6.77021 -19.5 15.7382V33.8578L-10.9298 40.6648L14.2018 36.4138V18.4343L12.3543 18.8261L-5.70853 22.685L-4.74155 33.3199L8.21353 30.6706L9.49948 27.2344L-2.22898 30.6706L-1.06975 27.3246L11.4969 24.0379L10.5338 33.8982L-10.7375 34.8651L-10.155 16.8857L18.6524 12.2462L21.7462 44.7259H-11.8968L-19.5 37.409V41.2587C-19.5 50.2297 -12.2295 57.5 -3.25944 57.5H22.2618C31.2346 57.5 38.5 50.2297 38.5 41.2587V15.7382C38.5 6.77021 31.2346 -0.5 22.2618 -0.5Z" fill="url(#paint0_linear_0_413)"/>
+</g>
+</g>
+<defs>
+<linearGradient id="paint0_linear_0_413" x1="-19.5" y1="28.4998" x2="38.5" y2="28.4998" gradientUnits="userSpaceOnUse">
+<stop stop-color="#015A7C"/>
+<stop offset="0.84" stop-color="#00B0AD"/>
+<stop offset="1" stop-color="#00B0AD"/>
+</linearGradient>
+<clipPath id="clip0_0_413">
+<rect width="32" height="32" rx="16" fill="white"/>
+</clipPath>
+</defs>
+</svg>
