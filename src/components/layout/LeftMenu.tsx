@@ -47,16 +47,31 @@ export function LeftMenu({ open, onClose }: { open: boolean; onClose: () => void
                 <Icon name="menu-token" size={24} />
                 <span>Token</span>
               </NavLink>
-              {tokenOpen && (
-                <div className="ml-8 space-y-1 border-l border-[#ebecec] pl-2">
-                  <NavLink to="/token/create" onClick={onClose} className={linkClass}>
-                    Token Creator
-                  </NavLink>
-                  <NavLink to="/token/list" onClick={onClose} className={linkClass}>
-                    Token List
-                  </NavLink>
+              <div
+                aria-hidden={!tokenOpen}
+                className={`grid transition-[grid-template-rows,opacity] duration-300 ease-out motion-reduce:transition-none ${tokenOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
+              >
+                <div className="min-h-0 overflow-hidden">
+                  <div className="ml-8 space-y-1 border-l border-[#dfe3e3] py-1 pl-2">
+                    <NavLink
+                      to="/token/create"
+                      onClick={onClose}
+                      className={linkClass}
+                      tabIndex={tokenOpen ? 0 : -1}
+                    >
+                      Token Creator
+                    </NavLink>
+                    <NavLink
+                      to="/token/list"
+                      onClick={onClose}
+                      className={linkClass}
+                      tabIndex={tokenOpen ? 0 : -1}
+                    >
+                      Token List
+                    </NavLink>
+                  </div>
                 </div>
-              )}
+              </div>
             </section>
             <section>
               <NavLink
@@ -67,16 +82,31 @@ export function LeftMenu({ open, onClose }: { open: boolean; onClose: () => void
                 <Icon name="menu-nft" size={24} />
                 <span>NFT</span>
               </NavLink>
-              {nftOpen && (
-                <div className="ml-8 space-y-1 border-l border-[#ebecec] pl-2">
-                  <NavLink to="/nft/create" onClick={onClose} className={linkClass}>
-                    NFT Creator
-                  </NavLink>
-                  <NavLink to="/nft/list" onClick={onClose} className={linkClass}>
-                    NFT List
-                  </NavLink>
+              <div
+                aria-hidden={!nftOpen}
+                className={`grid transition-[grid-template-rows,opacity] duration-300 ease-out motion-reduce:transition-none ${nftOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
+              >
+                <div className="min-h-0 overflow-hidden">
+                  <div className="ml-8 space-y-1 border-l border-[#dfe3e3] py-1 pl-2">
+                    <NavLink
+                      to="/nft/create"
+                      onClick={onClose}
+                      className={linkClass}
+                      tabIndex={nftOpen ? 0 : -1}
+                    >
+                      NFT Creator
+                    </NavLink>
+                    <NavLink
+                      to="/nft/list"
+                      onClick={onClose}
+                      className={linkClass}
+                      tabIndex={nftOpen ? 0 : -1}
+                    >
+                      NFT List
+                    </NavLink>
+                  </div>
                 </div>
-              )}
+              </div>
             </section>
           </nav>
         </div>
@@ -85,18 +115,18 @@ export function LeftMenu({ open, onClose }: { open: boolean; onClose: () => void
             href="https://x.com/"
             target="_blank"
             rel="noreferrer"
-            className="flex items-center gap-3 hover:text-brand-dark"
+            className="group flex items-center gap-3 transition-colors hover:text-brand-dark"
           >
-            <Icon name="twitter" size={20} />
+            <span className="size-5 bg-current text-muted transition-colors [mask-image:url('/figma/twitter.svg')] [mask-position:center] [mask-repeat:no-repeat] [mask-size:contain] group-hover:text-brand-dark" />
             <span>Twitter / X</span>
           </a>
           <a
             href="https://telegram.org/"
             target="_blank"
             rel="noreferrer"
-            className="flex items-center gap-3 hover:text-brand-dark"
+            className="group flex items-center gap-3 transition-colors hover:text-brand-dark"
           >
-            <Icon name="telegram" size={20} />
+            <span className="size-5 bg-current text-ink transition-colors [mask-image:url('/figma/telegram.svg')] [mask-position:center] [mask-repeat:no-repeat] [mask-size:contain] group-hover:text-brand-dark" />
             <span>Telegram</span>
           </a>
         </div>
