@@ -19,7 +19,11 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(function 
         className="flex items-center justify-between text-sm font-medium leading-6"
       >
         <span>
-          {requiredMark && <span aria-hidden="true">* </span>}
+          {requiredMark && (
+            <span aria-hidden="true" className="text-red-500">
+              *{' '}
+            </span>
+          )}
           {label}
         </span>
         {counter && <span className="font-normal text-muted">{counter}</span>}

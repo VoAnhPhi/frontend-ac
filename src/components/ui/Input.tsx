@@ -15,7 +15,11 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
   return (
     <div className="flex flex-col gap-1">
       <label htmlFor={inputId} className="text-sm font-medium leading-6">
-        {requiredMark && <span aria-hidden="true">* </span>}
+        {requiredMark && (
+          <span aria-hidden="true" className="text-red-500">
+            *{' '}
+          </span>
+        )}
         {label}
       </label>
       <input
