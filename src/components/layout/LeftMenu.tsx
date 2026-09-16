@@ -2,7 +2,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { Icon } from '../ui/Icon';
 
 const linkClass = ({ isActive }: { isActive: boolean }) =>
-  `flex min-h-9 items-center rounded-lg px-3 text-sm transition-colors duration-200 ${isActive ? 'bg-brand font-medium text-white hover:bg-brand-dark' : 'text-ink hover:bg-[#f5fbfb] hover:text-brand-dark'}`;
+  `flex min-h-9 items-center rounded-full px-3 text-sm transition-colors duration-200 ${isActive ? 'bg-brand font-medium text-white hover:bg-brand-dark' : 'text-ink hover:bg-[#f5fbfb] hover:text-brand-dark'}`;
 
 export function LeftMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { pathname } = useLocation();
