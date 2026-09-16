@@ -90,18 +90,28 @@ export function CreatorPage({ type }: { type: 'token' | 'nft' }) {
                   {...register('amount', { required: true })}
                 />
               </div>
-              <label className="flex min-h-[148px] cursor-pointer flex-col items-center justify-center rounded-lg border border-dashed border-[#abe0dd] bg-[#f5fbfb] p-4 text-center text-sm text-muted">
-                <span className="text-2xl text-brand">＋</span>
-                <span className="mt-2 text-ink">Drag and drop here to upload</span>
-                <span className="text-xs">.png, .jpg, 1000×1000px</span>
-                <input type="file" accept="image/png,image/jpeg" className="sr-only" />
-              </label>
+              <div className="flex min-w-0 flex-col gap-1">
+                <span className="text-sm font-medium leading-6">
+                  <span aria-hidden="true" className="text-red-500">
+                    *{' '}
+                  </span>
+                  Image
+                </span>
+                <label className="flex h-[120px] cursor-pointer flex-col items-center justify-center rounded-lg border border-dashed border-[#abe0dd] bg-[#f5fbfb] p-4 text-center text-sm text-muted transition-colors hover:border-brand hover:bg-[#eefafa]">
+                  <span className="text-2xl text-brand">＋</span>
+                  <span className="mt-1 text-ink">Drag and drop here to upload</span>
+                  <span className="text-xs">.png, .jpg, 1000×1000px</span>
+                  <input type="file" accept="image/png,image/jpeg" className="sr-only" required />
+                </label>
+              </div>
               <Textarea
                 label="Description"
                 requiredMark
                 placeholder="Ex: First community token on Zoken..."
                 counter={`${description.length}/500`}
+                className="h-[120px] min-h-[120px] resize-none"
                 maxLength={500}
+                required
                 value={description}
                 onChange={(event) => setDescription(event.target.value)}
               />
