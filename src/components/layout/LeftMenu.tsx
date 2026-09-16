@@ -2,7 +2,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { Icon } from '../ui/Icon';
 
 const linkClass = ({ isActive }: { isActive: boolean }) =>
-  `flex min-h-9 items-center rounded-lg px-3 text-sm transition-colors hover:bg-[#f5fbfb] ${isActive ? 'bg-[#f5fbfb] font-medium text-brand-dark' : 'text-ink'}`;
+  `flex min-h-9 items-center rounded-lg px-3 text-sm transition-colors duration-200 ${isActive ? 'bg-brand font-medium text-white hover:bg-brand-dark' : 'text-ink hover:bg-[#f5fbfb] hover:text-brand-dark'}`;
 
 export function LeftMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { pathname } = useLocation();
@@ -14,11 +14,13 @@ export function LeftMenu({ open, onClose }: { open: boolean; onClose: () => void
       <button
         type="button"
         aria-label="Close navigation"
+        aria-hidden={!open}
+        tabIndex={open ? 0 : -1}
         onClick={onClose}
-        className={`fixed inset-0 z-30 bg-black/30 lg:hidden ${open ? 'block' : 'hidden'}`}
+        className={`fixed inset-0 z-30 bg-black/30 transition-opacity duration-300 ease-out motion-reduce:transition-none lg:hidden ${open ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'}`}
       />
       <aside
-        className={`fixed inset-y-0 left-0 z-40 flex w-[248px] shrink-0 flex-col justify-between border-r border-[#ebecec] bg-white transition-transform lg:sticky lg:top-0 lg:z-10 lg:h-dvh lg:w-[208px] lg:translate-x-0 ${open ? 'translate-x-0' : '-translate-x-full'}`}
+        className={`fixed inset-y-0 left-0 z-40 flex w-[248px] shrink-0 flex-col justify-between border-r border-[#ebecec] bg-white shadow-xl transition-transform duration-300 ease-out will-change-transform motion-reduce:transition-none lg:sticky lg:top-0 lg:z-10 lg:h-dvh lg:w-[208px] lg:translate-x-0 lg:shadow-none ${open ? 'translate-x-0' : '-translate-x-full'}`}
       >
         <div>
           <NavLink
