@@ -3,11 +3,10 @@ import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import type { RootState } from '../app/store';
 import { Button } from '../components/ui/Button';
+import { CopyAddressButton } from '../components/ui/CopyAddressButton';
 import { Icon } from '../components/ui/Icon';
-import { nfts, tokens, type AssetItem } from '../features/profile/data';
+import { formatAddress, nfts, tokens, wallet, type AssetItem } from '../features/profile/data';
 import { EditProfileDialog } from '../features/profile/EditProfileDialog';
-
-const walletAddress = '0x4aq...gfr6j5lda';
 
 function SocialIcon({
   name,
@@ -41,25 +40,32 @@ function AccountCard({ onEdit }: { onEdit: () => void }) {
   return (
     <section
       aria-label="Account"
-      className="w-full shrink-0 space-y-4 rounded-lg bg-white p-4 xl:w-[300px]"
+      className="w-full shrink-0 space-y-3 rounded-lg bg-white p-3 sm:space-y-4 sm:p-4 xl:w-[300px]"
     >
       <div className="flex items-center gap-3">
         <Icon name="avatar" size={40} />
         <div className="min-w-0">
           <p className="font-bold">{profile.name}</p>
-          <p className="truncate text-sm text-muted">{walletAddress}</p>
+          <div className="flex items-center text-xs text-muted sm:text-sm">
+            <span className="truncate" title={wallet.address}>
+              {formatAddress(wallet.address)}
+            </span>
+            <CopyAddressButton address={wallet.address} label="wallet" />
+          </div>
         </div>
       </div>
       <div>
-        <h2 className="text-lg font-medium">Balance</h2>
-        <p className="mt-1 text-sm text-muted">200 ZKN</p>
+        <h2 className="text-base font-medium sm:text-lg">Balance</h2>
+        <p className="mt-1 text-sm text-muted">
+          {wallet.balance} {wallet.symbol}
+        </p>
       </div>
       <div>
-        <h2 className="text-lg font-medium">Biography</h2>
+        <h2 className="text-base font-medium sm:text-lg">Biography</h2>
         <p className="mt-1 text-sm text-muted">{profile.biography || 'None'}</p>
       </div>
       <div>
-        <h2 className="text-lg font-medium">Social Links</h2>
+        <h2 className="text-base font-medium sm:text-lg">Social Links</h2>
         <div className="mt-2 flex items-center gap-3">
           <SocialIcon name="twitter" href={profile.twitter} label="Twitter / X" />
           <SocialIcon name="github" href={profile.github} label="GitHub" />
@@ -74,16 +80,6 @@ function AccountCard({ onEdit }: { onEdit: () => void }) {
 }
 
 function AssetRow({ item, isNft }: { item: AssetItem; isNft: boolean }) {
-  const [copied, setCopied] = useState(false);
-  async function copyAddress() {
-    try {
-      await navigator.clipboard.writeText(item.address);
-      setCopied(true);
-      window.setTimeout(() => setCopied(false), 1800);
-    } catch {
-      setCopied(false);
-    }
-  }
   return (
     <div
       role="row"
@@ -102,22 +98,11 @@ function AssetRow({ item, isNft }: { item: AssetItem; isNft: boolean }) {
             {item.name}{' '}
             {item.symbol && <span className="ml-1 text-sm text-muted">{item.symbol}</span>}
           </p>
-          <div className="flex items-center gap-1 text-xs">
-            <span className="truncate">{item.address}</span>
-            <button
-              type="button"
-              onClick={copyAddress}
-              aria-label={`Copy address for ${item.name}`}
-              title={copied ? 'Copied' : 'Copy address'}
-              className="rounded p-1 hover:bg-surface focus-visible:outline-2 focus-visible:outline-brand"
-            >
-              <Icon name="copy" size={16} />
-            </button>
-            {copied && (
-              <span role="status" className="text-brand-dark">
-                Copied
-              </span>
-            )}
+          <div className="flex items-center text-xs">
+            <span className="truncate" title={item.address}>
+              {formatAddress(item.address)}
+            </span>
+            <CopyAddressButton address={item.address} label={item.name} />
           </div>
         </div>
       </div>
@@ -137,6 +122,13 @@ function AssetRow({ item, isNft }: { item: AssetItem; isNft: boolean }) {
 }
 
 function AssetTable({ items, isNft }: { items: AssetItem[]; isNft: boolean }) {
+  if (!items.length) {
+    return (
+      <div className="hidden rounded-lg bg-white p-8 text-center text-sm text-muted md:block">
+        No assets found.
+      </div>
+    );
+  }
   return (
     <div
       className="hidden overflow-hidden rounded-lg bg-white md:block"
@@ -159,7 +151,7 @@ function AssetTable({ items, isNft }: { items: AssetItem[]; isNft: boolean }) {
           % of Supply
         </span>
         <span role="columnheader" className="text-right">
-          Total of Supply
+          Total Supply
         </span>
       </div>
       {items.map((item) => (
@@ -170,6 +162,13 @@ function AssetTable({ items, isNft }: { items: AssetItem[]; isNft: boolean }) {
 }
 
 function AssetCards({ items, isNft }: { items: AssetItem[]; isNft: boolean }) {
+  if (!items.length) {
+    return (
+      <div className="rounded-lg bg-white p-8 text-center text-sm text-muted md:hidden">
+        No assets found.
+      </div>
+    );
+  }
   return (
     <div className="space-y-3 md:hidden">
       {items.map((item) => (
@@ -181,7 +180,12 @@ function AssetCards({ items, isNft }: { items: AssetItem[]; isNft: boolean }) {
                 {item.name}{' '}
                 {item.symbol && <span className="text-sm text-muted">{item.symbol}</span>}
               </p>
-              <p className="truncate text-xs">{item.address}</p>
+              <div className="flex items-center text-xs">
+                <span className="truncate" title={item.address}>
+                  {formatAddress(item.address)}
+                </span>
+                <CopyAddressButton address={item.address} label={item.name} />
+              </div>
             </div>
           </div>
           <dl
@@ -213,17 +217,17 @@ export function ProfilePage() {
   const isNft = category === 'nfts';
   const [editing, setEditing] = useState(false);
   return (
-    <div className="mx-auto flex w-full max-w-[1233px] flex-col items-start gap-4 p-4 sm:p-6 xl:flex-row xl:p-4">
+    <div className="mx-auto flex w-full max-w-[1233px] flex-col items-start gap-3 p-3 sm:gap-4 sm:p-6 xl:flex-row xl:p-4">
       <AccountCard onEdit={() => setEditing(true)} />
       <div className="w-full min-w-0 flex-1 space-y-2">
         <div className="grid grid-cols-1 gap-2 min-[420px]:grid-cols-2">
           <div className="rounded-lg bg-white px-6 py-4">
             <p className="text-sm text-muted">Total Tokens</p>
-            <p className="mt-1 text-2xl font-medium">0</p>
+            <p className="mt-1 text-xl font-medium sm:text-2xl">{tokens.length}</p>
           </div>
           <div className="rounded-lg bg-white px-6 py-4">
             <p className="text-sm text-muted">Total NFTs</p>
-            <p className="mt-1 text-2xl font-medium">0</p>
+            <p className="mt-1 text-xl font-medium sm:text-2xl">{nfts.length}</p>
           </div>
         </div>
         <AssetCards items={isNft ? nfts : tokens} isNft={isNft} />

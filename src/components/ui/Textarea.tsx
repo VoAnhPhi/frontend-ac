@@ -16,7 +16,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(function 
     <div className="flex min-w-0 flex-col gap-1">
       <label
         htmlFor={inputId}
-        className="flex items-center justify-between text-sm font-medium leading-6"
+        className="flex items-center justify-between text-xs font-medium leading-5 sm:text-sm sm:leading-6"
       >
         <span>
           {requiredMark && (
@@ -32,11 +32,14 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(function 
         {...props}
         ref={ref}
         id={inputId}
+        required={requiredMark || props.required}
+        aria-required={requiredMark || props.required || undefined}
         aria-invalid={!!error}
-        className={`min-h-[120px] w-full resize-y rounded-lg border border-[#ebecec] bg-white px-3 py-3 text-base outline-none placeholder:text-[#aba8a1] focus:border-brand focus:bg-[#f5fbfb] focus:ring-1 focus:ring-brand aria-invalid:border-red-500 ${className}`}
+        aria-describedby={error ? `${inputId}-error` : undefined}
+        className={`min-h-24 w-full resize-y rounded-lg border border-border bg-white px-2.5 py-2.5 text-xs placeholder:text-xs outline-none placeholder:text-placeholder focus:border-brand-dark focus:bg-field focus:ring-1 focus:ring-brand-dark aria-invalid:border-red-500 sm:min-h-[120px] sm:px-3 sm:py-3 sm:text-[13px] sm:placeholder:text-[13px] ${className}`}
       />
       {error && (
-        <p role="alert" className="text-xs text-red-600">
+        <p id={`${inputId}-error`} role="alert" className="text-xs text-red-600">
           {error}
         </p>
       )}

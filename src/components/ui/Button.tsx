@@ -17,14 +17,14 @@ export function Button({
   ...props
 }: ButtonProps) {
   const variants = {
-    primary: 'bg-brand text-white hover:bg-brand-dark',
-    secondary: 'border border-brand text-brand hover:bg-[#f5fbfb]',
-    ghost: 'text-ink hover:bg-[#f5fbfb]',
+    primary: 'bg-brand-dark text-white hover:bg-brand-strong',
+    secondary: 'border border-brand-dark text-brand-dark hover:bg-field',
+    ghost: 'text-ink hover:bg-field',
   };
   const sizes = {
-    sm: 'min-h-8 px-4 text-sm',
-    md: 'min-h-[38px] px-6 text-base',
-    lg: 'min-h-14 px-8 text-base',
+    sm: 'min-h-8 px-3 text-xs sm:px-4 sm:text-sm',
+    md: 'min-h-9 px-4 text-sm sm:px-6 sm:text-base',
+    lg: 'min-h-10 px-5 text-sm sm:min-h-12 sm:px-8 sm:text-base',
   };
   return (
     <button
