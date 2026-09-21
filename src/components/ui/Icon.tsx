@@ -1,6 +1,7 @@
 import {
   BookOpen,
   CaretDown,
+  ChartBar,
   Copy,
   GithubLogo,
   House,
@@ -30,6 +31,7 @@ export type IconName =
   | 'menu'
   | 'close'
   | 'plus'
+  | 'leaderboard'
   | 'documentation';
 
 const icons: Partial<Record<IconName, PhosphorIcon>> = {
@@ -44,6 +46,7 @@ const icons: Partial<Record<IconName, PhosphorIcon>> = {
   menu: List,
   close: X,
   plus: Plus,
+  leaderboard: ChartBar,
   documentation: BookOpen,
 };
 

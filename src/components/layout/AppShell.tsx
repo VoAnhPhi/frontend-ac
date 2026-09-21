@@ -10,6 +10,7 @@ const titles: Record<string, string> = {
   '/token/list': 'Token List',
   '/nft/create': 'NFT Creator',
   '/nft/list': 'NFT List',
+  '/leaderboard': 'Leaderboard',
 };
 
 export function AppShell({ children }: { children: ReactNode }) {
@@ -24,6 +25,9 @@ export function AppShell({ children }: { children: ReactNode }) {
         <Footer landing />
       </div>
     );
+  }
+  if (pathname === '/leaderboard') {
+    return <main className="min-w-0 flex-1">{children}</main>;
   }
   return (
     <div className="flex min-h-dvh bg-surface">

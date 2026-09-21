@@ -8,6 +8,7 @@ import { ProfilePage } from './pages/ProfilePage';
 import { DashboardPage } from './pages/DashboardPage';
 import { CreatorPage } from './pages/CreatorPage';
 import { AssetsPage } from './pages/AssetsPage';
+import { LeaderboardPage } from './pages/LeaderboardPage';
 import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
@@ -21,6 +22,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
             <Route path="/token/list" element={<AssetsPage type="token" />} />
             <Route path="/nft/create" element={<CreatorPage type="nft" />} />
             <Route path="/nft/list" element={<AssetsPage type="nft" />} />
+            <Route path="/leaderboard" element={<LeaderboardPage />} />
             <Route path="/profile/:category" element={<ProfilePage />} />
             <Route path="/profile" element={<Navigate to="/profile/tokens" replace />} />
             <Route path="*" element={<Navigate to="/" replace />} />
