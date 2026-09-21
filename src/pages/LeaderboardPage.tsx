@@ -203,15 +203,23 @@ export function LeaderboardPage() {
             Made by ACW3
           </a>
 
-          <div className="mt-3 inline-flex max-w-full items-center gap-2 rounded-full bg-brand px-4 py-2 text-center text-[11px] font-medium text-white shadow-[0_7px_18px_rgba(0,158,153,.2)] sm:px-5 sm:text-xs">
-            <span>This dashboard has been coined&nbsp; ACW3</span>
+          <div className="mt-3 inline-flex max-w-full items-center gap-2 rounded-full bg-brand px-4 py-2 text-center text-sm font-medium text-white sm:px-5">
+            <span>
+              This dashboard has been coined&nbsp; <strong className="font-bold">ACW3</strong>
+            </span>
             <Icon name="copy" size={15} />
           </div>
 
           <div className="mt-3 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-[10px] sm:gap-x-7 sm:text-xs">
-            <span>MC: $162.77K</span>
-            <span className="text-[#ed8b99]">1h: -3.34%</span>
-            <span>24h Vol: $8.55K</span>
+            <span>
+              <strong className="font-bold">MC:</strong> $162.77K
+            </span>
+            <span className="text-[#ed8b99]">
+              <strong className="font-bold">1h:</strong> -3.34%
+            </span>
+            <span>
+              <strong className="font-bold">24h Vol:</strong> $8.55K
+            </span>
           </div>
         </section>
 
@@ -227,7 +235,7 @@ export function LeaderboardPage() {
               <Icon name="leaderboard" size={18} className="text-brand" />
               Top 50 Creators
             </h2>
-            <div className="flex w-fit shrink-0 items-center gap-1 self-end rounded-lg bg-white p-0.5 text-[16px] leading-5 sm:self-auto">
+            <div className="flex w-fit shrink-0 items-center gap-1 self-end rounded-lg bg-white p-0.5 text-sm leading-5 sm:self-auto">
               {chains.map((item) => (
                 <button
                   key={item}
