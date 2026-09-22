@@ -154,8 +154,8 @@ function TokenCell({ row, inverted = false }: { row: LeaderboardRow; inverted?: 
         <div
           className={`flex items-center gap-1 text-xs ${inverted ? 'text-white/75' : 'text-muted'}`}
         >
-          <span>{row.symbol}</span>
-          <Icon name="copy" size={12} className={inverted ? 'text-white/75' : 'text-brand'} />
+          <span>${row.symbol}</span>
+          <Icon name="copy" size={12} className={inverted ? 'text-white/75' : 'text-muted'} />
           {inverted && <Icon name="close" size={10} className="text-white/75" />}
         </div>
       </div>
@@ -332,7 +332,7 @@ export function LeaderboardPage() {
                       className={`group h-[54px] transition-colors duration-150 ${row.highlighted ? 'text-white' : ''}`}
                     >
                       <td
-                        className={`${row.highlighted ? 'rounded-l-lg' : ''} px-3 font-medium transition-colors ${surface}`}
+                        className={`${row.highlighted ? 'rounded-l-lg' : ''} px-3 font-medium transition-colors ${surface} ${row.highlighted ? 'text-white' : 'text-muted'}`}
                       >
                         #{row.rank}
                       </td>
