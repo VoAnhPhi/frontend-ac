@@ -92,11 +92,7 @@ export function Icon({
       className={`inline-flex shrink-0 items-center justify-center ${className}`}
       style={{ width: resolvedSize, height: resolvedSize }}
     >
-      <img
-        src={`/figma/${name}.svg`}
-        alt=""
-        className={`block size-full object-contain ${name === 'menu-token' || name === 'menu-nft' ? 'opacity-70' : ''}`}
-      />
+      <img src={`/figma/${name}.svg`} alt="" className="block size-full object-contain" />
     </span>
   );
 }

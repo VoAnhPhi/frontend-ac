@@ -5,12 +5,17 @@ import { Icon } from '../ui/Icon';
 const linkClass = ({ isActive }: { isActive: boolean }) =>
   `flex min-h-9 items-center rounded-full px-3 text-sm transition-colors duration-200 ${isActive ? 'bg-brand-dark font-medium text-white hover:bg-brand-strong' : 'text-ink hover:bg-field hover:text-brand-dark'}`;
 
+// The section's 20px icon is centered at 22px (12px padding + 10px), between two pixel columns.
+// A 1px line cannot straddle them, so it takes the left one, where the glyphs' weight leans.
+// The links start where the section label starts.
+const submenuClass =
+  'relative space-y-1 py-1 pl-10 before:absolute before:inset-y-0 before:left-[21px] before:w-px before:bg-border';
+
 export function LeftMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { pathname } = useLocation();
   const [desktop, setDesktop] = useState(() => window.matchMedia('(min-width: 1024px)').matches);
   const tokenOpen = pathname.startsWith('/token');
   const nftOpen = pathname.startsWith('/nft');
-  const profilePage = pathname.startsWith('/profile');
   const interactive = open || desktop;
 
   useEffect(() => {
@@ -53,19 +58,17 @@ export function LeftMenu({ open, onClose }: { open: boolean; onClose: () => void
             ACW3
           </NavLink>
           <nav aria-label="Main navigation" className="space-y-3 px-4 py-4">
-            {!profilePage && (
-              <NavLink to="/" end onClick={onClose} className={linkClass}>
-                <Icon name="home" size={20} className="mr-2" />
-                Dashboard
-              </NavLink>
-            )}
+            <NavLink to="/" end onClick={onClose} className={linkClass}>
+              <Icon name="home" size={20} className="mr-2 opacity-70" />
+              Dashboard
+            </NavLink>
             <section>
               <NavLink
-                to={profilePage ? '/profile/tokens' : '/token/create'}
+                to="/token/create"
                 onClick={onClose}
                 className="flex h-10 items-center gap-2 rounded-lg px-3 text-sm font-medium hover:bg-field"
               >
-                <Icon name="menu-token" size={24} />
+                <Icon name="menu-token" size={20} className="opacity-70" />
                 <span>Token</span>
               </NavLink>
               <div
@@ -73,7 +76,7 @@ export function LeftMenu({ open, onClose }: { open: boolean; onClose: () => void
                 className={`grid transition-[grid-template-rows,opacity] duration-300 ease-out motion-reduce:transition-none ${tokenOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
               >
                 <div className="min-h-0 overflow-hidden">
-                  <div className="ml-8 space-y-1 border-l border-border py-1 pl-2">
+                  <div className={submenuClass}>
                     <NavLink
                       to="/token/create"
                       onClick={onClose}
@@ -96,11 +99,11 @@ export function LeftMenu({ open, onClose }: { open: boolean; onClose: () => void
             </section>
             <section>
               <NavLink
-                to={profilePage ? '/profile/nfts' : '/nft/create'}
+                to="/nft/create"
                 onClick={onClose}
                 className="flex h-10 items-center gap-2 rounded-lg px-3 text-sm font-medium hover:bg-field"
               >
-                <Icon name="menu-nft" size={24} />
+                <Icon name="menu-nft" size={20} className="opacity-70" />
                 <span>NFT</span>
               </NavLink>
               <div
@@ -108,7 +111,7 @@ export function LeftMenu({ open, onClose }: { open: boolean; onClose: () => void
                 className={`grid transition-[grid-template-rows,opacity] duration-300 ease-out motion-reduce:transition-none ${nftOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
               >
                 <div className="min-h-0 overflow-hidden">
-                  <div className="ml-8 space-y-1 border-l border-border py-1 pl-2">
+                  <div className={submenuClass}>
                     <NavLink
                       to="/nft/create"
                       onClick={onClose}
