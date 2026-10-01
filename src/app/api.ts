@@ -90,6 +90,14 @@ export function signOut() {
   };
 }
 
+/** The part of an RTK Query hook result that a loading or error state needs. */
+export interface QueryResult<T> {
+  data?: T;
+  error?: unknown;
+  isError: boolean;
+  refetch: () => unknown;
+}
+
 export function getErrorMessage(
   error: unknown,
   fallback = 'Something went wrong. Please try again.',

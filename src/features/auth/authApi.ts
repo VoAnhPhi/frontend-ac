@@ -1,4 +1,5 @@
 import { accessTokenMinutes, api } from '../../app/api';
+import { wallet } from '../profile/data';
 import type { AuthTokens } from './authSlice';
 
 export interface Credentials {
@@ -12,7 +13,7 @@ export interface User {
   firstName: string;
   lastName: string;
   image?: string;
-  walletAddress?: string;
+  walletAddress: string;
 }
 
 export interface Registration extends Credentials {
@@ -24,6 +25,7 @@ interface UserResponse extends Omit<User, 'walletAddress'> {
 }
 
 // DummyJSON sends empty strings for the image and wallet of a user created with /users/add.
+// A user without a wallet shows the design's address.
 function toUser({ id, username, firstName, lastName, image, crypto }: UserResponse): User {
   return {
     id,
@@ -31,7 +33,7 @@ function toUser({ id, username, firstName, lastName, image, crypto }: UserRespon
     firstName,
     lastName,
     image: image || undefined,
-    walletAddress: crypto?.wallet || undefined,
+    walletAddress: crypto?.wallet || wallet.address,
   };
 }
 

@@ -5,6 +5,7 @@ import { signOut } from '../../app/api';
 import { appHome, signInPath } from '../../app/routes';
 import type { AppDispatch } from '../../app/store';
 import { Icon } from '../ui/Icon';
+import { Skeleton } from '../ui/Skeleton';
 import { useGetMeQuery } from '../../features/auth/authApi';
 import { selectIsAuthenticated } from '../../features/auth/authSlice';
 import { formatAddress, wallet } from '../../features/profile/data';
@@ -73,13 +74,11 @@ export function Header({
           )}
           <span className="hidden text-xs leading-[18px] sm:block">
             {user ? (
-              <span className="block font-medium">
-                {formatAddress(user.walletAddress ?? wallet.address)}
-              </span>
+              <span className="block font-medium">{formatAddress(user.walletAddress)}</span>
             ) : (
               isLoading && (
                 <span className="flex h-[18px] items-center" aria-label="Loading account">
-                  <span className="h-3 w-[108px] animate-pulse rounded bg-field" />
+                  <Skeleton className="h-3 w-[108px] rounded" />
                 </span>
               )
             )}

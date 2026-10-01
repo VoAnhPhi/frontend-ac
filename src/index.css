@@ -31,6 +31,8 @@
   --color-border: #ebecec;
   --color-placeholder: #79766f;
   --color-progress: #edf5f4;
+  /* Loading placeholders: dark enough to read against white, which field and surface are not. */
+  --color-skeleton: #ebecec;
   --font-sans: 'Plus Jakarta Sans', Arial, sans-serif;
 }
 
