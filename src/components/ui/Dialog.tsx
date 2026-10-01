@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, type ReactNode } from 'react';
+import { useEffect, useEffectEvent, useId, useRef, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { Icon } from './Icon';
 
@@ -18,6 +18,7 @@ export function Dialog({
 }) {
   const titleId = useId();
   const dialogRef = useRef<HTMLElement>(null);
+  const close = useEffectEvent(onClose);
 
   useEffect(() => {
     const previousFocus = document.activeElement as HTMLElement | null;
@@ -38,7 +39,7 @@ export function Dialog({
     function handleKey(event: KeyboardEvent) {
       if (event.key === 'Escape') {
         event.preventDefault();
-        onClose();
+        close();
         return;
       }
       if (event.key !== 'Tab' || !dialogRef.current) return;
@@ -65,7 +66,7 @@ export function Dialog({
       document.body.style.overflow = previousOverflow;
       previousFocus?.focus();
     };
-  }, [onClose]);
+  }, []);
 
   return createPortal(
     <div
