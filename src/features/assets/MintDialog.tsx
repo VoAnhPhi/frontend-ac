@@ -1,8 +1,8 @@
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
-import { getErrorMessage } from '../../app/api';
 import { Button } from '../../components/ui/Button';
 import { Dialog } from '../../components/ui/Dialog';
+import { ErrorMessage } from '../../components/ui/ErrorMessage';
 import { Input } from '../../components/ui/Input';
 import { useGetMeQuery } from '../auth/authApi';
 import type { AssetItem } from './assetsApi';
@@ -17,13 +17,10 @@ export function MintDialog({ asset, onClose }: { asset: AssetItem; onClose: () =
     formState: { errors },
   } = useForm<{ amount: string }>({ defaultValues: { amount: '10' } });
 
-  async function submit({ amount }: { amount: string }) {
+  function submit({ amount }: { amount: string }) {
     if (!user) return;
-    try {
-      await mint({ userId: user.id, asset, quantity: Number(amount) }).unwrap();
-    } catch {
-      /* The error is rendered from the mutation state. */
-    }
+    // The result, success or error, is rendered from the mutation state.
+    return mint({ userId: user.id, asset, quantity: Number(amount) });
   }
 
   return (
@@ -47,11 +44,7 @@ export function MintDialog({ asset, onClose }: { asset: AssetItem; onClose: () =
         <Button type="submit" size="lg" loading={isLoading} disabled={!user} className="w-full">
           Mint
         </Button>
-        {error && (
-          <p role="alert" className="text-center text-sm text-red-600">
-            {getErrorMessage(error)}
-          </p>
-        )}
+        <ErrorMessage error={error} className="text-center" />
         {isSuccess && originalArgs && (
           <p role="status" className="text-center text-sm text-brand-dark">
             Minted {originalArgs.quantity} {asset.name}.{' '}
