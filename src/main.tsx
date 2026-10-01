@@ -18,10 +18,11 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <AppShell>
           <Routes>
             <Route path="/" element={<DashboardPage />} />
-            <Route path="/token/create" element={<CreatorPage type="token" />} />
-            <Route path="/token/list" element={<AssetsPage type="token" />} />
-            <Route path="/nft/create" element={<CreatorPage type="nft" />} />
-            <Route path="/nft/list" element={<AssetsPage type="nft" />} />
+            {/* Keys stop the token and NFT pages from sharing form and dialog state. */}
+            <Route path="/token/create" element={<CreatorPage key="token" type="token" />} />
+            <Route path="/token/list" element={<AssetsPage key="token" type="token" />} />
+            <Route path="/nft/create" element={<CreatorPage key="nft" type="nft" />} />
+            <Route path="/nft/list" element={<AssetsPage key="nft" type="nft" />} />
             <Route path="/leaderboard" element={<LeaderboardPage />} />
             <Route path="/profile/:category" element={<ProfilePage />} />
             <Route path="/profile" element={<Navigate to="/profile/tokens" replace />} />

@@ -1,14 +1,20 @@
 import { useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
-import type { RootState } from '../../app/store';
+import { useDispatch } from 'react-redux';
 import { Button } from '../../components/ui/Button';
 import { Dialog } from '../../components/ui/Dialog';
 import { Input } from '../../components/ui/Input';
 import { Textarea } from '../../components/ui/Textarea';
 import { updateProfile, type Profile } from './profileSlice';
 
-export function EditProfileDialog({ onClose }: { onClose: () => void }) {
-  const profile = useSelector((state: RootState) => state.profile);
+export function EditProfileDialog({
+  userId,
+  profile,
+  onClose,
+}: {
+  userId: number;
+  profile: Profile;
+  onClose: () => void;
+}) {
   const dispatch = useDispatch();
   const {
     register,
@@ -18,7 +24,10 @@ export function EditProfileDialog({ onClose }: { onClose: () => void }) {
 
   function save(values: Profile) {
     dispatch(
-      updateProfile({ ...values, name: values.name.trim(), biography: values.biography.trim() }),
+      updateProfile({
+        userId,
+        profile: { ...values, name: values.name.trim(), biography: values.biography.trim() },
+      }),
     );
     onClose();
   }

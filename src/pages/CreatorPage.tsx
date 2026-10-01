@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import { getErrorMessage } from '../app/api';
 import { Button } from '../components/ui/Button';
 import { Icon } from '../components/ui/Icon';
 import { Input } from '../components/ui/Input';
 import { Textarea } from '../components/ui/Textarea';
+import { useAddAssetMutation, type AssetType } from '../features/assets/assetsApi';
 
 type FormValues = {
   name: string;
@@ -25,10 +28,11 @@ const positiveInteger = {
   validate: (value: string) => Number(value) > 0 || 'Enter a value greater than 0',
 };
 
-export function CreatorPage({ type }: { type: 'token' | 'nft' }) {
+export function CreatorPage({ type }: { type: AssetType }) {
   const isToken = type === 'token';
+  const navigate = useNavigate();
+  const [addAsset, { isLoading, error }] = useAddAssetMutation();
   const [socials, setSocials] = useState(true);
-  const [submitted, setSubmitted] = useState(false);
   const {
     register,
     handleSubmit,
@@ -37,11 +41,28 @@ export function CreatorPage({ type }: { type: 'token' | 'nft' }) {
   } = useForm<FormValues>({ defaultValues: { description: '' } });
   const description = watch('description') ?? '';
 
+  async function submit(values: FormValues) {
+    try {
+      // A DummyJSON product has no field for symbol, decimals, amount per mint, image, or links.
+      await addAsset({
+        type,
+        fields: {
+          name: values.name.trim(),
+          supply: Number(values.supply),
+          description: values.description.trim(),
+        },
+      }).unwrap();
+      navigate(`/${type}/list`);
+    } catch {
+      /* The error is rendered from the mutation state. */
+    }
+  }
+
   return (
     <div className="mx-auto w-full max-w-[900px] px-3 py-4 sm:px-6 sm:py-10">
       <form
         noValidate
-        onSubmit={handleSubmit(() => setSubmitted(true))}
+        onSubmit={handleSubmit(submit)}
         className="rounded-lg bg-white p-3 sm:p-6 lg:p-10"
       >
         <header className="mb-5 text-center sm:mb-8">
@@ -141,7 +162,8 @@ export function CreatorPage({ type }: { type: 'token' | 'nft' }) {
                 requiredMark
                 placeholder="Ex: First community token on Zoken..."
                 counter={`${description.length}/500`}
-                className="h-[112px] min-h-[112px] resize-none sm:h-[120px] sm:min-h-[120px]"
+                resizable={false}
+                className="h-[112px] min-h-[112px] sm:h-[120px] sm:min-h-[120px]"
                 maxLength={500}
                 error={errors.description?.message}
                 {...register('description', {
@@ -210,12 +232,12 @@ export function CreatorPage({ type }: { type: 'token' | 'nft' }) {
             )}
           </section>
         )}
-        <Button type="submit" size="lg" className="mt-6 w-full">
+        <Button type="submit" size="lg" loading={isLoading} className="mt-6 w-full">
           Create
         </Button>
-        {submitted && (
-          <p role="status" className="mt-3 text-center text-sm text-brand-dark">
-            Form is ready. The API connection will be added later.
+        {error && (
+          <p role="alert" className="mt-3 text-center text-sm text-red-600">
+            {getErrorMessage(error)}
           </p>
         )}
       </form>

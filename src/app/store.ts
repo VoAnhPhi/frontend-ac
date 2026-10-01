@@ -1,13 +1,19 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { profileReducer } from '../features/profile/profileSlice';
+import { api } from './api';
+import { authReducer, saveAuth } from '../features/auth/authSlice';
+import { profileReducer, saveProfiles } from '../features/profile/profileSlice';
 
-export const store = configureStore({ reducer: { profile: profileReducer } });
+export const store = configureStore({
+  reducer: { auth: authReducer, profile: profileReducer, [api.reducerPath]: api.reducer },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(api.middleware),
+});
+
+let persisted = store.getState();
 store.subscribe(() => {
-  try {
-    localStorage.setItem('acw3-profile', JSON.stringify(store.getState().profile));
-  } catch {
-    /* Storage may be unavailable. */
-  }
+  const state = store.getState();
+  if (state.auth !== persisted.auth) saveAuth(state.auth);
+  if (state.profile !== persisted.profile) saveProfiles(state.profile);
+  persisted = state;
 });
 
 export type RootState = ReturnType<typeof store.getState>;

@@ -1,6 +1,12 @@
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { signOut } from '../../app/api';
+import { appHome, signInPath } from '../../app/routes';
+import type { AppDispatch } from '../../app/store';
 import { Icon } from '../ui/Icon';
+import { useGetMeQuery } from '../../features/auth/authApi';
+import { selectIsAuthenticated } from '../../features/auth/authSlice';
 import { formatAddress, wallet } from '../../features/profile/data';
 
 export function Header({
@@ -13,6 +19,16 @@ export function Header({
   landing?: boolean;
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const dispatch = useDispatch<AppDispatch>();
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const { data: user, isLoading } = useGetMeQuery(undefined, { skip: landing });
+
+  function logOut() {
+    setMenuOpen(false);
+    // The route guard sends the signed-out user to the Sign in dialog.
+    dispatch(signOut());
+  }
+
   if (landing) {
     return (
       <header className="flex h-[52px] shrink-0 items-center justify-between border-b border-border bg-white px-4 sm:h-[60px] sm:px-6">
@@ -20,7 +36,7 @@ export function Header({
           ACW3
         </Link>
         <Link
-          to="/?dialog=register"
+          to={isAuthenticated ? appHome : signInPath}
           className="min-w-[112px] rounded-full bg-brand-dark px-5 py-2 text-center text-sm font-medium text-white hover:bg-brand-strong sm:min-w-[124px]"
         >
           Connect
@@ -50,9 +66,23 @@ export function Header({
           onClick={() => setMenuOpen((value) => !value)}
           className="flex items-center gap-2 rounded-lg p-1.5 text-left hover:bg-field focus-visible:outline-2 focus-visible:outline-brand-dark"
         >
-          <Icon name="header-avatar" size={32} />
+          {user?.image ? (
+            <img src={user.image} alt="" className="size-8 shrink-0 rounded-full bg-field" />
+          ) : (
+            <Icon name="header-avatar" size={32} />
+          )}
           <span className="hidden text-xs leading-[18px] sm:block">
-            <span className="block font-medium">{formatAddress(wallet.address)}</span>
+            {user ? (
+              <span className="block font-medium">
+                {formatAddress(user.walletAddress ?? wallet.address)}
+              </span>
+            ) : (
+              isLoading && (
+                <span className="flex h-[18px] items-center" aria-label="Loading account">
+                  <span className="h-3 w-[108px] animate-pulse rounded bg-field" />
+                </span>
+              )
+            )}
             <span className="text-muted">
               {wallet.balance} {wallet.symbol}
             </span>
@@ -78,9 +108,8 @@ export function Header({
             <button
               role="menuitem"
               type="button"
-              disabled
-              title="Authentication is not connected yet"
-              className="flex h-10 w-full cursor-not-allowed items-center gap-2 px-4 text-left text-sm opacity-60"
+              onClick={logOut}
+              className="flex h-10 w-full items-center gap-2 px-4 text-left text-sm hover:bg-brand-soft"
             >
               <span className="grid size-6 place-items-center">
                 <Icon name="logout" />

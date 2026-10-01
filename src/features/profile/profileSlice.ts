@@ -1,4 +1,5 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import { fullName, type User } from '../auth/authApi';
 
 export interface Profile {
   name: string;
@@ -8,42 +9,61 @@ export interface Profile {
   telegram: string;
 }
 
-const defaultProfile: Profile = {
-  name: 'John',
-  biography: '',
-  twitter: '',
-  github: '',
-  telegram: '',
-};
+// DummyJSON has no endpoint for these fields, so edits stay in this browser, per user.
+type ProfileState = Record<number, Profile>;
 
-function loadProfile(): Profile {
+const storageKey = 'acw3-profiles';
+
+function readString(value: object, key: keyof Profile) {
+  const field: unknown = (value as Record<string, unknown>)[key];
+  return typeof field === 'string' ? field : '';
+}
+
+function loadProfiles(): ProfileState {
   try {
-    const saved = localStorage.getItem('acw3-profile');
-    if (!saved) return defaultProfile;
+    const saved = localStorage.getItem(storageKey);
+    if (!saved) return {};
     const value: unknown = JSON.parse(saved);
-    if (
-      typeof value !== 'object' ||
-      value === null ||
-      !('name' in value) ||
-      typeof value.name !== 'string'
-    )
-      return defaultProfile;
-    return {
-      name: value.name,
-      biography: 'biography' in value && typeof value.biography === 'string' ? value.biography : '',
-      twitter: 'twitter' in value && typeof value.twitter === 'string' ? value.twitter : '',
-      github: 'github' in value && typeof value.github === 'string' ? value.github : '',
-      telegram: 'telegram' in value && typeof value.telegram === 'string' ? value.telegram : '',
-    };
+    if (typeof value !== 'object' || value === null) return {};
+    const profiles: ProfileState = {};
+    for (const [userId, profile] of Object.entries(value)) {
+      if (typeof profile !== 'object' || profile === null) continue;
+      const name = readString(profile, 'name');
+      if (!name) continue;
+      profiles[Number(userId)] = {
+        name,
+        biography: readString(profile, 'biography'),
+        twitter: readString(profile, 'twitter'),
+        github: readString(profile, 'github'),
+        telegram: readString(profile, 'telegram'),
+      };
+    }
+    return profiles;
   } catch {
-    return defaultProfile;
+    return {};
   }
+}
+
+export function saveProfiles(state: ProfileState) {
+  try {
+    localStorage.setItem(storageKey, JSON.stringify(state));
+  } catch {
+    /* Storage may be unavailable. */
+  }
+}
+
+export function defaultProfile(user: User): Profile {
+  return { name: fullName(user), biography: '', twitter: '', github: '', telegram: '' };
 }
 
 const profileSlice = createSlice({
   name: 'profile',
-  initialState: loadProfile(),
-  reducers: { updateProfile: (_state, action: PayloadAction<Profile>) => action.payload },
+  initialState: loadProfiles(),
+  reducers: {
+    updateProfile: (state, action: PayloadAction<{ userId: number; profile: Profile }>) => {
+      state[action.payload.userId] = action.payload.profile;
+    },
+  },
 });
 
 export const { updateProfile } = profileSlice.actions;

@@ -1,7 +1,7 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
-  variant?: 'primary' | 'secondary' | 'ghost';
+  variant?: 'primary' | 'secondary' | 'ghost' | 'danger';
   size?: 'sm' | 'md' | 'lg';
   loading?: boolean;
   children: ReactNode;
@@ -20,6 +20,7 @@ export function Button({
     primary: 'bg-brand-dark text-white hover:bg-brand-strong',
     secondary: 'border border-brand-dark text-brand-dark hover:bg-field',
     ghost: 'text-ink hover:bg-field',
+    danger: 'bg-red-600 text-white hover:bg-red-700',
   };
   const sizes = {
     sm: 'min-h-8 px-3 text-xs sm:px-4 sm:text-sm',

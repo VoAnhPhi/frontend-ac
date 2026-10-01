@@ -1,12 +1,20 @@
+import { skipToken } from '@reduxjs/toolkit/query/react';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { getErrorMessage } from '../app/api';
 import type { RootState } from '../app/store';
+import { AssetSubtitle } from '../components/assets/AssetList';
 import { Button } from '../components/ui/Button';
 import { CopyAddressButton } from '../components/ui/CopyAddressButton';
 import { Icon } from '../components/ui/Icon';
-import { formatAddress, nfts, tokens, wallet, type AssetItem } from '../features/profile/data';
+import { Loading } from '../components/ui/Loading';
+import type { AssetItem, AssetType } from '../features/assets/assetsApi';
+import { useGetHoldingsQuery } from '../features/assets/holdingsApi';
+import { useGetMeQuery, type User } from '../features/auth/authApi';
+import { formatAddress, wallet } from '../features/profile/data';
 import { EditProfileDialog } from '../features/profile/EditProfileDialog';
+import { defaultProfile, type Profile } from '../features/profile/profileSlice';
 
 function SocialIcon({
   name,
@@ -35,22 +43,36 @@ function SocialIcon({
   );
 }
 
-function AccountCard({ onEdit }: { onEdit: () => void }) {
-  const profile = useSelector((state: RootState) => state.profile);
+const accountCardClass =
+  'w-full shrink-0 space-y-3 rounded-lg bg-white p-3 sm:space-y-4 sm:p-4 xl:w-[300px]';
+
+function AccountCard({
+  user,
+  profile,
+  onEdit,
+}: {
+  user: User;
+  profile: Profile;
+  onEdit: () => void;
+}) {
+  const address = user.walletAddress ?? wallet.address;
   return (
-    <section
-      aria-label="Account"
-      className="w-full shrink-0 space-y-3 rounded-lg bg-white p-3 sm:space-y-4 sm:p-4 xl:w-[300px]"
-    >
+    <section aria-label="Account" className={accountCardClass}>
       <div className="flex items-center gap-3">
-        <Icon name="avatar" size={40} />
+        {user.image ? (
+          <img src={user.image} alt="" className="size-10 shrink-0 rounded-full bg-field" />
+        ) : (
+          <Icon name="avatar" size={40} />
+        )}
         <div className="min-w-0">
-          <p className="font-bold">{profile.name}</p>
+          <p className="truncate font-bold" title={profile.name}>
+            {profile.name}
+          </p>
           <div className="flex items-center text-xs text-muted sm:text-sm">
-            <span className="truncate" title={wallet.address}>
-              {formatAddress(wallet.address)}
+            <span className="truncate" title={address}>
+              {formatAddress(address)}
             </span>
-            <CopyAddressButton address={wallet.address} label="wallet" />
+            <CopyAddressButton address={address} label="wallet" />
           </div>
         </div>
       </div>
@@ -94,16 +116,10 @@ function AssetRow({ item, isNft }: { item: AssetItem; isNft: boolean }) {
           className="size-11 shrink-0 rounded-full object-cover"
         />
         <div className="min-w-0">
-          <p className="truncate font-medium">
-            {item.name}{' '}
-            {item.symbol && <span className="ml-1 text-sm text-muted">{item.symbol}</span>}
+          <p className="truncate font-medium" title={item.name}>
+            {item.name}
           </p>
-          <div className="flex items-center text-xs">
-            <span className="truncate" title={item.address}>
-              {formatAddress(item.address)}
-            </span>
-            <CopyAddressButton address={item.address} label={item.name} />
-          </div>
+          <AssetSubtitle item={item} />
         </div>
       </div>
       {!isNft && (
@@ -176,16 +192,10 @@ function AssetCards({ items, isNft }: { items: AssetItem[]; isNft: boolean }) {
           <div className="flex items-center gap-3">
             <img src={item.image} alt="" className="size-11 rounded-full object-cover" />
             <div className="min-w-0">
-              <p className="truncate font-medium">
-                {item.name}{' '}
-                {item.symbol && <span className="text-sm text-muted">{item.symbol}</span>}
+              <p className="truncate font-medium" title={item.name}>
+                {item.name}
               </p>
-              <div className="flex items-center text-xs">
-                <span className="truncate" title={item.address}>
-                  {formatAddress(item.address)}
-                </span>
-                <CopyAddressButton address={item.address} label={item.name} />
-              </div>
+              <AssetSubtitle item={item} />
             </div>
           </div>
           <dl
@@ -212,28 +222,110 @@ function AssetCards({ items, isNft }: { items: AssetItem[]; isNft: boolean }) {
   );
 }
 
+function HoldingCount({
+  label,
+  value,
+  failed,
+}: {
+  label: string;
+  value?: number;
+  failed: boolean;
+}) {
+  return (
+    <div className="rounded-lg bg-white px-6 py-4">
+      <p className="text-sm text-muted">{label}</p>
+      {value === undefined && !failed ? (
+        <p className="mt-1 flex h-7 items-center sm:h-8">
+          <span className="h-5 w-10 animate-pulse rounded bg-field" />
+          <span className="sr-only">Loading</span>
+        </p>
+      ) : (
+        <p className="mt-1 text-xl font-medium sm:text-2xl">{value ?? '-'}</p>
+      )}
+    </div>
+  );
+}
+
 export function ProfilePage() {
   const { category } = useParams();
   const isNft = category === 'nfts';
   const [editing, setEditing] = useState(false);
+  const { data: user, error, isFetching, refetch } = useGetMeQuery();
+  const holdings = useGetHoldingsQuery(user?.id ?? skipToken);
+  const savedProfile = useSelector((state: RootState) =>
+    user ? state.profile[user.id] : undefined,
+  );
+  const profile = user && (savedProfile ?? defaultProfile(user));
+  // RTK Query keeps the last error while it retries, so a retry shows as loading.
+  const userFailed = error && !isFetching;
+  const holdingsFailed = holdings.error && !holdings.isFetching;
+  // Holdings wait for the user, so a failed user request is also why they are missing.
+  const holdingsError = holdingsFailed ? holdings.error : userFailed ? error : undefined;
+  const holdingsOf = (type: AssetType) => holdings.data?.filter((item) => item.type === type);
+  const items = holdingsOf(isNft ? 'nft' : 'token');
   return (
     <div className="mx-auto flex w-full max-w-[1233px] flex-col items-start gap-3 p-3 sm:gap-4 sm:p-6 xl:flex-row xl:p-4">
-      <AccountCard onEdit={() => setEditing(true)} />
+      {user && profile ? (
+        <AccountCard user={user} profile={profile} onEdit={() => setEditing(true)} />
+      ) : (
+        <section aria-label="Account" className={`${accountCardClass} grid place-items-center`}>
+          {userFailed ? (
+            <div className="space-y-3 py-6 text-center">
+              <p role="alert" className="text-sm text-red-600">
+                {getErrorMessage(error, 'Could not load your profile.')}
+              </p>
+              <Button type="button" variant="secondary" size="sm" onClick={() => refetch()}>
+                Try again
+              </Button>
+            </div>
+          ) : (
+            <div className="py-10">
+              <Loading label="Loading profile" />
+            </div>
+          )}
+        </section>
+      )}
       <div className="w-full min-w-0 flex-1 space-y-2">
         <div className="grid grid-cols-1 gap-2 min-[420px]:grid-cols-2">
-          <div className="rounded-lg bg-white px-6 py-4">
-            <p className="text-sm text-muted">Total Tokens</p>
-            <p className="mt-1 text-xl font-medium sm:text-2xl">{tokens.length}</p>
-          </div>
-          <div className="rounded-lg bg-white px-6 py-4">
-            <p className="text-sm text-muted">Total NFTs</p>
-            <p className="mt-1 text-xl font-medium sm:text-2xl">{nfts.length}</p>
-          </div>
+          <HoldingCount
+            label="Total Tokens"
+            value={holdingsOf('token')?.length}
+            failed={!!holdingsError}
+          />
+          <HoldingCount
+            label="Total NFTs"
+            value={holdingsOf('nft')?.length}
+            failed={!!holdingsError}
+          />
         </div>
-        <AssetCards items={isNft ? nfts : tokens} isNft={isNft} />
-        <AssetTable items={isNft ? nfts : tokens} isNft={isNft} />
+        {holdingsError ? (
+          <div className="space-y-3 rounded-lg bg-white p-8 text-center">
+            <p role="alert" className="text-sm text-red-600">
+              {getErrorMessage(holdingsError, 'Could not load your assets.')}
+            </p>
+            <Button
+              type="button"
+              variant="secondary"
+              size="sm"
+              onClick={() => (holdingsFailed ? holdings.refetch() : refetch())}
+            >
+              Try again
+            </Button>
+          </div>
+        ) : items ? (
+          <>
+            <AssetCards items={items} isNft={isNft} />
+            <AssetTable items={items} isNft={isNft} />
+          </>
+        ) : (
+          <div className="grid place-items-center rounded-lg bg-white p-8">
+            <Loading label="Loading assets" />
+          </div>
+        )}
       </div>
-      {editing && <EditProfileDialog onClose={() => setEditing(false)} />}
+      {editing && user && profile && (
+        <EditProfileDialog userId={user.id} profile={profile} onClose={() => setEditing(false)} />
+      )}
     </div>
   );
 }

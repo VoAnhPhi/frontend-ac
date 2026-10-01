@@ -1,5 +1,8 @@
 import { useState, type ReactNode } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { Navigate, useLocation } from 'react-router-dom';
+import { signInPath } from '../../app/routes';
+import { selectIsAuthenticated } from '../../features/auth/authSlice';
 import { Header } from './Header';
 import { LeftMenu } from './LeftMenu';
 import { Footer } from './Footer';
@@ -15,7 +18,8 @@ const titles: Record<string, string> = {
 
 export function AppShell({ children }: { children: ReactNode }) {
   const [menuOpen, setMenuOpen] = useState(false);
-  const { pathname } = useLocation();
+  const { pathname, search } = useLocation();
+  const isAuthenticated = useSelector(selectIsAuthenticated);
   const title = pathname.startsWith('/profile') ? 'Profile' : (titles[pathname] ?? 'Dashboard');
   if (pathname === '/') {
     return (
@@ -28,6 +32,9 @@ export function AppShell({ children }: { children: ReactNode }) {
   }
   if (pathname === '/leaderboard') {
     return <main className="min-w-0 flex-1">{children}</main>;
+  }
+  if (!isAuthenticated) {
+    return <Navigate to={signInPath} replace state={{ from: pathname + search }} />;
   }
   return (
     <div className="flex min-h-dvh bg-surface">

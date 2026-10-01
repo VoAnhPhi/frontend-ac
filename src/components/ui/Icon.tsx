@@ -6,9 +6,11 @@ import {
   GithubLogo,
   House,
   List,
+  PencilSimple,
   Plus,
   SignOut,
   TelegramLogo,
+  Trash,
   UserCircle,
   X,
   XLogo,
@@ -32,7 +34,9 @@ export type IconName =
   | 'close'
   | 'plus'
   | 'leaderboard'
-  | 'documentation';
+  | 'documentation'
+  | 'edit'
+  | 'delete';
 
 const icons: Partial<Record<IconName, PhosphorIcon>> = {
   copy: Copy,
@@ -48,6 +52,8 @@ const icons: Partial<Record<IconName, PhosphorIcon>> = {
   plus: Plus,
   leaderboard: ChartBar,
   documentation: BookOpen,
+  edit: PencilSimple,
+  delete: Trash,
 };
 
 const nativeSize: Partial<Record<IconName, number>> = {
