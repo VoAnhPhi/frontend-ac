@@ -2,6 +2,7 @@ import { useState, type ReactNode } from 'react';
 import { useSelector } from 'react-redux';
 import { Navigate, useLocation } from 'react-router-dom';
 import { signInPath } from '../../app/routes';
+import { useScrollToTop } from '../../hooks/useScrollToTop';
 import { selectIsAuthenticated } from '../../features/auth/authSlice';
 import { Header } from './Header';
 import { LeftMenu } from './LeftMenu';
@@ -20,6 +21,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const { pathname, search } = useLocation();
   const isAuthenticated = useSelector(selectIsAuthenticated);
+  useScrollToTop();
   const title = pathname.startsWith('/profile') ? 'Profile' : (titles[pathname] ?? 'Dashboard');
   if (pathname === '/') {
     return (
