@@ -1,9 +1,10 @@
 import { useForm } from 'react-hook-form';
-import { getErrorMessage } from '../../app/api';
 import { Button } from '../../components/ui/Button';
 import { Dialog } from '../../components/ui/Dialog';
+import { ErrorMessage } from '../../components/ui/ErrorMessage';
 import { Input } from '../../components/ui/Input';
-import { Loading } from '../../components/ui/Loading';
+import { QueryState } from '../../components/ui/QueryState';
+import { Skeleton } from '../../components/ui/Skeleton';
 import { Textarea } from '../../components/ui/Textarea';
 import { useGetAssetQuery, useUpdateAssetMutation, type AssetDetails } from './assetsApi';
 
@@ -35,17 +36,13 @@ function EditTokenForm({
 
   async function save(values: FormValues) {
     const name = values.name.trim();
-    try {
-      await updateAsset({
-        id: token.id,
-        name,
-        supply: Number(values.supply),
-        description: values.description.trim(),
-      }).unwrap();
-      onSaved(name);
-    } catch {
-      /* The error is rendered from the mutation state. */
-    }
+    const result = await updateAsset({
+      id: token.id,
+      name,
+      supply: Number(values.supply),
+      description: values.description.trim(),
+    });
+    if (!result.error) onSaved(name);
   }
 
   return (
@@ -80,11 +77,7 @@ function EditTokenForm({
         counter={`${description.length}/500`}
         {...register('description')}
       />
-      {error && (
-        <p role="alert" className="text-sm text-red-600">
-          {getErrorMessage(error)}
-        </p>
-      )}
+      <ErrorMessage error={error} />
       <div className="flex justify-end gap-2 pt-2">
         <Button type="button" variant="secondary" onClick={onClose}>
           Cancel
@@ -97,6 +90,32 @@ function EditTokenForm({
   );
 }
 
+/** The form's loading placeholder: the same fields, field heights, and buttons. */
+function EditTokenSkeleton() {
+  return (
+    <div className="space-y-4">
+      {['w-12', 'w-14'].map((labelWidth) => (
+        <div key={labelWidth} className="flex flex-col gap-1">
+          <p className="text-xs leading-5 sm:text-sm sm:leading-6">
+            <Skeleton inline className={`h-3 rounded ${labelWidth}`} />
+          </p>
+          <Skeleton className="h-10 w-full rounded-lg sm:h-12" />
+        </div>
+      ))}
+      <div className="flex flex-col gap-1">
+        <p className="text-xs leading-5 sm:text-sm sm:leading-6">
+          <Skeleton inline className="h-3 w-20 rounded" />
+        </p>
+        <Skeleton className="h-24 w-full rounded-lg sm:h-[120px]" />
+      </div>
+      <div className="flex justify-end gap-2 pt-2">
+        <Skeleton className="h-9 w-24 rounded-full" />
+        <Skeleton className="h-9 w-20 rounded-full" />
+      </div>
+    </div>
+  );
+}
+
 export function EditTokenDialog({
   tokenId,
   onClose,
@@ -106,25 +125,17 @@ export function EditTokenDialog({
   onClose: () => void;
   onSaved: (name: string) => void;
 }) {
-  const { data: token, error, isFetching, refetch } = useGetAssetQuery(tokenId);
+  const token = useGetAssetQuery(tokenId);
   return (
     <Dialog title="Edit Token" onClose={onClose}>
-      {token ? (
-        <EditTokenForm token={token} onClose={onClose} onSaved={onSaved} />
-      ) : error && !isFetching ? (
-        <div className="space-y-4 text-center">
-          <p role="alert" className="text-sm text-red-600">
-            {getErrorMessage(error)}
-          </p>
-          <Button type="button" variant="secondary" onClick={() => refetch()}>
-            Try again
-          </Button>
-        </div>
-      ) : (
-        <div className="grid place-items-center py-10">
-          <Loading label="Loading token" />
-        </div>
-      )}
+      <QueryState
+        query={token}
+        loadingLabel="Loading token"
+        skeleton={<EditTokenSkeleton />}
+        className="grid place-items-center py-10 text-center"
+      >
+        {(details) => <EditTokenForm token={details} onClose={onClose} onSaved={onSaved} />}
+      </QueryState>
     </Dialog>
   );
 }

@@ -1,7 +1,7 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
-  variant?: 'primary' | 'secondary' | 'ghost' | 'danger';
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger';
   size?: 'sm' | 'md' | 'lg';
   loading?: boolean;
   children: ReactNode;
@@ -19,6 +19,8 @@ export function Button({
   const variants = {
     primary: 'bg-brand-dark text-white hover:bg-brand-strong',
     secondary: 'border border-brand-dark text-brand-dark hover:bg-field',
+    // The design's lighter secondary button; its text contrast on white is 3.3:1.
+    outline: 'border border-brand text-brand hover:bg-brand-soft',
     ghost: 'text-ink hover:bg-field',
     danger: 'bg-red-600 text-white hover:bg-red-700',
   };

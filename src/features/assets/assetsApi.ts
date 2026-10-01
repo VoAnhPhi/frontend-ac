@@ -7,6 +7,7 @@ export interface AssetItem {
   id: number;
   type: AssetType;
   name: string;
+  sku?: string;
   price?: number;
   image: string;
   balance?: number;
@@ -31,6 +32,7 @@ export interface Product {
   category?: string;
   price?: number;
   stock?: number;
+  sku?: string;
   thumbnail?: string;
 }
 
@@ -68,6 +70,7 @@ export function toAssetItem(product: Product): AssetItem {
     id: product.id,
     type: assetType(product),
     name: product.title,
+    sku: product.sku,
     price: product.price,
     image: productImage(product),
     balance: supply,
@@ -107,7 +110,7 @@ export const assetsApi = api.injectEndpoints({
         params: {
           limit: assetsPerPage,
           skip: (page - 1) * assetsPerPage,
-          select: 'title,category,price,stock,thumbnail',
+          select: 'title,category,price,stock,sku,thumbnail',
         },
       }),
       transformResponse: ({ products, total }: { products: Product[]; total: number }) => ({
@@ -127,7 +130,9 @@ export const assetsApi = api.injectEndpoints({
       }),
       keepUnusedDataFor: Infinity,
     }),
-    addAsset: build.mutation<AssetItem, { type: AssetType; fields: AssetFields }>({
+    // `image` is a local object URL: DummyJSON stores no images, so the new asset shows the
+    // uploaded file from the cache until the page reloads, like every other simulated write.
+    addAsset: build.mutation<AssetItem, { type: AssetType; fields: AssetFields; image?: string }>({
       query: ({ type, fields }) => ({
         url: '/products/add',
         method: 'POST',
@@ -136,7 +141,10 @@ export const assetsApi = api.injectEndpoints({
           ...(type === 'nft' && { category: nftCategory }),
         },
       }),
-      transformResponse: toAssetItem,
+      transformResponse: (product: Product, _meta, { image }) => ({
+        ...toAssetItem(product),
+        ...(image && { image }),
+      }),
       async onQueryStarted({ type }, { dispatch, getState, queryFulfilled }) {
         // A failed request leaves the cache alone; the form shows the error.
         const fulfilled = await queryFulfilled.catch(() => null);
@@ -166,7 +174,9 @@ export const assetsApi = api.injectEndpoints({
         const asset = fulfilled.data;
         updateCachedPages(dispatch, getState, (page) => {
           const index = page.items.findIndex((item) => item.id === asset.id);
-          if (index !== -1) page.items[index] = asset;
+          // The PUT response leaves out `sku`, so the row keeps the one it already shows.
+          if (index !== -1)
+            page.items[index] = { ...asset, sku: asset.sku ?? page.items[index].sku };
         });
         dispatch(assetsApi.util.upsertQueryData('getAsset', details.id, details));
       },

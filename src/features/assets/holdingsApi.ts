@@ -1,4 +1,6 @@
-import { api } from '../../app/api';
+import { skipToken } from '@reduxjs/toolkit/query/react';
+import { api, type QueryResult } from '../../app/api';
+import type { User } from '../auth/authApi';
 import { toAssetItem, type AssetItem, type Product } from './assetsApi';
 
 interface CartLine {
@@ -32,11 +34,11 @@ export const holdingsApi = api.injectEndpoints({
   endpoints: (build) => ({
     getHoldings: build.query<AssetItem[], number>({
       async queryFn(userId, _api, _extraOptions, baseQuery) {
-        // A cart line has no stock or category, and DummyJSON cannot fetch products by id list.
+        // A cart line has no stock, category, or SKU, and DummyJSON cannot fetch products by id list.
         // Reading both for every product (about 1 KB gzipped) runs alongside the carts request.
         const [carts, products] = await Promise.all([
           baseQuery(`/carts/user/${userId}`),
-          baseQuery({ url: '/products', params: { limit: 0, select: 'stock,category' } }),
+          baseQuery({ url: '/products', params: { limit: 0, select: 'stock,category,sku' } }),
         ]);
         if (carts.error) return { error: carts.error };
         if (products.error) return { error: products.error };
@@ -63,6 +65,7 @@ export const holdingsApi = api.injectEndpoints({
             thumbnail,
             stock: product?.stock,
             category: product?.category,
+            sku: product?.sku,
           });
           return toHolding(item, quantity);
         });
@@ -114,3 +117,15 @@ export const holdingsApi = api.injectEndpoints({
 });
 
 export const { useGetHoldingsQuery, useMintMutation } = holdingsApi;
+
+/**
+ * The signed-in user's holdings. They wait for the user, so when the user request fails, that
+ * error is the reason they are missing, and Try again retries the user request.
+ */
+export function useUserHoldings(me: QueryResult<User>): QueryResult<AssetItem[]> {
+  const holdings = useGetHoldingsQuery(me.data?.id ?? skipToken);
+  if (me.isError && !holdings.isError) {
+    return { error: me.error, isError: true, refetch: me.refetch };
+  }
+  return holdings;
+}

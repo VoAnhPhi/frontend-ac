@@ -1,11 +1,12 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Navigate, useSearchParams } from 'react-router-dom';
-import { getErrorMessage } from '../app/api';
-import { AssetList } from '../components/assets/AssetList';
+import { AssetList, AssetListSkeleton } from '../components/assets/AssetList';
 import { Button } from '../components/ui/Button';
 import { IconButton } from '../components/ui/IconButton';
-import { Loading } from '../components/ui/Loading';
+import { Pagination } from '../components/ui/Pagination';
+import { QueryState } from '../components/ui/QueryState';
 import {
+  assetsApi,
   assetsPerPage,
   useGetAssetsQuery,
   type AssetItem,
@@ -15,52 +16,39 @@ import { DeleteTokenDialog } from '../features/assets/DeleteTokenDialog';
 import { EditTokenDialog } from '../features/assets/EditTokenDialog';
 import { MintDialog } from '../features/assets/MintDialog';
 
+type DialogKind = 'mint' | 'edit' | 'delete';
+
 function parsePage(value: string | null) {
   const page = Number.parseInt(value ?? '', 10);
   return Number.isInteger(page) && page > 0 ? page : 1;
 }
 
-function Pagination({
-  label,
-  page,
-  pageCount,
-  total,
-  shown,
-  onPage,
+function AssetActions({
+  asset,
+  editable,
+  onOpen,
 }: {
-  label: string;
-  page: number;
-  pageCount: number;
-  total: number;
-  shown: number;
-  onPage: (page: number) => void;
+  asset: AssetItem;
+  editable: boolean;
+  onOpen: (kind: DialogKind) => void;
 }) {
-  const first = (page - 1) * assetsPerPage + 1;
   return (
-    <nav
-      aria-label={label}
-      className="mt-2 flex items-center justify-center gap-3 rounded-lg bg-white px-4 py-3 text-sm sm:justify-between"
-    >
-      <p className="hidden text-muted sm:block">
-        Showing {first}–{first + shown - 1} of {total}
-      </p>
-      <div className="flex items-center gap-3">
-        <Button variant="secondary" size="sm" disabled={page <= 1} onClick={() => onPage(page - 1)}>
-          Previous
-        </Button>
-        <span className="min-w-[88px] text-center text-xs sm:text-sm">
-          Page {page} of {pageCount}
-        </span>
-        <Button
-          variant="secondary"
-          size="sm"
-          disabled={page >= pageCount}
-          onClick={() => onPage(page + 1)}
-        >
-          Next
-        </Button>
-      </div>
-    </nav>
+    <>
+      <Button variant="outline" size="sm" className="w-[76px]" onClick={() => onOpen('mint')}>
+        Mint
+      </Button>
+      {editable && (
+        <>
+          <IconButton icon="edit" label={`Edit ${asset.name}`} onClick={() => onOpen('edit')} />
+          <IconButton
+            icon="delete"
+            tone="danger"
+            label={`Delete ${asset.name}`}
+            onClick={() => onOpen('delete')}
+          />
+        </>
+      )}
+    </>
   );
 }
 
@@ -69,16 +57,23 @@ export function AssetsPage({ type }: { type: AssetType }) {
   const noun = isToken ? 'tokens' : 'NFTs';
   const [params, setParams] = useSearchParams();
   const page = parsePage(params.get('page'));
-  const { data, error, isFetching, refetch } = useGetAssetsQuery({ type, page });
-  // RTK Query keeps the last error while it retries, so a retry shows as loading.
-  const failed = error && !isFetching;
-  const [minting, setMinting] = useState<AssetItem | null>(null);
-  const [editingId, setEditingId] = useState<number | null>(null);
-  const [deleting, setDeleting] = useState<AssetItem | null>(null);
+  const assets = useGetAssetsQuery({ type, page });
+  const [dialog, setDialog] = useState<{ kind: DialogKind; asset: AssetItem } | null>(null);
+  // Read by screen readers after an edit or delete closes its dialog.
   const [announcement, setAnnouncement] = useState('');
-  const pageCount = data ? Math.max(1, Math.ceil(data.total / assetsPerPage)) : 1;
+  const pageCount = assets.data ? Math.max(1, Math.ceil(assets.data.total / assetsPerPage)) : 1;
+  const prefetchAssets = assetsApi.usePrefetch('getAssets');
 
-  if (data && !isFetching && page > pageCount) {
+  // Loads the pages on either side in the background, so Next and Previous show their rows at
+  // once instead of waiting for the server. Pages already in the cache are not fetched again.
+  useEffect(() => {
+    if (!assets.currentData) return;
+    if (page < pageCount) prefetchAssets({ type, page: page + 1 });
+    if (page > 1) prefetchAssets({ type, page: page - 1 });
+  }, [assets.currentData, page, pageCount, prefetchAssets, type]);
+
+  // A page past the end, such as ?page=99, goes to the last page.
+  if (assets.data && !assets.isFetching && page > pageCount) {
     return <Navigate to={pageCount === 1 ? '.' : `?page=${pageCount}`} replace />;
   }
 
@@ -87,92 +82,70 @@ export function AssetsPage({ type }: { type: AssetType }) {
     window.scrollTo({ top: 0 });
   }
 
+  function closeDialog() {
+    setDialog(null);
+  }
+
+  function finishDialog(message: string) {
+    setDialog(null);
+    setAnnouncement(message);
+  }
+
   return (
     <div className="w-full p-3 sm:p-4">
       <p role="status" className="sr-only">
         {announcement}
       </p>
-      {failed ? (
-        <div className="space-y-4 rounded-lg bg-white p-8 text-center">
-          <p role="alert" className="text-sm text-red-600">
-            {getErrorMessage(error, `Could not load ${noun}.`)}
-          </p>
-          <Button variant="secondary" size="sm" onClick={() => refetch()}>
-            Try again
-          </Button>
-        </div>
-      ) : !data ? (
-        <div className="grid place-items-center rounded-lg bg-white p-8">
-          <Loading label={`Loading ${noun}`} />
-        </div>
-      ) : (
-        <div
-          aria-busy={isFetching}
-          className={`transition-opacity ${isFetching ? 'opacity-60' : ''}`}
-        >
-          <AssetList
-            type={type}
-            items={data.items}
-            renderActions={(item) => (
-              <>
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  className="md:min-w-[90px]"
-                  onClick={() => setMinting(item)}
-                >
-                  Mint
-                </Button>
-                {isToken && (
-                  <>
-                    <IconButton
-                      icon="edit"
-                      label={`Edit ${item.name}`}
-                      onClick={() => setEditingId(item.id)}
-                    />
-                    <IconButton
-                      icon="delete"
-                      tone="danger"
-                      label={`Delete ${item.name}`}
-                      onClick={() => setDeleting(item)}
-                    />
-                  </>
-                )}
-              </>
-            )}
-          />
-          {data.total > 0 && (
-            <Pagination
-              label={`${isToken ? 'Token' : 'NFT'} list pages`}
-              page={page}
-              pageCount={pageCount}
-              total={data.total}
-              shown={data.items.length}
-              onPage={goToPage}
+      <QueryState
+        query={assets}
+        loadingLabel={`Loading ${noun}`}
+        errorFallback={`Could not load ${noun}.`}
+        skeleton={<AssetListSkeleton type={type} rows={assetsPerPage} />}
+      >
+        {(data) => (
+          <div
+            aria-busy={assets.isFetching}
+            className={`transition-opacity ${assets.isFetching ? 'opacity-60' : ''}`}
+          >
+            <AssetList
+              type={type}
+              items={data.items}
+              renderActions={(asset) => (
+                <AssetActions
+                  asset={asset}
+                  editable={isToken}
+                  onOpen={(kind) => setDialog({ kind, asset })}
+                />
+              )}
             />
-          )}
-        </div>
-      )}
+            {data.total > 0 && (
+              <Pagination
+                label={`${isToken ? 'Token' : 'NFT'} list pages`}
+                page={page}
+                pageCount={pageCount}
+                pageSize={assetsPerPage}
+                total={data.total}
+                shown={data.items.length}
+                onPage={goToPage}
+              />
+            )}
+          </div>
+        )}
+      </QueryState>
 
-      {minting && <MintDialog asset={minting} onClose={() => setMinting(null)} />}
-      {editingId !== null && (
+      {dialog?.kind === 'mint' && <MintDialog asset={dialog.asset} onClose={closeDialog} />}
+      {dialog?.kind === 'edit' && (
         <EditTokenDialog
-          tokenId={editingId}
-          onClose={() => setEditingId(null)}
-          onSaved={(name) => {
-            setEditingId(null);
-            setAnnouncement(`${name} was updated.`);
-          }}
+          tokenId={dialog.asset.id}
+          onClose={closeDialog}
+          onSaved={(name) => finishDialog(`${name} was updated.`)}
         />
       )}
-      {deleting && (
+      {dialog?.kind === 'delete' && (
         <DeleteTokenDialog
-          token={deleting}
-          onClose={() => setDeleting(null)}
-          onDeleted={() => {
-            setDeleting(null);
-            setAnnouncement(`${deleting.name} was deleted.`);
-          }}
+          token={dialog.asset}
+          onClose={closeDialog}
+          onDeleted={() => finishDialog(`${dialog.asset.name} was deleted.`)}
         />
       )}
     </div>

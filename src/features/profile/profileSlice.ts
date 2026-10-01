@@ -1,4 +1,6 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import { useSelector } from 'react-redux';
+import type { RootState } from '../../app/store';
 import { fullName, type User } from '../auth/authApi';
 
 export interface Profile {
@@ -52,7 +54,7 @@ export function saveProfiles(state: ProfileState) {
   }
 }
 
-export function defaultProfile(user: User): Profile {
+function defaultProfile(user: User): Profile {
   return { name: fullName(user), biography: '', twitter: '', github: '', telegram: '' };
 }
 
@@ -68,3 +70,9 @@ const profileSlice = createSlice({
 
 export const { updateProfile } = profileSlice.actions;
 export const profileReducer = profileSlice.reducer;
+
+/** The user's saved profile, or one built from their account until they edit it. */
+export function useProfile(user: User): Profile {
+  const saved = useSelector((state: RootState) => state.profile[user.id]);
+  return saved ?? defaultProfile(user);
+}
