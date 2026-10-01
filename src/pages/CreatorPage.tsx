@@ -1,61 +1,43 @@
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { getErrorMessage } from '../app/api';
 import { Button } from '../components/ui/Button';
-import { Icon } from '../components/ui/Icon';
+import { ErrorMessage } from '../components/ui/ErrorMessage';
 import { Input } from '../components/ui/Input';
-import { Textarea } from '../components/ui/Textarea';
 import { useAddAssetMutation, type AssetType } from '../features/assets/assetsApi';
-
-type FormValues = {
-  name: string;
-  symbol: string;
-  decimals: string;
-  supply: string;
-  amount: string;
-  image: FileList;
-  description: string;
-  website: string;
-  telegram: string;
-  discord: string;
-  twitter: string;
-};
-
-const positiveInteger = {
-  required: 'This field is required',
-  pattern: { value: /^\d+$/, message: 'Enter digits only' },
-  validate: (value: string) => Number(value) > 0 || 'Enter a value greater than 0',
-};
+import {
+  positiveInteger,
+  SocialLinksSection,
+  TokenFields,
+  type CreatorValues,
+} from '../features/assets/CreatorFields';
 
 export function CreatorPage({ type }: { type: AssetType }) {
   const isToken = type === 'token';
   const navigate = useNavigate();
   const [addAsset, { isLoading, error }] = useAddAssetMutation();
-  const [socials, setSocials] = useState(true);
+  const form = useForm<CreatorValues>({ defaultValues: { description: '' } });
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
-  } = useForm<FormValues>({ defaultValues: { description: '' } });
-  const description = watch('description') ?? '';
+  } = form;
 
-  async function submit(values: FormValues) {
-    try {
-      // A DummyJSON product has no field for symbol, decimals, amount per mint, image, or links.
-      await addAsset({
-        type,
-        fields: {
-          name: values.name.trim(),
-          supply: Number(values.supply),
-          description: values.description.trim(),
-        },
-      }).unwrap();
-      navigate(`/${type}/list`);
-    } catch {
-      /* The error is rendered from the mutation state. */
-    }
+  async function submit(values: CreatorValues) {
+    // A DummyJSON product has no field for symbol, decimals, amount per mint, image, or links.
+    const file = values.image?.[0];
+    const image = file && URL.createObjectURL(file);
+    const result = await addAsset({
+      type,
+      fields: {
+        name: values.name.trim(),
+        supply: Number(values.supply),
+        description: values.description.trim(),
+      },
+      image,
+    });
+    if (!result.error) navigate(`/${type}/list`);
+    // On success the new asset keeps showing the image, so only a failed create releases it.
+    else if (image) URL.revokeObjectURL(image);
   }
 
   return (
@@ -99,79 +81,7 @@ export function CreatorPage({ type }: { type: AssetType }) {
             })}
           />
           {isToken ? (
-            <>
-              <Input
-                label="Decimals"
-                requiredMark
-                numeric="integer"
-                hint="Most tokens use 6 decimals"
-                error={errors.decimals?.message}
-                {...register('decimals', {
-                  required: 'Decimals are required',
-                  pattern: { value: /^\d+$/, message: 'Enter digits only' },
-                  validate: (value) => Number(value) <= 18 || 'Maximum 18 decimals',
-                })}
-              />
-              <Input
-                label="Supply"
-                requiredMark
-                numeric="integer"
-                hint="Enter the total token supply"
-                error={errors.supply?.message}
-                {...register('supply', positiveInteger)}
-              />
-              <div className="sm:col-span-2">
-                <Input
-                  label="Amount per mint"
-                  requiredMark
-                  numeric="integer"
-                  error={errors.amount?.message}
-                  {...register('amount', positiveInteger)}
-                />
-              </div>
-              <div className="flex min-w-0 flex-col gap-1">
-                <label htmlFor="asset-image" className="text-sm font-medium leading-6">
-                  <span aria-hidden="true" className="text-red-500">
-                    *{' '}
-                  </span>
-                  Image
-                </label>
-                <label className="flex h-[112px] cursor-pointer flex-col items-center justify-center rounded-lg border border-dashed border-[#abe0dd] bg-field p-4 text-center text-xs text-muted transition-colors hover:border-brand-dark hover:bg-brand-soft sm:h-[120px] sm:text-sm">
-                  <Icon name="plus" size={22} className="text-brand-dark" />
-                  <span className="mt-1 text-ink">Choose an image to upload</span>
-                  <span className="text-xs">PNG or JPG, 1000×1000px recommended</span>
-                  <input
-                    id="asset-image"
-                    type="file"
-                    accept="image/png,image/jpeg"
-                    className="sr-only"
-                    aria-required="true"
-                    aria-invalid={!!errors.image}
-                    aria-describedby={errors.image ? 'asset-image-error' : undefined}
-                    {...register('image', { required: 'Image is required' })}
-                  />
-                </label>
-                {errors.image && (
-                  <p id="asset-image-error" role="alert" className="text-xs text-red-600">
-                    {errors.image.message}
-                  </p>
-                )}
-              </div>
-              <Textarea
-                label="Description"
-                requiredMark
-                placeholder="Ex: First community token on Zoken..."
-                counter={`${description.length}/500`}
-                resizable={false}
-                className="h-[112px] min-h-[112px] sm:h-[120px] sm:min-h-[120px]"
-                maxLength={500}
-                error={errors.description?.message}
-                {...register('description', {
-                  required: 'Description is required',
-                  maxLength: { value: 500, message: 'Maximum 500 characters' },
-                })}
-              />
-            </>
+            <TokenFields form={form} />
           ) : (
             <div className="sm:col-span-2">
               <Input
@@ -185,61 +95,11 @@ export function CreatorPage({ type }: { type: AssetType }) {
             </div>
           )}
         </div>
-        {isToken && (
-          <section className="mt-6 border-t border-surface pt-5">
-            <div className="flex items-center justify-between gap-4">
-              <div>
-                <h3 className="text-sm font-medium sm:text-base">Add Social Links &amp; Tags</h3>
-                <p className="mt-1 text-xs text-muted">
-                  Optional links help people verify your project.
-                </p>
-              </div>
-              <button
-                type="button"
-                role="switch"
-                aria-label="Add social links"
-                aria-checked={socials}
-                onClick={() => setSocials((value) => !value)}
-                className={`relative h-7 w-12 shrink-0 rounded-full transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-dark ${socials ? 'bg-brand-dark' : 'bg-[#d9d9d9]'}`}
-              >
-                <span
-                  className={`absolute top-1 size-5 rounded-full bg-white transition ${socials ? 'left-6' : 'left-1'}`}
-                />
-              </button>
-            </div>
-            {socials && (
-              <div className="mt-4 grid gap-3">
-                <Input label="Website" type="url" placeholder="https://" {...register('website')} />
-                <Input
-                  label="Telegram"
-                  type="url"
-                  placeholder="https://t.me/"
-                  {...register('telegram')}
-                />
-                <Input
-                  label="Discord"
-                  type="url"
-                  placeholder="https://discord.gg/"
-                  {...register('discord')}
-                />
-                <Input
-                  label="Twitter / X"
-                  type="url"
-                  placeholder="https://x.com/"
-                  {...register('twitter')}
-                />
-              </div>
-            )}
-          </section>
-        )}
+        {isToken && <SocialLinksSection register={register} />}
         <Button type="submit" size="lg" loading={isLoading} className="mt-6 w-full">
           Create
         </Button>
-        {error && (
-          <p role="alert" className="mt-3 text-center text-sm text-red-600">
-            {getErrorMessage(error)}
-          </p>
-        )}
+        <ErrorMessage error={error} className="mt-3 text-center" />
       </form>
     </div>
   );
