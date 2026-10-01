@@ -5,10 +5,11 @@ type TextareaProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
   error?: string;
   counter?: string;
   requiredMark?: boolean;
+  resizable?: boolean;
 };
 
 export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(function Textarea(
-  { label, error, counter, requiredMark = false, id, className = '', ...props },
+  { label, error, counter, requiredMark = false, resizable = true, id, className = '', ...props },
   ref,
 ) {
   const inputId = id ?? label.toLowerCase().replace(/\s+/g, '-');
@@ -36,7 +37,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(function 
         aria-required={requiredMark || props.required || undefined}
         aria-invalid={!!error}
         aria-describedby={error ? `${inputId}-error` : undefined}
-        className={`min-h-24 w-full resize-y rounded-lg border border-border bg-white px-2.5 py-2.5 text-xs placeholder:text-xs outline-none placeholder:text-placeholder focus:border-brand-dark focus:bg-field focus:ring-1 focus:ring-brand-dark aria-invalid:border-red-500 sm:min-h-[120px] sm:px-3 sm:py-3 sm:text-[13px] sm:placeholder:text-[13px] ${className}`}
+        className={`min-h-24 w-full rounded-lg border border-border bg-white px-2.5 py-2.5 text-xs placeholder:text-xs outline-none placeholder:text-placeholder focus:border-brand-dark focus:bg-field focus:ring-1 focus:ring-brand-dark aria-invalid:border-red-500 sm:min-h-[120px] sm:px-3 sm:py-3 sm:text-[13px] sm:placeholder:text-[13px] ${resizable ? 'resize-y' : 'resize-none'} ${className}`}
       />
       {error && (
         <p id={`${inputId}-error`} role="alert" className="text-xs text-red-600">
